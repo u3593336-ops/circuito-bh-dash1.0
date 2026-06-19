@@ -209,15 +209,12 @@
 
     <div class="game-container" id="app-container">
 
-        <!-- SCREEN 1: MENU PRINCIPAL -->
         <div id="menu-screen" class="screen active">
             <h1>Circuito BH:<br>Pixel Dash</h1>
-            <!-- Gatilho Duplo: Pede Tela Cheia E muda de tela -->
             <button class="btn" onclick="ativarTelaCheia(); changeScreen('char-screen')">JOGAR</button>
             <button class="btn btn-blue" onclick="changeScreen('cultural-screen')">CONHECER BH</button>
         </div>
 
-        <!-- SCREEN 2: SELEÇÃO DE PERSONAGEM -->
         <div id="char-screen" class="screen">
             <h1 style="font-size: 2rem; color: #ffd700; text-align:center; text-shadow: 2px 2px #000; margin-bottom: 10px;">Quem vai correr?</h1>
             <div class="char-container">
@@ -233,12 +230,10 @@
             <button class="btn btn-blue" style="margin-top: 30px; padding: 10px 20px; font-size: 1rem; min-width: auto;" onclick="changeScreen('menu-screen')">VOLTAR</button>
         </div>
 
-        <!-- SCREEN 3: TELA DO JOGO -->
         <div id="game-screen" class="screen">
             <canvas id="gameCanvas" width="1280" height="720"></canvas>
         </div>
 
-        <!-- SCREEN 4: GAME OVER -->
         <div id="gameover-screen" class="screen">
             <h1>FIM DE JOGO!</h1>
             <div class="score-info">Pontos: <span id="final-score">0</span><br>Recorde: <span id="high-score">0</span></div>
@@ -246,7 +241,6 @@
             <button class="btn btn-blue" onclick="changeScreen('menu-screen')">MENU PRINCIPAL</button>
         </div>
 
-        <!-- SCREEN 5: CONHECER A CIDADE -->
         <div id="cultural-screen" class="screen">
             <h1 style="font-size: 2rem; color: #00bcd4; text-shadow: 2px 2px #000; text-align: center; margin-bottom: 10px;">Pontos Turísticos</h1>
             <div class="cards-grid">
@@ -408,9 +402,12 @@
         canvas.addEventListener('mousedown', () => { triggerJump(); });
 
         function loop() {
+            // MOVIDO PARA CIMA: Define o próximo frame ANTES do update
+            // Dessa forma, se der Game Over no update(), o cancelAnimationFrame funciona
+            gameLoopId = requestAnimationFrame(loop);
+            
             update();
             draw();
-            gameLoopId = requestAnimationFrame(loop);
         }
 
         function update() {
@@ -493,6 +490,9 @@
                     document.getElementById('final-score').innerText = Math.floor(score);
                     document.getElementById('high-score').innerText = highScore;
                     changeScreen('gameover-screen');
+                    
+                    // RETORNO ADICIONADO: Para a execução do update na mesma hora
+                    return; 
                 }
             }
         }
@@ -536,4 +536,3 @@
     </script>
 </body>
 </html>
-
