@@ -327,6 +327,7 @@
         let gameSpeed = 7; 
         const maxSpeed = 16;
         let currentStage = 1;
+        let nextSpeedIncreaseScore = 520; // Nova variável para controlar o salto de velocidade
         
         // CENÁRIOS COM TRANSIÇÃO CONTÍNUA
         let bgX = 0;
@@ -378,6 +379,7 @@
             score = 0;
             gameSpeed = 7;
             currentStage = 1;
+            nextSpeedIncreaseScore = 520; // Reseta o limite para subir a velocidade na nova partida
             bgX = 0;
             bgLeft = 'bg_pampulha';
             bgRight = 'bg_pampulha';
@@ -419,7 +421,14 @@
             else if (displayScore < 700) currentStage = 2;
             else currentStage = 3;
 
-            if (gameSpeed < maxSpeed) gameSpeed += 0.002;
+            // NOVA LÓGICA DE VELOCIDADE: Sobe em degraus a cada 520 pontos
+            if (displayScore >= nextSpeedIncreaseScore) {
+                if (gameSpeed < maxSpeed) {
+                    gameSpeed += 1.5; // Tamanho do degrau do aumento de velocidade
+                    if (gameSpeed > maxSpeed) gameSpeed = maxSpeed;
+                }
+                nextSpeedIncreaseScore += 520;
+            }
 
             // TRANSIÇÃO DE CENÁRIO SUAVE
             let expectedBg = currentStage === 1 ? 'bg_pampulha' : (currentStage === 2 ? 'bg_liberdade' : 'bg_papa');
