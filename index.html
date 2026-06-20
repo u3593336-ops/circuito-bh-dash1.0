@@ -567,12 +567,12 @@
 
             const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
             let expectedBg = stageBackgrounds[currentStage - 1];
-            bgRight = expectedBg; 
 
             bgX -= gameSpeed;
             if (bgX <= -1280) {
                 bgX += 1280; 
                 bgLeft = bgRight; 
+                bgRight = expectedBg; // ✅ CORREÇÃO: O cenário da direita só atualiza quando a tela dá o loop
             }
 
             player.velocityY += GRAVIDADE;
