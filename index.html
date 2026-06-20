@@ -240,14 +240,12 @@
 
     <div class="game-container" id="app-container">
 
-        <!-- BOTÕES DE IDIOMA FIXOS -->
         <div class="lang-selector" id="lang-selector">
             <img src="flag_br.png" onclick="setLanguage('pt')" alt="Português">
             <img src="flag_us.png" onclick="setLanguage('en')" alt="English">
             <img src="flag_es.png" onclick="setLanguage('es')" alt="Español">
         </div>
 
-        <!-- 📺 MENU INICIAL -->
         <div id="menu-screen" class="screen active">
             <h1 data-i18n="title">Circuito BH:<br>Pixel Dash</h1>
             <button class="btn" onclick="ativarTelaCheia(); changeScreen('char-screen')" data-i18n="play">JOGAR</button>
@@ -255,7 +253,6 @@
             <button class="btn btn-blue" onclick="ativarTelaCheia(); changeScreen('cultural-screen')" data-i18n="cultural">CONHECER BH</button>
         </div>
 
-        <!-- 📖 COMO JOGAR (TUTORIAL) -->
         <div id="tutorial-screen" class="screen">
             <h1 style="font-size: 3rem; color: #00bcd4; text-shadow: 2px 2px #000; margin-bottom: 20px;" data-i18n="tutorialTitle">Como Jogar</h1>
             <div class="tutorial-box" data-i18n="tutorialText">
@@ -267,11 +264,9 @@
             <button class="btn" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="back">VOLTAR</button>
         </div>
 
-        <!-- 👥 SELEÇÃO DE PERSONAGENS -->
         <div id="char-screen" class="screen">
             <h1 style="font-size: 2rem; color: #ffd700; text-align:center; text-shadow: 2px 2px #000; margin-bottom: 10px;" data-i18n="who">Quem vai correr?</h1>
             <div class="char-container">
-                <!-- Personagens intocados na tradução para manter a identidade -->
                 <div class="char-box" onclick="ativarTelaCheia(); startGame('pao')">
                     <img src="pao_parado.png" alt="Pão de Queijo">
                     <h2>Pão de Queijo</h2>
@@ -284,12 +279,10 @@
             <button class="btn btn-blue" style="margin-top: 30px; padding: 10px 20px; font-size: 1rem; min-width: auto;" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="back">VOLTAR</button>
         </div>
 
-        <!-- 🎮 JOGO -->
         <div id="game-screen" class="screen">
             <canvas id="gameCanvas" width="1280" height="720"></canvas>
         </div>
 
-        <!-- 💀 GAME OVER -->
         <div id="gameover-screen" class="screen">
             <h1 data-i18n="goTitle">FIM DE JOGO!</h1>
             <div class="score-info">
@@ -300,7 +293,6 @@
             <button class="btn btn-blue" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="backMenu">MENU PRINCIPAL</button>
         </div>
 
-        <!-- 🌐 CONHECER BH -->
         <div id="cultural-screen" class="screen">
             <h1 style="font-size: 2rem; color: #00bcd4; text-shadow: 2px 2px #000; text-align: center; margin-bottom: 10px;" data-i18n="culturalTitle">Pontos Turísticos</h1>
             <div class="cards-grid">
@@ -311,7 +303,6 @@
                         <p data-i18n="txtPampulha">O Conjunto Moderno da Pampulha é reconhecido como Patrimônio Cultural da Humanidade pela UNESCO. A Igreja São Francisco de Assis, projetada por Oscar Niemeyer, possui curvas marcantes que revolucionaram a arquitetura mundial.</p>
                     </div>
                 </div>
-                <!-- NOVO CARD: MERCADO CENTRAL -->
                 <div class="card">
                     <img src="info_mercado.jpg" alt="Mercado Central">
                     <div class="card-content">
@@ -350,10 +341,10 @@
 
         // 🔊 SISTEMA DE ÁUDIO HARMONIZADO
         const somPulo = new Audio('som_pulo.mp3');
-        somPulo.volume = 0.3; // Volume mais baixo e agradável para não cansar
+        somPulo.volume = 0.3; 
 
         const somGameOver = new Audio('som_gameover.mp3');
-        somGameOver.volume = 0.6; // Impacto equilibrado
+        somGameOver.volume = 0.6; 
 
         function tocarPulo() {
             if (somPulo.readyState > 0) {
@@ -384,7 +375,7 @@
                 culturalTitle: "Pontos Turísticos", goTitle: "FIM DE JOGO!", tryAgain: "TENTAR NOVAMENTE", pts: "Pontos", rec: "Recorde",
                 orla: "Lagoa da Pampulha", mercado: "Mercado Central", pracaLib: "Praça da Liberdade", pracaPapa: "Praça do Papa",
                 txtPampulha: "O Conjunto Moderno da Pampulha é reconhecido como Patrimônio Cultural da Humanidade pela UNESCO. A Igreja São Francisco de Assis, projetada por Oscar Niemeyer, possui curvas marcantes.",
-                txtMercado: "Inaugurado em 1929, o Mercado Central é a alma de Belo Horizonte. Famoso por reunir o melhor do queijo minas, doce de leite, artesanato e o tradicional fígado com jiló. Um ponto de encontro cheio de calor humano!",
+                txtMercado: "Inaugurado em 1929, o Mercado Central é a alma de Belo Horizonte. Famoso por reunir o melhor do queijo minas, doce de leite, artesanato e o tradicional fígado com jiló. Um ponto de encontro lleno de calor humano!",
                 txtLiberdade: "O coração histórico e cultural de Belo Horizonte. A praça mistura o estilo neoclássico com belíssimas alamedas de palmeiras imperiais. Hoje, forma o Circuito Liberdade, um enorme complexo cultural.",
                 txtPapa: "Localizada a mais de 1.100 metros de altitude, ganhou esse apelido carinhoso após a visita do Papa João Paulo II em 1980, que declarou: 'Que belo horizonte!'. É o lugar perfeito para contemplar a cidade."
             },
@@ -423,7 +414,7 @@
             });
         }
 
-        // 📱 FUNÇÃO DE TELA CHEIA E PAISAGEM FORÇADA (Acionada em todos os cliques)
+        // 📱 FUNÇÃO DE TELA CHEIA E PAISAGEM FORÇADA 
         function ativarTelaCheia() {
             try {
                 let elem = document.documentElement;
@@ -438,7 +429,7 @@
             }
         }
 
-        // 🔄 GERENCIADOR DE TELAS (E OCULTAR BANDEIRAS NO JOGO)
+        // 🔄 GERENCIADOR DE TELAS
         function changeScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
@@ -460,9 +451,10 @@
         const ctx = canvas.getContext('2d');
         ctx.imageSmoothingEnabled = false;
 
+        // 🟢 CORREÇÃO CRÍTICA APLICADA: bg_mercado alterado para .png
         const images = {};
         const imageFiles = {
-            bg_pampulha: 'bg_pampulha.png', bg_mercado: 'bg_mercado.jpg', bg_liberdade: 'bg_liberdade.png', bg_papa: 'bg_papa.png',
+            bg_pampulha: 'bg_pampulha.png', bg_mercado: 'bg_mercado.png', bg_liberdade: 'bg_liberdade.png', bg_papa: 'bg_papa.png',
             pao_parado: 'pao_parado.png', pao_corre1: 'pao_corre1.png', pao_corre2: 'pao_corre2.png',
             cafe_parado: 'cafe_parado.png', cafe_corre1: 'cafe_corre1.png', cafe_corre2: 'cafe_corre2.png',
             obs_cone: 'obs_cone.png', obs_capivara: 'obs_capivara.png', obs_banco: 'obs_banco.png',
@@ -500,21 +492,20 @@
 
         let obstacles = [];
 
-        // REGRAS DOS 4 CENÁRIOS
         const obstacleRules = {
-            1: [ // Pampulha
+            1: [ 
                 { img: 'obs_capivara', width: 95, height: 70, tipo: 'terra', targetY: POSICAO_CHAO },
                 { img: 'obs_passarinho', width: 60, height: 50, tipo: 'ar', targetY: 480 }
             ],
-            2: [ // Mercado Central (NOVO)
+            2: [ 
                 { img: 'obs_onibus', width: 140, height: 75, tipo: 'terra', targetY: POSICAO_CHAO },
                 { img: 'obs_pombo', width: 55, height: 55, tipo: 'ar', targetY: 480 }
             ],
-            3: [ // Praça da Liberdade
+            3: [ 
                 { img: 'obs_banco', width: 120, height: 65, tipo: 'terra', targetY: POSICAO_CHAO },
                 { img: 'obs_borboleta', width: 50, height: 50, tipo: 'ar', targetY: 460 } 
             ],
-            4: [ // Praça do Papa
+            4: [ 
                 { img: 'obs_cone', width: 55, height: 65, tipo: 'terra', targetY: POSICAO_CHAO },
                 { img: 'obs_drone', width: 75, height: 55, tipo: 'ar', targetY: 400 }
             ]
@@ -543,7 +534,7 @@
             if (!player.isJumping) {
                 player.velocityY = FORCA_PULO;
                 player.isJumping = true;
-                tocarPulo(); // Toca o som exatamente no pulo
+                tocarPulo(); 
             }
         }
 
@@ -563,9 +554,8 @@
             score += 0.15;
             let displayScore = Math.floor(score);
 
-            // LOOP INFINITO DE CENÁRIOS (A cada 350 pontos)
             let cycle = Math.floor(displayScore / 350);
-            currentStage = (cycle % 4) + 1; // Vai de 1 a 4 e repete o loop 1 a 4 eternamente
+            currentStage = (cycle % 4) + 1; 
 
             if (displayScore >= nextSpeedIncreaseScore) {
                 if (gameSpeed < maxSpeed) {
@@ -575,7 +565,6 @@
                 nextSpeedIncreaseScore += 520;
             }
 
-            // TRANSIÇÃO DE CENÁRIO SUAVE DE ACORDO COM O LOOP
             const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
             let expectedBg = stageBackgrounds[currentStage - 1];
             bgRight = expectedBg; 
@@ -586,7 +575,6 @@
                 bgLeft = bgRight; 
             }
 
-            // FÍSICA E GRAVIDADE
             player.velocityY += GRAVIDADE;
             player.y += player.velocityY;
             if (player.y >= POSICAO_CHAO - player.height) {
@@ -603,7 +591,6 @@
                 }
             }
 
-            // GERAÇÃO DE OBSTÁCULOS
             if (spawnCooldown > 0) {
                 spawnCooldown--;
             } else {
@@ -618,7 +605,6 @@
                 spawnCooldown = Math.floor(Math.random() * 45) + (70 - (gameSpeed * 2));
             }
 
-            // COLISÃO E GAME OVER
             for (let i = obstacles.length - 1; i >= 0; i--) {
                 let obs = obstacles[i];
                 obs.x -= gameSpeed;
@@ -637,8 +623,7 @@
                     player.y < obs.y + obs.height - pY &&
                     player.y + player.height > obs.y + pY
                 ) {
-                    // GAME OVER
-                    tocarGameOver(); // Toca o som da derrota
+                    tocarGameOver(); 
                     if (Math.floor(score) > highScore) {
                         highScore = Math.floor(score);
                         try { localStorage.setItem('pixelDash_high', highScore); } catch(e) {}
@@ -652,38 +637,42 @@
             }
         }
 
+        // 🛡️ NOVO: FUNÇÃO DE DESENHO SEGURO (ESCUDO ANTI-CRASH)
+        function desenharSeguro(imgKey, x, y, w, h) {
+            let img = images[imgKey];
+            // O jogo só desenha se a imagem existir no GitHub e for carregada corretamente
+            if (img && img.complete && img.naturalWidth > 0) {
+                ctx.drawImage(img, x, y, w, h);
+            }
+        }
+
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. DESENHA FUNDO
-            if (images[bgLeft]) ctx.drawImage(images[bgLeft], bgX, 0, 1280, 720);
-            if (images[bgRight]) ctx.drawImage(images[bgRight], bgX + 1280, 0, 1280, 720);
+            // 1. DESENHA FUNDO PROTEGIDO
+            desenharSeguro(bgLeft, bgX, 0, 1280, 720);
+            desenharSeguro(bgRight, bgX + 1280, 0, 1280, 720);
 
-            // 2. DESENHA OBSTÁCULOS
+            // 2. DESENHA OBSTÁCULOS PROTEGIDOS
             ctx.shadowColor = "rgba(255, 255, 255, 0.8)";
             ctx.shadowBlur = 12;
             obstacles.forEach(obs => {
-                if (images[obs.img]) {
-                    ctx.drawImage(images[obs.img], obs.x, obs.y, obs.width, obs.height);
-                }
+                desenharSeguro(obs.img, obs.x, obs.y, obs.width, obs.height);
             });
             ctx.shadowBlur = 0; 
 
-            // 3. DESENHA PERSONAGEM
+            // 3. DESENHA PERSONAGEM PROTEGIDO
             let skinPrefix = player.selectedSkin;
             let pImgName = player.isJumping ? `${skinPrefix}_parado` : `${skinPrefix}_corre${player.currentFrame}`;
-            if (images[pImgName]) {
-                ctx.drawImage(images[pImgName], player.x, player.y, player.width, player.height);
-            }
+            desenharSeguro(pImgName, player.x, player.y, player.width, player.height);
 
-            // 4. INTERFACE TRADUZIDA NA TELA DE JOGO
+            // 4. INTERFACE
             ctx.fillStyle = "#fff";
             ctx.font = "bold 35px 'Courier New'";
             ctx.shadowColor = "black";
             ctx.shadowBlur = 6;
             ctx.fillText(`${translations[currentLang].pts}: ${Math.floor(score)}`, 40, 60);
             
-            // Texto do cenário atual traduzido
             const scenarioKeys = ['orla', 'mercado', 'pracaLib', 'pracaPapa'];
             let localText = translations[currentLang][scenarioKeys[currentStage - 1]];
             
@@ -692,7 +681,6 @@
             ctx.shadowBlur = 0;
         }
 
-        // Garante que o idioma base seja carregado corretamente no início
         setLanguage('pt');
     </script>
 </body>
