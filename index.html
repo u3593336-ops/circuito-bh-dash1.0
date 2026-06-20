@@ -241,7 +241,7 @@
     <div class="game-container" id="app-container">
 
         <!-- BOTÕES DE IDIOMA FIXOS -->
-        <div class="lang-selector">
+        <div class="lang-selector" id="lang-selector">
             <img src="flag_br.png" onclick="setLanguage('pt')" alt="Português">
             <img src="flag_us.png" onclick="setLanguage('en')" alt="English">
             <img src="flag_es.png" onclick="setLanguage('es')" alt="Español">
@@ -438,9 +438,19 @@
             }
         }
 
+        // 🔄 GERENCIADOR DE TELAS (E OCULTAR BANDEIRAS NO JOGO)
         function changeScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
+            
+            // Oculta os botões de idiomas na tela do jogo
+            const langSelector = document.getElementById('lang-selector');
+            if (screenId === 'game-screen') {
+                langSelector.style.display = 'none';
+            } else {
+                langSelector.style.display = 'flex';
+            }
+
             if(screenId !== 'game-screen') {
                 cancelAnimationFrame(gameLoopId);
             }
