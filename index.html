@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Circuito BH: Pixel Dash</title>
+    
+    <link rel="preload" href="fundo_menus.png" as="image">
+
     <style>
         * {
             box-sizing: border-box;
@@ -20,7 +23,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            height: 100dvh; /* Alterado de 100vh para 100dvh (adapta melhor às barras do celular) */
             width: 100vw;
             overflow: hidden;
         }
@@ -86,7 +89,7 @@
         /* 🟢🔵 BOTÕES (BASE E CORES) */
         .btn {
             color: white;
-            border: 3px solid transparent; /* Bordas definidas pelas cores específicas */
+            border: 3px solid transparent; 
             padding: clamp(10px, 3vw, 15px) clamp(20px, 5vw, 40px);
             font-size: clamp(1rem, 4vw, 1.3rem);
             font-weight: bold;
@@ -106,7 +109,6 @@
             transform: translateY(6px);
         }
 
-        /* NOVA COR: VERDE INTERMEDIÁRIO (Jogar / Ações de Sucesso) */
         .btn-green {
             background: linear-gradient(to bottom, #4CAF50, #388E3C);
             border-color: #81C784;
@@ -116,7 +118,6 @@
             box-shadow: 0 2px #2E7D32, 0 5px 10px rgba(0,0,0,0.6);
         }
 
-        /* NOVA COR: AZUL PROFUNDO (Menus / Navegação / Info) */
         .btn-darkblue {
             background: linear-gradient(to bottom, #1976D2, #0D47A1);
             border-color: #64B5F6;
@@ -217,12 +218,11 @@
         .tutorial-box::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
         .tutorial-box::-webkit-scrollbar-thumb { background: #00bcd4; border-radius: 10px; }
 
-        /* 🌐 PÁGINA CULTURAL (CORREÇÃO DE FUNDO APLICADA) */
+        /* 🌐 PÁGINA CULTURAL */
         #cultural-screen {
             justify-content: flex-start;
             overflow-y: auto;
             padding: 20px 15px; 
-            /* COMBINAÇÃO MAGNÍFICA: A mesma imagem + Filtro escuro por cima */
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('fundo_menus.png') no-repeat center center / cover;
         }
         .cards-grid {
@@ -249,12 +249,41 @@
         .card-content h3 { color: #ffd700; margin-bottom: 10px; font-size: 1.1rem; text-shadow: 1px 1px #000; }
         .card-content p { font-size: 0.85rem; line-height: 1.5; color: #ccc; text-align: justify; }
 
-        @media (max-width: 600px) {
-            .card img { height: 120px; }
-            .card-content { padding: 12px; }
-            .card-content h3 { font-size: 1rem; margin-bottom: 5px; }
-            .card-content p { font-size: 0.8rem; line-height: 1.4; }
-            #cultural-screen { padding-bottom: 40px; }
+        /* 📱 CORREÇÕES PARA MODO PAISAGEM (LANDSCAPE) NO CELULAR (Telas baixinhas) */
+        @media (max-height: 500px) {
+            #menu-screen h1 {
+                font-size: clamp(1.5rem, 5vw, 2.2rem); /* Fonte menor no titulo */
+                margin-bottom: 10px;
+            }
+            .btn {
+                padding: 6px 20px; /* Reduz altura do botão */
+                font-size: 0.9rem;
+                margin: 5px;
+                box-shadow: 0 4px #2E7D32, 0 5px 10px rgba(0,0,0,0.6); /* Sombra menor */
+            }
+            .btn-darkblue { box-shadow: 0 4px #002171, 0 5px 10px rgba(0,0,0,0.6); }
+            
+            .lang-selector { top: 10px; right: 10px; }
+            .lang-selector img { width: 30px; height: 30px; }
+
+            /* Ajustes Finos Tela Cultural Landscape */
+            #cultural-screen { padding: 10px; }
+            #cultural-screen h1 { font-size: 1.5rem; margin-bottom: 5px; margin-top: 5px; }
+            .cards-grid { gap: 10px; margin-top: 5px; }
+            .card { width: 220px; }
+            .card img { height: 90px; } /* Encolhe a imagem do card */
+            .card-content { padding: 10px; }
+            .card-content h3 { font-size: 0.95rem; margin-bottom: 5px; }
+            .card-content p { font-size: 0.75rem; line-height: 1.2; }
+            .btn-darkblue[data-i18n="backMenu"] {
+                margin-top: 15px !important;
+                margin-bottom: 15px !important;
+            }
+
+            /* Ajustes Tela Tutorial e Personagens */
+            .char-box img { height: 50px; }
+            .char-box { padding: 10px; }
+            .tutorial-box { padding: 10px; font-size: 0.8rem; }
         }
 
         /* 🎮 CANVAS DO JOGO */
@@ -292,9 +321,7 @@
 
         <div id="menu-screen" class="screen active">
             <h1 data-i18n="title">Circuito BH:<br>Pixel Dash</h1>
-            <!-- Botão em VERDE -->
             <button class="btn btn-green" onclick="ativarTelaCheia(); changeScreen('char-screen')" data-i18n="play">JOGAR</button>
-            <!-- Botões em AZUL ESCURO -->
             <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('tutorial-screen')" data-i18n="howTo">COMO JOGAR</button>
             <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('cultural-screen')" data-i18n="cultural">CONHECER BH</button>
         </div>
@@ -316,7 +343,6 @@
                     <b>Dica:</b> A cada 350 pontos, o cenário muda!
                 </span>
             </div>
-            <!-- Botão em AZUL ESCURO -->
             <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="back">VOLTAR</button>
         </div>
 
@@ -332,7 +358,6 @@
                     <h2>Cafézin</h2>
                 </div>
             </div>
-            <!-- Botão em AZUL ESCURO -->
             <button class="btn btn-darkblue" style="margin-top: 30px; padding: 10px 20px; font-size: 1rem;" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="back">VOLTAR</button>
         </div>
 
@@ -346,7 +371,6 @@
                 <span data-i18n="pts">Pontos</span>: <span id="final-score">0</span><br>
                 <span data-i18n="rec">Recorde</span>: <span id="high-score">0</span>
             </div>
-            <!-- Botões divididos pelas regras de cores -->
             <button class="btn btn-green" onclick="ativarTelaCheia(); changeScreen('char-screen')" data-i18n="tryAgain">TENTAR NOVAMENTE</button>
             <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="backMenu">MENU PRINCIPAL</button>
         </div>
@@ -383,7 +407,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Botão em AZUL ESCURO -->
             <button class="btn btn-darkblue" style="margin-top: 30px; margin-bottom: 40px;" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="backMenu">VOLTAR AO MENU</button>
         </div>
 
@@ -425,7 +448,7 @@
             }
         }
 
-        // 🌐 SISTEMA DE IDIOMAS (DICIONÁRIO) COM NOVOS TEXTOS DE TUTORIAL
+        // 🌐 SISTEMA DE IDIOMAS (DICIONÁRIO)
         const translations = {
             pt: {
                 title: "Circuito BH:<br>Pixel Dash", play: "JOGAR", howTo: "COMO JOGAR", cultural: "CONHECER BH",
@@ -493,7 +516,6 @@
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
             
-            // Oculta os botões de idiomas na tela do jogo
             const langSelector = document.getElementById('lang-selector');
             if (screenId === 'game-screen') {
                 langSelector.style.display = 'none';
@@ -537,7 +559,7 @@
         let bgRight = 'bg_pampulha';
 
         let spawnCooldown = 0;
-        let consecutivesAerials = 0; // CONTADOR PARA LIMITAR AÉREOS
+        let consecutivesAerials = 0; 
 
         const POSICAO_CHAO = 630; 
         const GRAVIDADE = 0.6;
@@ -551,7 +573,6 @@
 
         let obstacles = [];
 
-        // MAIS PESO PARA OS OBSTÁCULOS TERRESTRES NOS ARRAYS
         const obstacleRules = {
             1: [ 
                 { img: 'obs_capivara', width: 95, height: 70, tipo: 'terra', targetY: POSICAO_CHAO },
@@ -589,7 +610,7 @@
             bgRight = 'bg_pampulha';
             obstacles = [];
             spawnCooldown = 50;
-            consecutivesAerials = 0; // Zera o contador a cada nova partida
+            consecutivesAerials = 0; 
             
             changeScreen('game-screen');
             loop();
@@ -662,14 +683,12 @@
                 let stageRules = obstacleRules[currentStage];
                 let availableRules = stageRules;
                 
-                // TRAVA ANTI-TÉDIO: Impede mais de 1 obstáculo aéreo seguido
                 if (consecutivesAerials >= 1) {
                     availableRules = stageRules.filter(r => r.tipo === 'terra');
                 }
 
                 let chosen = availableRules[Math.floor(Math.random() * availableRules.length)];
                 
-                // Atualiza o rastreador
                 if (chosen.tipo === 'ar') {
                     consecutivesAerials++;
                 } else {
@@ -727,11 +746,9 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // 1. DESENHA FUNDO PROTEGIDO
             desenharSeguro(bgLeft, bgX, 0, 1280, 720);
             desenharSeguro(bgRight, bgX + 1280, 0, 1280, 720);
 
-            // 2. DESENHA OBSTÁCULOS PROTEGIDOS
             ctx.shadowColor = "rgba(255, 255, 255, 0.8)";
             ctx.shadowBlur = 12;
             obstacles.forEach(obs => {
@@ -739,12 +756,10 @@
             });
             ctx.shadowBlur = 0; 
 
-            // 3. DESENHA PERSONAGEM PROTEGIDO
             let skinPrefix = player.selectedSkin;
             let pImgName = player.isJumping ? `${skinPrefix}_parado` : `${skinPrefix}_corre${player.currentFrame}`;
             desenharSeguro(pImgName, player.x, player.y, player.width, player.height);
 
-            // 4. INTERFACE
             ctx.fillStyle = "#fff";
             ctx.font = "bold 35px 'Courier New'";
             ctx.shadowColor = "black";
