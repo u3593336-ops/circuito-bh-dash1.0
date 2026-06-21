@@ -50,7 +50,8 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background: url('bg_menu.jpg') no-repeat center center / cover;
+            /* NOVA IMAGEM DE FUNDO APLICADA AQUI */
+            background: url('fundo_menus.png') no-repeat center center / cover;
             z-index: 10;
         }
 
@@ -69,7 +70,7 @@
             font-size: clamp(2.5rem, 8vw, 4rem);
             color: #ffffff; /* Fonte Branca */
             font-weight: 900; /* Fonte mais grossa */
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.6); /* Leve sombreamento */
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.8); /* Sombreamento mais forte para destacar no novo fundo */
             margin-bottom: 30px;
             text-align: center;
             letter-spacing: 3px;
@@ -146,7 +147,7 @@
         }
 
         .char-box {
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.6);
             border: 4px dashed #666;
             padding: 15px;
             border-radius: 20px;
@@ -163,7 +164,7 @@
 
         .char-box:active {
             border-color: #ffd700;
-            background: rgba(255, 215, 0, 0.15);
+            background: rgba(255, 215, 0, 0.2);
             transform: scale(1.05);
         }
 
@@ -176,31 +177,42 @@
         
         .char-box h2 {
             font-size: clamp(1rem, 4vw, 1.5rem);
+            text-shadow: 2px 2px #000;
         }
 
-        /* 📖 TUTORIAL */
+        /* 📖 TUTORIAL MELHORADO (Adaptação para mais texto) */
         .tutorial-box {
-            background: rgba(0,0,0,0.6);
-            padding: clamp(15px, 5vw, 30px);
+            background: rgba(0,0,0,0.75); /* Mais escuro para destacar no fundo detalhado */
+            padding: clamp(15px, 5vw, 25px);
             border-radius: 20px;
             width: 90%;
             max-width: 800px;
-            text-align: left; /* Alinhado à esquerda para facilitar leitura de listas */
-            font-size: clamp(0.9rem, 3.5vw, 1.3rem);
-            line-height: 1.6;
-            margin-bottom: 30px;
+            text-align: left;
+            font-size: clamp(0.85rem, 3vw, 1.15rem);
+            line-height: 1.5;
+            margin-bottom: 20px;
             border: 2px solid #00bcd4;
             box-shadow: 0 10px 20px rgba(0,0,0,0.7);
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
+            color: #fff;
+            text-shadow: 1px 1px 2px #000;
+            overflow-y: auto; /* Permite rolar em telas muito pequenas */
+            max-height: 55vh;
         }
+
+        /* Custom Scrollbar para o Tutorial */
+        .tutorial-box::-webkit-scrollbar { width: 8px; }
+        .tutorial-box::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .tutorial-box::-webkit-scrollbar-thumb { background: #00bcd4; border-radius: 10px; }
 
         /* 🌐 PÁGINA CULTURAL (SITE) */
         #cultural-screen {
             justify-content: flex-start;
             overflow-y: auto;
             padding: 20px 15px; 
+            background: rgba(0,0,0,0.85); /* Fundo mais opaco para leitura */
         }
         .cards-grid {
             display: flex;
@@ -223,7 +235,7 @@
         }
         .card img { width: 100%; height: 160px; object-fit: cover; }
         .card-content { padding: 15px; }
-        .card-content h3 { color: #ffd700; margin-bottom: 10px; font-size: 1.1rem; }
+        .card-content h3 { color: #ffd700; margin-bottom: 10px; font-size: 1.1rem; text-shadow: 1px 1px #000; }
         .card-content p { font-size: 0.85rem; line-height: 1.5; color: #ccc; text-align: justify; }
 
         /* REGRAS ESPECÍFICAS PARA CELULARES */
@@ -276,22 +288,27 @@
         </div>
 
         <div id="tutorial-screen" class="screen">
-            <h1 style="font-size: clamp(1.8rem, 6vw, 3rem); color: #00bcd4; text-shadow: 2px 2px #000; margin-bottom: 20px;" data-i18n="tutorialTitle">Como Jogar</h1>
+            <h1 style="font-size: clamp(1.8rem, 6vw, 3rem); color: #00bcd4; text-shadow: 3px 3px 6px #000; margin-bottom: 15px; text-align: center;" data-i18n="tutorialTitle">Como Jogar</h1>
             <div class="tutorial-box">
                 <span data-i18n="tutorialText">
+                    <b>Objetivo:</b> Percorra os cartões-postais de Belo Horizonte. Salte sobre os obstáculos para continuar sua jornada!<br><br>
+                    <b>Controles:</b><br>
                     • Toque/ESPAÇO para pular.<br>
-                    • <b>Pampulha:</b> Capivaras e Passarinhos.<br>
+                    • Pule uma vez para obstáculos baixos.<br>
+                    • <b>Evite os obstáculos aéreos</b> para não perder o ritmo.<br><br>
+                    <b>Mapa Turístico:</b><br>
+                    • <b>Pampulha:</b> Capivaras e Pássaros.<br>
                     • <b>Mercado:</b> Ônibus e Pombos.<br>
                     • <b>Liberdade:</b> Bancos e Borboletas.<br>
-                    • <b>Papa:</b> Cones e Drones.<br>
-                    • As fases mudam a cada 350 pontos!
+                    • <b>Papa:</b> Cones e Drones.<br><br>
+                    <b>Dica:</b> A cada 350 pontos, o cenário muda!
                 </span>
             </div>
             <button class="btn" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="back">VOLTAR</button>
         </div>
 
         <div id="char-screen" class="screen">
-            <h1 style="font-size: clamp(1.5rem, 5vw, 2rem); color: #ffd700; text-align:center; text-shadow: 2px 2px #000; margin-bottom: 10px;" data-i18n="who">Quem vai correr?</h1>
+            <h1 style="font-size: clamp(1.5rem, 5vw, 2rem); color: #ffd700; text-align:center; text-shadow: 3px 3px 6px #000; margin-bottom: 10px;" data-i18n="who">Quem vai correr?</h1>
             <div class="char-container">
                 <div class="char-box" onclick="ativarTelaCheia(); startGame('pao')">
                     <img src="pao_parado.png" alt="Pão de Queijo">
@@ -392,12 +409,12 @@
             }
         }
 
-        // 🌐 SISTEMA DE IDIOMAS (DICIONÁRIO)
+        // 🌐 SISTEMA DE IDIOMAS (DICIONÁRIO) COM NOVOS TEXTOS DE TUTORIAL
         const translations = {
             pt: {
                 title: "Circuito BH:<br>Pixel Dash", play: "JOGAR", howTo: "COMO JOGAR", cultural: "CONHECER BH",
                 back: "VOLTAR", backMenu: "MENU PRINCIPAL", who: "Quem vai correr?", tutorialTitle: "Como Jogar",
-                tutorialText: "• Toque/ESPAÇO para pular.<br>• <b>Pampulha:</b> Capivaras e Passarinhos.<br>• <b>Mercado:</b> Ônibus e Pombos.<br>• <b>Liberdade:</b> Bancos e Borboletas.<br>• <b>Papa:</b> Cones e Drones.<br>• As fases mudam a cada 350 pontos!",
+                tutorialText: "<b>Objetivo:</b> Percorra os cartões-postais de Belo Horizonte. Salte sobre os obstáculos para continuar sua jornada!<br><br><b>Controles:</b><br>• Toque/ESPAÇO para pular.<br>• Pule uma vez para obstáculos baixos.<br>• <b>Evite os obstáculos aéreos</b> para não perder o ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capivaras e Pássaros.<br>• <b>Mercado:</b> Ônibus e Pombos.<br>• <b>Liberdade:</b> Bancos e Borboletas.<br>• <b>Papa:</b> Cones e Drones.<br><br><b>Dica:</b> A cada 350 pontos, o cenário muda!",
                 culturalTitle: "Pontos Turísticos", goTitle: "FIM DE JOGO!", tryAgain: "TENTAR NOVAMENTE", pts: "Pontos", rec: "Recorde",
                 orla: "Lagoa da Pampulha", mercado: "Mercado Central", pracaLib: "Praça da Liberdade", pracaPapa: "Praça do Papa",
                 txtPampulha: "O Conjunto Moderno da Pampulha é reconhecido como Patrimônio Cultural da Humanidade pela UNESCO. A Igreja São Francisco de Assis, projetada por Oscar Niemeyer, possui curvas marcantes.",
@@ -408,7 +425,7 @@
             en: {
                 title: "BH Circuit:<br>Pixel Dash", play: "PLAY", howTo: "HOW TO PLAY", cultural: "DISCOVER BH",
                 back: "BACK", backMenu: "MAIN MENU", who: "Choose your runner!", tutorialTitle: "How to Play",
-                tutorialText: "• Tap/SPACE to jump.<br>• <b>Pampulha:</b> Capybaras & Birds.<br>• <b>Market:</b> Buses & Pigeons.<br>• <b>Liberty Sq:</b> Benches & Butterflies.<br>• <b>Pope's Sq:</b> Cones & Drones.<br>• Maps change every 350 points!",
+                tutorialText: "<b>Objective:</b> Travel through Belo Horizonte's landmarks. Jump over obstacles to continue your journey!<br><br><b>Controls:</b><br>• Tap/SPACE to jump.<br>• Jump once for low obstacles.<br>• <b>Avoid aerial obstacles</b> to keep your pace.<br><br><b>Tour Map:</b><br>• <b>Pampulha:</b> Capybaras & Birds.<br>• <b>Market:</b> Buses & Pigeons.<br>• <b>Liberty Sq:</b> Benches & Butterflies.<br>• <b>Pope's Sq:</b> Cones & Drones.<br><br><b>Tip:</b> Every 350 points, the scenery changes!",
                 culturalTitle: "Landmarks", goTitle: "GAME OVER!", tryAgain: "TRY AGAIN", pts: "Score", rec: "High Score",
                 orla: "Pampulha Lagoon", mercado: "Central Market", pracaLib: "Liberty Square", pracaPapa: "Pope's Square",
                 txtPampulha: "The Pampulha Modern Ensemble is a UNESCO World Heritage site. The Church of Saint Francis of Assisi, designed by Oscar Niemeyer, features striking curves that revolutionized architecture.",
@@ -419,7 +436,7 @@
             es: {
                 title: "Circuito BH:<br>Pixel Dash", play: "JUGAR", howTo: "CÓMO JUGAR", cultural: "CONOCER BH",
                 back: "VOLVER", backMenu: "MENÚ PRINCIPAL", who: "¿Quién va a correr?", tutorialTitle: "Cómo Jugar",
-                tutorialText: "• Toca/ESPACIO para saltar.<br>• <b>Pampulha:</b> Capibaras y Pájaros.<br>• <b>Mercado:</b> Autobuses y Palomas.<br>• <b>Libertad:</b> Bancos y Mariposas.<br>• <b>Papa:</b> Conos y Drones.<br>• ¡El mapa cambia cada 350 pts!",
+                tutorialText: "<b>Objetivo:</b> Recorre los lugares icónicos de Belo Horizonte. ¡Salta sobre los obstáculos para continuar tu viaje!<br><br><b>Controles:</b><br>• Toca/ESPACIO para saltar.<br>• Salta una vez para obstáculos bajos.<br>• <b>Evita los obstáculos aéreos</b> para no perder el ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capibaras y Pájaros.<br>• <b>Mercado:</b> Autobuses y Palomas.<br>• <b>Libertad:</b> Bancos y Mariposas.<br>• <b>Papa:</b> Conos y Drones.<br><br><b>Consejo:</b> ¡Cada 350 puntos, el escenario cambia!",
                 culturalTitle: "Puntos Turísticos", goTitle: "¡FIN DEL JUEGO!", tryAgain: "INTENTAR DE NUEVO", pts: "Puntos", rec: "Récord",
                 orla: "Laguna de Pampulha", mercado: "Mercado Central", pracaLib: "Plaza de la Libertad", pracaPapa: "Plaza del Papa",
                 txtPampulha: "El Conjunto Moderno de Pampulha es Patrimonio de la Humanidad por la UNESCO. La Iglesia de San Francisco de Asís, diseñada por Oscar Niemeyer, posee curvas que revolucionaron la arquitectura.",
