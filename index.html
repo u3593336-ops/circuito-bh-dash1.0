@@ -15,7 +15,6 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            /* Fonte atualizada para ser mais amigável */
             font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             user-select: none;
             -webkit-user-select: none;
@@ -76,7 +75,6 @@
             font-size: clamp(2.5rem, 8vw, 4.5rem);
             color: #ffffff;
             font-weight: 900;
-            /* Leve sombra translúcida para efeito de profundidade */
             text-shadow: 2px 4px 8px rgba(0,0,0,0.4);
             margin-bottom: 30px;
             text-align: center;
@@ -308,7 +306,6 @@
             font-weight: 800; 
             margin-bottom: 35px; 
             color: #ffffff; 
-            /* Sombra removida para melhorar a legibilidade */
             text-shadow: none;
             text-align: center;
             line-height: 1.6;
@@ -320,7 +317,6 @@
         .score-info span[id] {
             color: #ffd700;
             font-size: 1.2em;
-            /* Garantindo que os números não herdem sombra */
             text-shadow: none; 
         }
     </style>
@@ -437,21 +433,22 @@
             console.warn("Salvamento bloqueado pelo navegador.");
         }
 
-        // 🔊 SISTEMA DE ÁUDIO HARMONIZADO
-        const somPulo = new Audio('som_pulo.mp3');
-        somPulo.volume = 0.3; 
+        // 🔊 SISTEMA DE ÁUDIO OTIMIZADO (Pool para não engasgar o jogo ao pular)
+        const poolPulo = [new Audio('som_pulo.mp3'), new Audio('som_pulo.mp3'), new Audio('som_pulo.mp3')];
+        poolPulo.forEach(a => a.volume = 0.3);
+        let puloIndex = 0;
+        
         const somGameOver = new Audio('som_gameover.mp3');
         somGameOver.volume = 0.6; 
 
         function tocarPulo() {
             try {
-                if (somPulo.readyState > 0) {
-                    somPulo.currentTime = 0;
-                    let playPromise = somPulo.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(() => {});
-                    }
+                let som = poolPulo[puloIndex];
+                if (som.readyState > 0) {
+                    som.currentTime = 0;
+                    som.play().catch(() => {});
                 }
+                puloIndex = (puloIndex + 1) % poolPulo.length;
             } catch(e) {}
         }
 
@@ -566,6 +563,8 @@
         }
 
         let gameLoopId;
+        let lastFrameTime = 0;
+        const FPS_INTERVAL = 1000 / 60; // Força 60 frames por segundo constante
         let score = 0;
         let gameSpeed = 7; 
         const maxSpeed = 16;
@@ -630,9 +629,10 @@
             spawnCooldown = 50;
             consecutivesAerials = 0; 
             
+            lastFrameTime = performance.now(); // Reseta o timer pro loop fluido
             changeScreen('game-screen');
             if(gameLoopId) cancelAnimationFrame(gameLoopId);
-            loop();
+            gameLoopId = requestAnimationFrame(loop);
         }
 
         function triggerJump() {
@@ -653,13 +653,21 @@
         canvas.addEventListener('touchstart', (e) => { triggerJump(); e.preventDefault(); }, {passive: false});
         canvas.addEventListener('mousedown', () => { triggerJump(); });
 
-        function loop() {
+        // 🔄 LOOP COM CONTROLE DE FPS (Evita aceleração repentina)
+        function loop(timestamp) {
             try {
                 gameLoopId = requestAnimationFrame(loop);
-                update();
-                draw();
+                
+                let elapsed = timestamp - lastFrameTime;
+                
+                // Se passou do intervalo ideal de 60fps, atualiza a lógica
+                if (elapsed > FPS_INTERVAL) {
+                    lastFrameTime = timestamp - (elapsed % FPS_INTERVAL);
+                    update();
+                    draw();
+                }
             } catch (error) {
-                console.warn("Erro temporário no frame de jogo evitado.", error);
+                console.warn("Erro temporário evitado.", error);
             }
         }
 
@@ -764,20 +772,23 @@
             }
         }
 
-        // 🛡️ Função Segura de Desenho (Proteção Anti-Quebra)
+        // 🛡️ Função Segura de Desenho (Ajustada para PIXEL PERFECT)
         function desenharSeguro(imgKey, x, y, w, h) {
             try {
                 let img = images[imgKey];
+                // Math.round ELIMINA a "cintilação" (shimmering) do cenário e dos pulos!
+                let pixelX = Math.round(x);
+                let pixelY = Math.round(y);
+                let pixelW = Math.round(w);
+                let pixelH = Math.round(h);
+                
                 if (img && img.complete && img.naturalWidth > 0) {
-                    ctx.drawImage(img, x, y, w, h);
+                    ctx.drawImage(img, pixelX, pixelY, pixelW, pixelH);
                 } else {
-                    // Fallback visual silencioso caso a imagem atrase, evitando tela em branco
                     ctx.fillStyle = imgKey.startsWith('bg') ? '#111' : 'transparent';
-                    ctx.fillRect(x, y, w, h);
+                    ctx.fillRect(pixelX, pixelY, pixelW, pixelH);
                 }
-            } catch(e) {
-                // Erro ignorado para não travar o loop
-            }
+            } catch(e) {}
         }
 
         function draw() {
@@ -786,7 +797,6 @@
             desenharSeguro(bgLeft, bgX, 0, 1280, 720);
             desenharSeguro(bgRight, bgX + 1280, 0, 1280, 720);
 
-            // ⚡ REMOVIDO shadowBlur AQUI PARA ELIMINAR O LAG DE CARREGAMENTO!
             obstacles.forEach(obs => {
                 desenharSeguro(obs.img, obs.x, obs.y, obs.width, obs.height);
             });
@@ -795,19 +805,24 @@
             let pImgName = player.isJumping ? `${skinPrefix}_parado` : `${skinPrefix}_corre${player.currentFrame}`;
             desenharSeguro(pImgName, player.x, player.y, player.width, player.height);
 
-            // Texto de pontuação (mantido a sombra porque é leve para texto)
-            ctx.fillStyle = "#fff";
+            // ⚡ TEXTOS OTIMIZADOS - shadowBlur removido para evitar lags e engasgos de processamento de GPU
             ctx.font = "bold 35px 'Nunito', sans-serif";
-            ctx.shadowColor = "rgba(0,0,0,0.8)";
-            ctx.shadowBlur = 4;
-            ctx.fillText(`${translations[currentLang].pts}: ${Math.floor(score)}`, 40, 60);
+            let pontuacaoTexto = `${translations[currentLang].pts}: ${Math.floor(score)}`;
+            
+            // Desenha uma "Sombra Manual" (Muito mais leve do que usar ctx.shadowBlur)
+            ctx.fillStyle = "rgba(0,0,0,0.8)";
+            ctx.fillText(pontuacaoTexto, 42, 62);
+            ctx.fillStyle = "#fff";
+            ctx.fillText(pontuacaoTexto, 40, 60);
             
             const scenarioKeys = ['orla', 'mercado', 'pracaLib', 'pracaPapa'];
             let localText = translations[currentLang][scenarioKeys[currentStage - 1]];
             
+            // Sombra manual no cenário
+            ctx.fillStyle = "rgba(0,0,0,0.8)";
+            ctx.fillText(localText, 882, 62);
             ctx.fillStyle = "#ffd700";
             ctx.fillText(localText, 880, 60);
-            ctx.shadowBlur = 0; // Reseta a sombra
         }
 
         setLanguage('pt');
