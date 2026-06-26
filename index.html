@@ -4,18 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Circuito BH: Pixel Dash</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
-    <link rel="preload" href="fundo_menus.png" as="image">
-
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Courier New', Courier, monospace;
             user-select: none;
             -webkit-user-select: none;
         }
@@ -26,7 +20,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100dvh; 
+            height: 100vh;
             width: 100vw;
             overflow: hidden;
         }
@@ -45,7 +39,7 @@
             align-items: center;
         }
 
-        /* 🖼️ FUNDO VISUAL */
+        /* 🖼️ FUNDO VISUAL (Telas de Menu e Interface) */
         .screen {
             position: absolute;
             top: 0;
@@ -62,74 +56,75 @@
 
         .screen.active {
             display: flex;
-            animation: fadeIn 0.4s ease-out;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.98); }
+            from { opacity: 0; transform: scale(0.95); }
             to { opacity: 1; transform: scale(1); }
         }
 
         /* 📺 MENU INICIAL */
         #menu-screen h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
+            font-size: clamp(2.5rem, 8vw, 4rem);
             color: #ffffff;
             font-weight: 900;
-            text-shadow: 2px 4px 8px rgba(0,0,0,0.4);
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.8);
             margin-bottom: 30px;
             text-align: center;
-            letter-spacing: 1px;
-            line-height: 1.1;
+            letter-spacing: 3px;
+            line-height: 1.2;
             animation: float 3s ease-in-out infinite;
             padding: 0 20px;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-15px); }
         }
 
-        /* 🟢🔵 BOTÕES */
+        /* 🟢🔵 BOTÕES (BASE E CORES) */
         .btn {
             color: white;
-            border: none; 
-            padding: clamp(12px, 3vw, 18px) clamp(20px, 5vw, 40px);
-            font-size: clamp(1rem, 4vw, 1.4rem);
-            font-weight: 800;
+            border: 3px solid transparent;
+            padding: clamp(10px, 3vw, 15px) clamp(20px, 5vw, 40px);
+            font-size: clamp(1rem, 4vw, 1.3rem);
+            font-weight: bold;
             cursor: pointer;
             border-radius: 50px;
             margin: 10px;
-            transition: all 0.2s ease;
+            transition: all 0.1s ease;
             width: 85%;
             max-width: 320px;
             text-align: center;
             text-transform: uppercase;
             position: relative;
             z-index: 100;
-            letter-spacing: 1px;
         }
 
         .btn:active {
-            transform: translateY(4px);
+            transform: translateY(6px);
         }
 
         .btn-green {
-            background: linear-gradient(135deg, #4CAF50, #2E7D32);
-            box-shadow: 0 6px #1B5E20, 0 10px 20px rgba(0,0,0,0.5);
+            background: linear-gradient(to bottom, #4CAF50, #388E3C);
+            border-color: #81C784;
+            box-shadow: 0 8px #2E7D32, 0 15px 25px rgba(0,0,0,0.6);
         }
         .btn-green:active {
-            box-shadow: 0 2px #1B5E20, 0 5px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 2px #2E7D32, 0 5px 10px rgba(0,0,0,0.6);
         }
 
         .btn-darkblue {
-            background: linear-gradient(135deg, #1E88E5, #0D47A1);
-            box-shadow: 0 6px #002171, 0 10px 20px rgba(0,0,0,0.5);
+            background: linear-gradient(to bottom, #1976D2, #0D47A1);
+            border-color: #64B5F6;
+            box-shadow: 0 8px #002171, 0 15px 25px rgba(0,0,0,0.6);
         }
         .btn-darkblue:active {
-            box-shadow: 0 2px #002171, 0 5px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 2px #002171, 0 5px 10px rgba(0,0,0,0.6);
         }
 
-        /* 🌐 SELEÇÃO DE IDIOMAS */
+        /* 🌐 SELEÇÃO DE IDIOMAS (TOTEM) */
         .lang-selector {
             position: absolute;
             top: 20px;
@@ -143,35 +138,34 @@
             height: clamp(35px, 8vw, 50px);
             border-radius: 50%;
             cursor: pointer;
-            border: 3px solid rgba(255,255,255,0.8);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-            transition: transform 0.2s, border-color 0.2s;
+            border: 3px solid #fff;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+            transition: transform 0.2s;
             object-fit: cover;
         }
         .lang-selector img:active { transform: scale(0.9); }
-        .lang-selector img:hover { border-color: #ffd700; }
 
         /* 👥 SELEÇÃO DE PERSONAGEM */
         .char-container {
             display: flex;
-            gap: 20px;
+            gap: 15px;
             margin-top: 20px;
             flex-wrap: wrap;
             justify-content: center;
         }
 
         .char-box {
-            background: rgba(0, 0, 0, 0.5);
-            border: 3px solid #555;
-            padding: 20px;
-            border-radius: 25px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 4px dashed #666;
+            padding: 15px;
+            border-radius: 20px;
             cursor: pointer;
             text-align: center;
             transition: all 0.3s ease;
             width: 40%;
             min-width: 140px;
             max-width: 200px;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(5px);
             position: relative;
             z-index: 100;
         }
@@ -183,40 +177,38 @@
         }
 
         .char-box img {
-            height: clamp(60px, 15vw, 110px);
+            height: clamp(60px, 15vw, 100px);
             image-rendering: pixelated;
-            margin-bottom: 12px;
-            filter: drop-shadow(0px 8px 8px rgba(0,0,0,0.6));
+            margin-bottom: 10px;
+            filter: drop-shadow(0px 10px 10px rgba(0,0,0,0.5));
         }
         
         .char-box h2 {
-            font-size: clamp(1.1rem, 4vw, 1.4rem);
-            font-weight: 800;
-            text-shadow: 0px 2px 5px #000;
+            font-size: clamp(1rem, 4vw, 1.5rem);
+            text-shadow: 2px 2px #000;
         }
 
-        /* 📖 TUTORIAL */
+        /* 📖 TUTORIAL MELHORADO */
         .tutorial-box {
-            background: rgba(0,0,0,0.8);
-            padding: clamp(20px, 5vw, 30px);
-            border-radius: 25px;
+            background: rgba(0,0,0,0.75);
+            padding: clamp(15px, 5vw, 25px);
+            border-radius: 20px;
             width: 90%;
             max-width: 800px;
             text-align: left;
-            font-size: clamp(0.9rem, 3vw, 1.15rem);
-            line-height: 1.6;
+            font-size: clamp(0.85rem, 3vw, 1.15rem);
+            line-height: 1.5;
             margin-bottom: 20px;
             border: 2px solid #00bcd4;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.6);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.7);
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            color: #eee;
+            color: #fff;
+            text-shadow: 1px 1px 2px #000;
             overflow-y: auto;
             max-height: 55vh;
         }
-
-        .tutorial-box b { color: #00bcd4; }
 
         .tutorial-box::-webkit-scrollbar { width: 8px; }
         .tutorial-box::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
@@ -227,56 +219,38 @@
             justify-content: flex-start;
             overflow-y: auto;
             padding: 20px 15px; 
-            background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('fundo_menus.png') no-repeat center center / cover;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('fundo_menus.png') no-repeat center center / cover;
         }
         .cards-grid {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 15px;
             width: 100%;
             max-width: 1100px;
-            margin-top: 20px;
+            margin-top: 15px;
             justify-content: center;
         }
         .card {
-            background: #1e1e1e;
-            border-radius: 15px;
+            background: #222;
+            border-radius: 12px;
             overflow: hidden;
-            width: 260px;
+            width: 250px;
             max-width: 100%; 
             flex-grow: 1;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-            border: 1px solid #333;
-            transition: transform 0.2s;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.5);
+            border: 2px solid #444;
         }
-        .card:hover { transform: translateY(-5px); }
         .card img { width: 100%; height: 160px; object-fit: cover; }
-        .card-content { padding: 18px; }
-        .card-content h3 { color: #ffd700; margin-bottom: 8px; font-size: 1.2rem; font-weight: 800; }
-        .card-content p { font-size: 0.9rem; line-height: 1.5; color: #bbb; text-align: justify; }
+        .card-content { padding: 15px; }
+        .card-content h3 { color: #ffd700; margin-bottom: 10px; font-size: 1.1rem; text-shadow: 1px 1px #000; }
+        .card-content p { font-size: 0.85rem; line-height: 1.5; color: #ccc; text-align: justify; }
 
-        /* 📱 CORREÇÕES MODO PAISAGEM CELULAR */
-        @media (max-height: 500px) {
-            #menu-screen h1 { font-size: clamp(1.5rem, 5vw, 2.2rem); margin-bottom: 15px; }
-            .btn { padding: 8px 20px; font-size: 0.95rem; margin: 6px; box-shadow: 0 4px #1B5E20, 0 5px 10px rgba(0,0,0,0.5); }
-            .btn-darkblue { box-shadow: 0 4px #002171, 0 5px 10px rgba(0,0,0,0.5); }
-            
-            .lang-selector { top: 10px; right: 10px; }
-            .lang-selector img { width: 30px; height: 30px; }
-
-            #cultural-screen { padding: 10px; }
-            #cultural-screen h1 { font-size: 1.5rem; margin-bottom: 5px; margin-top: 5px; }
-            .cards-grid { gap: 10px; margin-top: 5px; }
-            .card { width: 220px; }
-            .card img { height: 90px; } 
-            .card-content { padding: 10px; }
-            .card-content h3 { font-size: 0.95rem; margin-bottom: 5px; }
-            .card-content p { font-size: 0.75rem; line-height: 1.3; }
-            .btn-darkblue[data-i18n="backMenu"] { margin-top: 15px !important; margin-bottom: 15px !important; }
-
-            .char-box img { height: 55px; }
-            .char-box { padding: 10px; border-radius: 15px; }
-            .tutorial-box { padding: 15px; font-size: 0.85rem; }
+        @media (max-width: 600px) {
+            .card img { height: 120px; }
+            .card-content { padding: 12px; }
+            .card-content h3 { font-size: 1rem; margin-bottom: 5px; }
+            .card-content p { font-size: 0.8rem; line-height: 1.4; }
+            #cultural-screen { padding-bottom: 40px; }
         }
 
         /* 🎮 CANVAS DO JOGO */
@@ -289,36 +263,17 @@
             display: block;
         }
 
-        /* 💀 GAME OVER (Mais Suave e Moderno) */
+        /* 💀 GAME OVER */
         #gameover-screen h1 {
-            font-size: clamp(2.5rem, 10vw, 4.5rem);
-            color: #ff4747;
-            margin-bottom: 15px;
-            font-weight: 900;
-            text-shadow: 0px 5px 15px rgba(255, 0, 0, 0.4), 0px 2px 5px rgba(0,0,0,0.8);
-            animation: pulse 1.5s infinite alternate;
+            font-size: clamp(2.5rem, 10vw, 4rem);
+            color: #ff3333;
+            margin-bottom: 20px;
+            text-shadow: 4px 4px rgba(0,0,0,0.8);
+            animation: pulse 1s infinite alternate;
             text-align: center;
         }
-        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.03); } }
-        
-        .score-info { 
-            font-size: clamp(1.4rem, 6vw, 1.8rem); 
-            font-weight: 800; 
-            margin-bottom: 35px; 
-            color: #ffffff; 
-            text-shadow: none;
-            text-align: center;
-            line-height: 1.6;
-            background: rgba(0,0,0,0.4);
-            padding: 15px 30px;
-            border-radius: 20px;
-            backdrop-filter: blur(5px);
-        }
-        .score-info span[id] {
-            color: #ffd700;
-            font-size: 1.2em;
-            text-shadow: none; 
-        }
+        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+        .score-info { font-size: clamp(1.2rem, 5vw, 1.5rem); margin-bottom: 40px; color: #fff; text-shadow: 2px 2px #000; text-align: center;}
     </style>
 </head>
 <body>
@@ -339,7 +294,7 @@
         </div>
 
         <div id="tutorial-screen" class="screen">
-            <h1 style="font-size: clamp(1.8rem, 6vw, 3.5rem); color: #00bcd4; font-weight: 900; text-shadow: 0px 4px 10px rgba(0,0,0,0.6); margin-bottom: 20px; text-align: center;" data-i18n="tutorialTitle">Como Jogar</h1>
+            <h1 style="font-size: clamp(1.8rem, 6vw, 3rem); color: #00bcd4; text-shadow: 3px 3px 6px #000; margin-bottom: 15px; text-align: center;" data-i18n="tutorialTitle">Como Jogar</h1>
             <div class="tutorial-box">
                 <span data-i18n="tutorialText">
                     <b>Objetivo:</b> Percorra os cartões-postais de Belo Horizonte. Salte sobre os obstáculos para continuar sua jornada!<br><br>
@@ -359,7 +314,7 @@
         </div>
 
         <div id="char-screen" class="screen">
-            <h1 style="font-size: clamp(1.5rem, 5vw, 2.5rem); color: #ffd700; text-align:center; text-shadow: 0px 4px 10px rgba(0,0,0,0.6); margin-bottom: 15px; font-weight: 900;" data-i18n="who">Quem vai correr?</h1>
+            <h1 style="font-size: clamp(1.5rem, 5vw, 2rem); color: #ffd700; text-align:center; text-shadow: 3px 3px 6px #000; margin-bottom: 10px;" data-i18n="who">Quem vai correr?</h1>
             <div class="char-container">
                 <div class="char-box" onclick="ativarTelaCheia(); startGame('pao')">
                     <img src="pao_parado.png" alt="Pão de Queijo">
@@ -370,7 +325,7 @@
                     <h2>Cafézin</h2>
                 </div>
             </div>
-            <button class="btn btn-darkblue" style="margin-top: 35px; padding: 12px 25px; font-size: 1.1rem;" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="back">VOLTAR</button>
+            <button class="btn btn-darkblue" style="margin-top: 30px; padding: 10px 20px; font-size: 1rem;" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="back">VOLTAR</button>
         </div>
 
         <div id="game-screen" class="screen">
@@ -388,7 +343,7 @@
         </div>
 
         <div id="cultural-screen" class="screen">
-            <h1 style="font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 900; color: #00bcd4; text-shadow: 0px 4px 10px rgba(0,0,0,0.6); text-align: center; margin-bottom: 15px;" data-i18n="culturalTitle">Pontos Turísticos</h1>
+            <h1 style="font-size: clamp(1.5rem, 6vw, 2rem); color: #00bcd4; text-shadow: 2px 2px #000; text-align: center; margin-bottom: 10px;" data-i18n="culturalTitle">Pontos Turísticos</h1>
             <div class="cards-grid">
                 <div class="card">
                     <img src="info_pampulha.jpg" alt="Lagoa da Pampulha">
@@ -430,41 +385,37 @@
         try {
             highScore = localStorage.getItem('pixelDash_high') || 0;
         } catch (e) {
-            console.warn("Salvamento bloqueado pelo navegador.");
+            console.warn("Navegador bloqueou salvamento (Guia Anônima). O jogo continuará sem salvar o recorde.");
         }
 
-        // 🔊 SISTEMA DE ÁUDIO OTIMIZADO (Pool para não engasgar o jogo ao pular)
-        const poolPulo = [new Audio('som_pulo.mp3'), new Audio('som_pulo.mp3'), new Audio('som_pulo.mp3')];
-        poolPulo.forEach(a => a.volume = 0.3);
-        let puloIndex = 0;
-        
+        // 🔊 SISTEMA DE ÁUDIO HARMONIZADO
+        const somPulo = new Audio('som_pulo.mp3');
+        somPulo.volume = 0.3; 
+
         const somGameOver = new Audio('som_gameover.mp3');
         somGameOver.volume = 0.6; 
 
         function tocarPulo() {
-            try {
-                let som = poolPulo[puloIndex];
-                if (som.readyState > 0) {
-                    som.currentTime = 0;
-                    som.play().catch(() => {});
+            if (somPulo.readyState > 0) {
+                somPulo.currentTime = 0;
+                let playPromise = somPulo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => {});
                 }
-                puloIndex = (puloIndex + 1) % poolPulo.length;
-            } catch(e) {}
+            }
         }
 
         function tocarGameOver() {
-            try {
-                if (somGameOver.readyState > 0) {
-                    somGameOver.currentTime = 0;
-                    let playPromise = somGameOver.play();
-                    if (playPromise !== undefined) {
-                        playPromise.catch(() => {});
-                    }
+            if (somGameOver.readyState > 0) {
+                somGameOver.currentTime = 0;
+                let playPromise = somGameOver.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(e => {});
                 }
-            } catch(e) {}
+            }
         }
 
-        // 🌐 SISTEMA DE IDIOMAS (DICIONÁRIO)
+        // 🌐 SISTEMA DE IDIOMAS
         const translations = {
             pt: {
                 title: "Circuito BH:<br>Pixel Dash", play: "JOGAR", howTo: "COMO JOGAR", cultural: "CONHECER BH",
@@ -512,7 +463,7 @@
             });
         }
 
-        // 📱 FUNÇÃO DE TELA CHEIA E PAISAGEM FORÇADA 
+        // 📱 FUNÇÃO DE TELA CHEIA
         function ativarTelaCheia() {
             try {
                 let elem = document.documentElement;
@@ -556,15 +507,12 @@
             obs_onibus: 'obs_onibus.png', obs_pombo: 'obs_pombo.png'
         };
 
-        // Carregamento de imagens seguro
         for (let key in imageFiles) {
             images[key] = new Image();
             images[key].src = imageFiles[key];
         }
 
         let gameLoopId;
-        let lastFrameTime = 0;
-        const FPS_INTERVAL = 1000 / 60; // Força 60 frames por segundo constante
         let score = 0;
         let gameSpeed = 7; 
         const maxSpeed = 16;
@@ -629,10 +577,8 @@
             spawnCooldown = 50;
             consecutivesAerials = 0; 
             
-            lastFrameTime = performance.now(); // Reseta o timer pro loop fluido
             changeScreen('game-screen');
-            if(gameLoopId) cancelAnimationFrame(gameLoopId);
-            gameLoopId = requestAnimationFrame(loop);
+            loop();
         }
 
         function triggerJump() {
@@ -644,31 +590,15 @@
         }
 
         window.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' || e.code === 'ArrowUp') { 
-                if(document.getElementById('game-screen').classList.contains('active')) {
-                    triggerJump(); e.preventDefault(); 
-                }
-            }
+            if (e.code === 'Space' || e.code === 'ArrowUp') { triggerJump(); e.preventDefault(); }
         });
         canvas.addEventListener('touchstart', (e) => { triggerJump(); e.preventDefault(); }, {passive: false});
         canvas.addEventListener('mousedown', () => { triggerJump(); });
 
-        // 🔄 LOOP COM CONTROLE DE FPS (Evita aceleração repentina)
-        function loop(timestamp) {
-            try {
-                gameLoopId = requestAnimationFrame(loop);
-                
-                let elapsed = timestamp - lastFrameTime;
-                
-                // Se passou do intervalo ideal de 60fps, atualiza a lógica
-                if (elapsed > FPS_INTERVAL) {
-                    lastFrameTime = timestamp - (elapsed % FPS_INTERVAL);
-                    update();
-                    draw();
-                }
-            } catch (error) {
-                console.warn("Erro temporário evitado.", error);
-            }
+        function loop() {
+            gameLoopId = requestAnimationFrame(loop);
+            update();
+            draw();
         }
 
         function update() {
@@ -764,7 +694,6 @@
                     }
                     document.getElementById('final-score').innerText = Math.floor(score);
                     document.getElementById('high-score').innerText = highScore;
-                    cancelAnimationFrame(gameLoopId);
                     changeScreen('gameover-screen');
                     
                     return; 
@@ -772,56 +701,48 @@
             }
         }
 
-        // 🛡️ Função Segura de Desenho (Ajustada para PIXEL PERFECT)
+        // 🚀 OTIMIZAÇÃO AQUI: Math.round previne o Sub-Pixel Rendering que causava blur e stuttering
         function desenharSeguro(imgKey, x, y, w, h) {
-            try {
-                let img = images[imgKey];
-                // Math.round ELIMINA a "cintilação" (shimmering) do cenário e dos pulos!
-                let pixelX = Math.round(x);
-                let pixelY = Math.round(y);
-                let pixelW = Math.round(w);
-                let pixelH = Math.round(h);
-                
-                if (img && img.complete && img.naturalWidth > 0) {
-                    ctx.drawImage(img, pixelX, pixelY, pixelW, pixelH);
-                } else {
-                    ctx.fillStyle = imgKey.startsWith('bg') ? '#111' : 'transparent';
-                    ctx.fillRect(pixelX, pixelY, pixelW, pixelH);
-                }
-            } catch(e) {}
+            let img = images[imgKey];
+            if (img && img.complete && img.naturalWidth > 0) {
+                ctx.drawImage(img, Math.round(x), Math.round(y), w, h);
+            }
         }
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+            // 1. DESENHA FUNDO 
             desenharSeguro(bgLeft, bgX, 0, 1280, 720);
             desenharSeguro(bgRight, bgX + 1280, 0, 1280, 720);
 
+            // 2. DESENHA OBSTÁCULOS (Sem o ShadowBlur destrutivo)
             obstacles.forEach(obs => {
                 desenharSeguro(obs.img, obs.x, obs.y, obs.width, obs.height);
             });
 
+            // 3. DESENHA PERSONAGEM
             let skinPrefix = player.selectedSkin;
             let pImgName = player.isJumping ? `${skinPrefix}_parado` : `${skinPrefix}_corre${player.currentFrame}`;
             desenharSeguro(pImgName, player.x, player.y, player.width, player.height);
 
-            // ⚡ TEXTOS OTIMIZADOS - shadowBlur removido para evitar lags e engasgos de processamento de GPU
-            ctx.font = "bold 35px 'Nunito', sans-serif";
-            let pontuacaoTexto = `${translations[currentLang].pts}: ${Math.floor(score)}`;
+            // 4. INTERFACE OTIMIZADA (Sombra falsa super leve ao invés de shadowBlur)
+            ctx.font = "bold 35px 'Courier New'";
             
-            // Desenha uma "Sombra Manual" (Muito mais leve do que usar ctx.shadowBlur)
-            ctx.fillStyle = "rgba(0,0,0,0.8)";
-            ctx.fillText(pontuacaoTexto, 42, 62);
-            ctx.fillStyle = "#fff";
-            ctx.fillText(pontuacaoTexto, 40, 60);
-            
+            // Textos - Pontuação
+            let txtPontos = `${translations[currentLang].pts}: ${Math.floor(score)}`;
+            ctx.fillStyle = "#000"; // Sombra preta deslocada
+            ctx.fillText(txtPontos, 43, 63); 
+            ctx.fillStyle = "#fff"; // Cor principal
+            ctx.fillText(txtPontos, 40, 60);
+
+            // Textos - Fase Atual
             const scenarioKeys = ['orla', 'mercado', 'pracaLib', 'pracaPapa'];
             let localText = translations[currentLang][scenarioKeys[currentStage - 1]];
             
-            // Sombra manual no cenário
-            ctx.fillStyle = "rgba(0,0,0,0.8)";
-            ctx.fillText(localText, 882, 62);
-            ctx.fillStyle = "#ffd700";
+            ctx.fillStyle = "#000"; // Sombra preta deslocada
+            ctx.fillText(localText, 883, 63);
+            ctx.fillStyle = "#ffd700"; // Cor principal
             ctx.fillText(localText, 880, 60);
         }
 
@@ -829,3 +750,4 @@
     </script>
 </body>
 </html>
+
