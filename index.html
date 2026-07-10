@@ -29,6 +29,7 @@
             height: 100dvh; 
             width: 100vw;
             overflow: hidden;
+            touch-action: none; /* Previne zoom e scroll no mobile ao tocar na tela repetidamente */
         }
 
         .game-container {
@@ -678,7 +679,7 @@
             }
         };
 
-        // 📋 BANCO DE DADOS COMPLETO E TOUR HISTÓRICO (PT, EN, ES) Sem coordenadas geográficas
+        // 📋 BANCO DE DADOS COMPLETO E TOUR HISTÓRICO (PT, EN, ES)
         const turismoData = {
             pampulha: {
                 address: "Av. Otacílio Negrão de Lima, 3000 - Pampulha, Belo Horizonte - MG",
@@ -845,13 +846,11 @@
                     el.innerHTML = translations[lang][key];
                 }
             });
-            // Se a tela de detalhes estiver aberta, atualiza o conteúdo no idioma selecionado dinamicamente
             if (document.getElementById('details-screen').classList.contains('active') && currentActivePlaceKey) {
                 renderPlaceDetails(currentActivePlaceKey);
             }
         }
 
-        // 📋 SISTEMA DINÂMICO DE DETALHES TURÍSTICOS
         let currentActivePlaceKey = null;
         function openDetails(placeKey) {
             ativarTelaCheia();
@@ -871,18 +870,16 @@
             document.getElementById('details-tips').innerText = localInfo.tips;
             document.getElementById('details-context').innerText = localInfo.context;
             
-            // Link de Navegação Universal no Google Maps pelo Endereço Escrito (sem expor coordenadas técnicas)
             const encodedAddress = encodeURIComponent(data.address);
             const gpsBtn = document.getElementById('details-gps-btn');
             gpsBtn.setAttribute('onclick', `window.open('https://www.google.com/maps/search/?api=1&query=${encodedAddress}', '_blank')`);
             
-            // Visualização Prévia do Local segura e livre de erros (Iframe incorporado de forma assíncrona baseado no endereço)
             const mapContainer = document.getElementById('details-map-container');
             mapContainer.innerHTML = `<iframe src="https://maps.google.com/maps?q=${encodedAddress}&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>`;
         }
 
-        // 📱 FUNÇÃO DE TELA CHEIA E PAISAGEM FORÇADA 
-        function activarTelaCheia() {
+        // 📱 CORREÇÃO APLICADA: O nome da função agora bate exatamente com a chamada "ativarTelaCheia()" no HTML
+        function ativarTelaCheia() {
             try {
                 let elem = document.documentElement;
                 if (elem.requestFullscreen) { elem.requestFullscreen().catch(e => {}); }
@@ -894,7 +891,6 @@
             } catch (err) {}
         }
 
-        // 🔄 GERENCIADOR DE TELAS
         function changeScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
@@ -908,6 +904,7 @@
 
             if(screenId !== 'game-screen' && gameLoopId) {
                 cancelAnimationFrame(gameLoopId);
+                gameLoopId = null;
             }
         }
 
@@ -930,17 +927,16 @@
             images[key].src = imageFiles[key];
         }
 
-        // ⚡ VARIÁVEIS DE TIMING
-        let gameLoopId;
+        let gameLoopId = null;
         let lastTime = 0;
         let accumulator = 0;
-        const TIME_STEP = 1000 / 60; // 60hz para a física
+        const TIME_STEP = 1000 / 60; 
 
         let score = 0;
         let gameSpeed = 7; 
         const maxSpeed = 16;
         let currentStage = 1;
-        let nextSpeedIncreaseScore = 150; // Ajustado proporcionalmente à nova velocidade de cenário
+        let nextSpeedIncreaseScore = 150; 
         
         let bgX = 0;
         let bgLeft = 'bg_pampulha';
@@ -992,7 +988,7 @@
             score = 0;
             gameSpeed = 7;
             currentStage = 1;
-            nextSpeedIncreaseScore = 150; // Inicializa compensado
+            nextSpeedIncreaseScore = 150;
             bgX = 0;
             bgLeft = 'bg_pampulha';
             bgRight = 'bg_pampulha';
@@ -1026,7 +1022,7 @@
         canvas.addEventListener('touchstart', (e) => { triggerJump(); e.preventDefault(); }, {passive: false});
         canvas.addEventListener('mousedown', () => { triggerJump(); });
 
-        // 🔄 LOOP GAMEPLAY
+        // 🔄 LOOP GAMEPLAY COM PREVENÇÃO DE ATUALIZAÇÕES FANTASMAS
         function loop(timestamp) {
             try {
                 gameLoopId = requestAnimationFrame(loop);
@@ -1040,12 +1036,13 @@
                 let requiresDraw = false;
 
                 while (accumulator >= TIME_STEP) {
+                    if (!gameLoopId) break; // Garante que o loop não rode se o update() acusar Game Over
                     update();
                     accumulator -= TIME_STEP;
                     requiresDraw = true;
                 }
 
-                if (requiresDraw) {
+                if (requiresDraw && gameLoopId) {
                     draw();
                 }
 
@@ -1058,11 +1055,9 @@
             score += 0.15;
             let displayScore = Math.floor(score);
 
-            // ⚡ MECÂNICA DE CENÁRIO REBALANCEADA: Mudança estrita a cada 100 pontos
             let cycle = Math.floor(displayScore / 100);
             currentStage = (cycle % 4) + 1; 
 
-            // ⚡ COMPENSAÇÃO DA CURVA DE VELOCIDADE: Incremento mais suave e proporcional (0.6) para manter a jogabilidade refinada
             if (displayScore >= nextSpeedIncreaseScore) {
                 if (gameSpeed < maxSpeed) {
                     gameSpeed += 0.6; 
@@ -1149,15 +1144,17 @@
                     }
                     document.getElementById('final-score').innerText = Math.floor(score);
                     document.getElementById('high-score').innerText = highScore;
-                    cancelAnimationFrame(gameLoopId);
-                    changeScreen('gameover-screen');
                     
+                    // Tratamento seguro do encerramento
+                    cancelAnimationFrame(gameLoopId);
+                    gameLoopId = null;
+                    
+                    changeScreen('gameover-screen');
                     return; 
                 }
             }
         }
 
-        // 🛡️ DESENHO SEGURO (Preve vibracao de pixels)
         function desenharSeguro(imgKey, x, y, w, h) {
             try {
                 let img = images[imgKey];
@@ -1187,7 +1184,6 @@
             let pImgName = player.isJumping ? `${skinPrefix}_parado` : `${skinPrefix}_corre${player.currentFrame}`;
             desenharSeguro(pImgName, player.x, player.y, player.width, player.height);
 
-            // ⚡ TEXTOS E CONTADORES DE TELA
             ctx.font = "bold 35px 'Nunito', sans-serif";
             let pontuacaoTexto = `${translations[currentLang].pts}: ${Math.floor(score)}`;
             
