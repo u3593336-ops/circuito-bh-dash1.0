@@ -217,7 +217,6 @@
         }
 
         .tutorial-box b { color: #00bcd4; }
-
         .tutorial-box::-webkit-scrollbar { width: 8px; }
         .tutorial-box::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
         .tutorial-box::-webkit-scrollbar-thumb { background: #00bcd4; border-radius: 10px; }
@@ -229,31 +228,124 @@
             padding: 20px 15px; 
             background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), url('fundo_menus.png') no-repeat center center / cover;
         }
+        .cultural-subtitle {
+            font-size: clamp(1.4rem, 4vw, 2rem);
+            color: #ffd700;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-weight: 800;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+            text-align: center;
+            width: 100%;
+        }
         .cards-grid {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
             width: 100%;
             max-width: 1100px;
-            margin-top: 20px;
+            margin-top: 10px;
             justify-content: center;
         }
         .card {
             background: #1e1e1e;
             border-radius: 15px;
             overflow: hidden;
-            width: 260px;
+            width: 240px;
             max-width: 100%; 
             flex-grow: 1;
             box-shadow: 0 10px 20px rgba(0,0,0,0.4);
             border: 1px solid #333;
             transition: transform 0.2s;
+            cursor: pointer;
         }
-        .card:hover { transform: translateY(-5px); }
-        .card img { width: 100%; height: 160px; object-fit: cover; }
-        .card-content { padding: 18px; }
-        .card-content h3 { color: #ffd700; margin-bottom: 8px; font-size: 1.2rem; font-weight: 800; }
-        .card-content p { font-size: 0.9rem; line-height: 1.5; color: #bbb; text-align: justify; }
+        .card:hover { transform: translateY(-5px); border-color: #00bcd4; }
+        .card img { width: 100%; height: 140px; object-fit: cover; }
+        .card-content { padding: 15px; }
+        .card-content h3 { color: #ffd700; margin-bottom: 8px; font-size: 1.1rem; font-weight: 800; }
+        .card-content p { font-size: 0.85rem; line-height: 1.5; color: #bbb; text-align: justify; }
+
+        /* 📋 TELA DE DETALHES TURÍSTICOS */
+        #details-screen {
+            justify-content: flex-start;
+            overflow-y: auto;
+            padding: 30px 20px;
+            background: linear-gradient(rgba(10, 10, 15, 0.92), rgba(10, 10, 15, 0.95)), url('fundo_menus.png') no-repeat center center / cover;
+        }
+        .details-wrapper {
+            width: 100%;
+            max-width: 900px;
+            background: rgba(25, 25, 30, 0.85);
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            margin-bottom: 25px;
+        }
+        .details-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .details-map-preview {
+            flex: 1;
+            min-width: 280px;
+            height: 200px;
+            border-radius: 12px;
+            border: 2px dashed #00bcd4;
+            overflow: hidden;
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .details-map-preview iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .details-info-block {
+            flex: 1.2;
+            min-width: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .details-info-block h2 {
+            font-size: 2rem;
+            color: #ffd700;
+            margin-bottom: 12px;
+            font-weight: 900;
+        }
+        .details-meta-item {
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            color: #eee;
+            line-height: 1.4;
+        }
+        .details-meta-item b {
+            color: #00bcd4;
+        }
+        .details-body {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #ddd;
+            text-align: justify;
+        }
+        .details-body h4 {
+            color: #ffd700;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            font-size: 1.15rem;
+            border-left: 4px solid #00bcd4;
+            padding-left: 10px;
+        }
+        .details-body p {
+            margin-bottom: 15px;
+        }
 
         /* 📱 CORREÇÕES MODO PAISAGEM CELULAR */
         @media (max-height: 500px) {
@@ -266,14 +358,24 @@
 
             #cultural-screen { padding: 10px; }
             #cultural-screen h1 { font-size: 1.5rem; margin-bottom: 5px; margin-top: 5px; }
+            .cultural-subtitle { font-size: 1.1rem; margin-top: 12px; margin-bottom: 5px; }
             .cards-grid { gap: 10px; margin-top: 5px; }
-            .card { width: 220px; }
-            .card img { height: 90px; } 
+            .card { width: 200px; }
+            .card img { height: 80px; } 
             .card-content { padding: 10px; }
-            .card-content h3 { font-size: 0.95rem; margin-bottom: 5px; }
+            .card-content h3 { font-size: 0.9rem; margin-bottom: 4px; }
             .card-content p { font-size: 0.75rem; line-height: 1.3; }
-            .btn-darkblue[data-i18n="backMenu"] { margin-top: 15px !important; margin-bottom: 15px !important; }
+            
+            #details-screen { padding: 15px 10px; }
+            .details-wrapper { padding: 15px; margin-bottom: 15px; }
+            .details-header { gap: 12px; margin-bottom: 15px; }
+            .details-map-preview { height: 120px; min-width: 200px; }
+            .details-info-block h2 { font-size: 1.3rem; margin-bottom: 6px; }
+            .details-meta-item { font-size: 0.8rem; margin-bottom: 4px; }
+            .details-body { font-size: 0.85rem; line-height: 1.5; }
+            .details-body h4 { margin-top: 12px; font-size: 0.95rem; }
 
+            .btn-darkblue[data-i18n="backMenu"], .btn-darkblue[data-i18n="back"] { margin-top: 10px !important; margin-bottom: 10px !important; }
             .char-box img { height: 55px; }
             .char-box { padding: 10px; border-radius: 15px; }
             .tutorial-box { padding: 15px; font-size: 0.85rem; }
@@ -289,7 +391,7 @@
             display: block;
         }
 
-        /* 💀 GAME OVER (Mais Suave e Moderno) */
+        /* 💀 GAME OVER */
         #gameover-screen h1 {
             font-size: clamp(2.5rem, 10vw, 4.5rem);
             color: #ff4747;
@@ -352,7 +454,7 @@
                     • <b>Mercado:</b> Ônibus e Pombos.<br>
                     • <b>Liberdade:</b> Bancos e Borboletas.<br>
                     • <b>Papa:</b> Cones e Drones.<br><br>
-                    <b>Dica:</b> A cada 350 pontos, o cenário muda!
+                    <b>Dica:</b> A cada 100 pontos, o cenário muda!
                 </span>
             </div>
             <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="back">VOLTAR</button>
@@ -387,39 +489,96 @@
             <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="backMenu">MENU PRINCIPAL</button>
         </div>
 
+        <!-- 🌐 PÁGINA CULTURAL EXPANDIDA -->
         <div id="cultural-screen" class="screen">
-            <h1 style="font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 900; color: #00bcd4; text-shadow: 0px 4px 10px rgba(0,0,0,0.6); text-align: center; margin-bottom: 15px;" data-i18n="culturalTitle">Pontos Turísticos</h1>
+            <h1 style="font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 900; color: #00bcd4; text-shadow: 0px 4px 10px rgba(0,0,0,0.6); text-align: center; margin-bottom: 5px;" data-i18n="culturalTitle">Pontos Turísticos</h1>
+            
+            <h2 class="cultural-subtitle" data-i18n="circuitTitle">Circuitos Principais</h2>
             <div class="cards-grid">
-                <div class="card">
+                <div class="card" onclick="openDetails('pampulha')">
                     <img src="info_pampulha.jpg" alt="Lagoa da Pampulha">
                     <div class="card-content">
                         <h3 data-i18n="orla">Lagoa da Pampulha</h3>
-                        <p data-i18n="txtPampulha">O Conjunto Moderno da Pampulha é reconhecido como Patrimônio Cultural da Humanidade pela UNESCO. A Igreja São Francisco de Assis, projetada por Oscar Niemeyer, possui curvas marcantes que revolucionaram a arquitetura mundial.</p>
+                        <p data-i18n="txtPampulha">O Conjunto Moderno da Pampulha é reconhecido como Patrimônio Cultural da Humanidade pela UNESCO. A Igreja São Francisco de Assis, projetada por Oscar Niemeyer, possui curvas marcantes.</p>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" onclick="openDetails('mercado')">
                     <img src="info_mercado.jpg" alt="Mercado Central">
                     <div class="card-content">
                         <h3 data-i18n="mercado">Mercado Central</h3>
-                        <p data-i18n="txtMercado">Inaugurado em 1929, o Mercado Central é a alma de Belo Horizonte. Famoso por reunir o melhor do queijo minas, doce de leite, artesanato e o tradicional fígado com jiló. Um ponto de encontro cheio de calor humano!</p>
+                        <p data-i18n="txtMercado">Inaugurado em 1929, o Mercado Central é a alma de Belo Horizonte. Famoso por reunir o melhor do queijo minas, doce de leite, artesanato e o tradicional fígado com jiló.</p>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" onclick="openDetails('liberdade')">
                     <img src="info_liberdade.jpg" alt="Praça da Liberdade">
                     <div class="card-content">
                         <h3 data-i18n="pracaLib">Praça da Liberdade</h3>
-                        <p data-i18n="txtLiberdade">O coração histórico e cultural de Belo Horizonte. A praça mistura o estilo neoclássico com belíssimas alamedas de palmeiras imperiais. Hoje, forma o Circuito Liberdade, um enorme complexo cultural.</p>
+                        <p data-i18n="txtLiberdade">O coração histórico e cultural de Belo Horizonte. A praça mistura o estilo neoclássico com belíssimas alamedas de palmeiras imperiais. Hoje, forma o Circuito Liberdade.</p>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card" onclick="openDetails('papa')">
                     <img src="info_papa.jpg" alt="Praça do Papa">
                     <div class="card-content">
                         <h3 data-i18n="pracaPapa">Praça do Papa</h3>
-                        <p data-i18n="txtPapa">Localizada a mais de 1.100 metros de altitude, ganhou esse apelido carinhoso após a visita do Papa João Paulo II em 1980, que declarou: "Que belo horizonte!". É o lugar perfeito para contemplar a cidade.</p>
+                        <p data-i18n="txtPapa">Localizada a mais de 1.100 metros de altitude, ganhou esse apelido carinhoso após a visita do Papa João Paulo II em 1980. É o lugar perfeito para contemplar a cidade.</p>
                     </div>
                 </div>
             </div>
+
+            <h2 class="cultural-subtitle" data-i18n="morePlacesTitle">Conheça Mais Lugares</h2>
+            <div class="cards-grid">
+                <div class="card" onclick="openDetails('afonsopena')">
+                    <img src="info_afonsopena.jpg" alt="Avenida Afonso Pena">
+                    <div class="card-content">
+                        <h3 data-i18n="afonsoPenaTitle">Avenida Afonso Pena</h3>
+                        <p data-i18n="txtAfonsoPenaCard">A principal artéria urbana da capital, planejada por Aarão Reis. Um corredor de imenso valor cultural que conecta pontos históricos cruciais da cidade.</p>
+                    </div>
+                </div>
+                <div class="card" onclick="openDetails('parquemunicipal')">
+                    <img src="info_parquemunicipal.jpg" alt="Parque Municipal">
+                    <div class="card-content">
+                        <h3 data-i18n="parqueMunicipalTitle">Parque Municipal</h3>
+                        <p data-i18n="txtParqueMunicipalCard">O coração verde do hipercentro de BH. Inspirado nos parques franceses, abriga uma rica biodiversidade, lagos e uma atmosfera secular de relaxamento.</p>
+                    </div>
+                </div>
+                <div class="card" onclick="openDetails('feirahippie')">
+                    <img src="info_feirahippie.jpg" alt="Feira Hippie">
+                    <div class="card-content">
+                        <h3 data-i18n="feiraHippieTitle">Feira Hippie</h3>
+                        <p data-i18n="txtFeiraHippieCard">A maior feira de artesanato a céu aberto da América Latina. Realizada rigidamente aos domingos, pulsa a criatividade e a economia popular mineira.</p>
+                    </div>
+                </div>
+            </div>
+
             <button class="btn btn-darkblue" style="margin-top: 30px; margin-bottom: 40px;" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="backMenu">VOLTAR AO MENU</button>
+        </div>
+
+        <!-- 📋 NOVA TELA DINÂMICA DE DETALHES -->
+        <div id="details-screen" class="screen">
+            <div class="details-wrapper">
+                <div class="details-header">
+                    <div class="details-map-preview" id="details-map-container">
+                        <!-- Preenchido via JS -->
+                    </div>
+                    <div class="details-info-block">
+                        <h2 id="details-title">Nome do Lugar</h2>
+                        <div class="details-meta-item"><b>📍 <span data-i18n="lblAddress">Endereço</span>:</b> <span id="details-address">---</span></div>
+                        <div class="details-meta-item"><b>⏰ <span data-i18n="lblHours">Horário</span>:</b> <span id="details-hours">---</span></div>
+                    </div>
+                </div>
+                <div class="details-body">
+                    <h4 data-i18n="lblHistory">História Completa</h4>
+                    <p id="details-history">---</p>
+                    
+                    <h4 data-i18n="lblTips">Dicas de Visitação & Gastronomia Próxima</h4>
+                    <p id="details-tips">---</p>
+                    
+                    <h4 data-i18n="lblContext">Contexto Atual & Informações Importantes</h4>
+                    <p id="details-context">---</p>
+                </div>
+            </div>
+            <button class="btn btn-green" id="details-gps-btn" onclick="" data-i18n="openGps">ABRIR NO GPS</button>
+            <button class="btn btn-darkblue" onclick="changeScreen('cultural-screen')" data-i18n="back">VOLTAR</button>
         </div>
 
     </div>
@@ -469,35 +628,211 @@
             pt: {
                 title: "Circuito BH:<br>Pixel Dash", play: "JOGAR", howTo: "COMO JOGAR", cultural: "CONHECER BH",
                 back: "VOLTAR", backMenu: "MENU PRINCIPAL", who: "Quem vai correr?", tutorialTitle: "Como Jogar",
-                tutorialText: "<b>Objetivo:</b> Percorra os cartões-postais de Belo Horizonte. Salte sobre os obstáculos para continuar sua jornada!<br><br><b>Controles:</b><br>• Toque/ESPAÇO para pular.<br>• Pule uma vez para obstáculos baixos.<br>• <b>Evite os obstáculos aéreos</b> para não perder o ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capivaras e Pássaros.<br>• <b>Mercado:</b> Ônibus e Pombos.<br>• <b>Liberdade:</b> Bancos e Borboletas.<br>• <b>Papa:</b> Cones e Drones.<br><br><b>Dica:</b> A cada 350 pontos, o cenário muda!",
+                tutorialText: "<b>Objetivo:</b> Percorra os cartões-postais de Belo Horizonte. Salte sobre os obstáculos para continuar sua jornada!<br><br><b>Controles:</b><br>• Toque/ESPAÇO para pular.<br>• Pule uma vez para obstáculos baixos.<br>• <b>Evite os obstáculos aéreos</b> para não perder o ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capivaras e Pássaros.<br>• <b>Mercado:</b> Ônibus e Pombos.<br>• <b>Liberdade:</b> Bancos e Borboletas.<br>• <b>Papa:</b> Cones e Drones.<br><br><b>Dica:</b> A cada 100 pontos, o cenário muda!",
                 culturalTitle: "Pontos Turísticos", goTitle: "FIM DE JOGO!", tryAgain: "TENTAR NOVAMENTE", pts: "Pontos", rec: "Recorde",
                 orla: "Lagoa da Pampulha", mercado: "Mercado Central", pracaLib: "Praça da Liberdade", pracaPapa: "Praça do Papa",
+                circuitTitle: "Circuitos Principais", morePlacesTitle: "Conheça Mais Lugares",
+                afonsoPenaTitle: "Avenida Afonso Pena", parqueMunicipalTitle: "Parque Municipal", feiraHippieTitle: "Feira Hippie",
                 txtPampulha: "O Conjunto Moderno da Pampulha é reconhecido como Patrimônio Cultural da Humanidade pela UNESCO. A Igreja São Francisco de Assis, projetada por Oscar Niemeyer, possui curvas marcantes.",
-                txtMercado: "Inaugurado em 1929, o Mercado Central é a alma de Belo Horizonte. Famoso por reunir o melhor do queijo minas, doce de leite, artesanato e o tradicional fígado com jiló. Um ponto de encontro cheio de calor humano!",
-                txtLiberdade: "O coração histórico e cultural de Belo Horizonte. A praça mistura o estilo neoclássico com belíssimas alamedas de palmeiras imperiais. Hoje, forma o Circuito Liberdade, um enorme complexo cultural.",
-                txtPapa: "Localizada a mais de 1.100 metros de altitude, ganhou esse apelido carinhoso após a visita do Papa João Paulo II em 1980, que declarou: 'Que belo horizonte!'. É o lugar perfeito para contemplar a cidade."
+                txtMercado: "Inaugurado em 1929, o Mercado Central é a alma de Belo Horizonte. Famoso por reunir o melhor do queijo minas, doce de leite, artesanato e o tradicional fígado com jiló.",
+                txtLiberdade: "O coração histórico e cultural de Belo Horizonte. A praça mistura o estilo neoclássico com belíssimas alamedas de palmeiras imperiais. Hoje, forma o Circuito Liberdade.",
+                txtPapa: "Localizada a mais de 1.100 metros de altitude, ganhou esse apelido carinhoso após a visita do Papa João Paulo II em 1980. É o lugar perfeito para contemplar a cidade.",
+                txtAfonsoPenaCard: "A principal artéria urbana da capital, planejada por Aarão Reis. Um corredor de imenso valor cultural que conecta pontos históricos cruciais da cidade.",
+                txtParqueMunicipalCard: "O coração verde do hipercentro de BH. Inspirado nos parques franceses, abriga uma rica biodiversidade, lagos e uma atmosfera secular de relaxamento.",
+                txtFeiraHippieCard: "A maior feira de artesanato a céu aberto da América Latina. Realizada rigidamente aos domingos, pulsa a criatividade e a economia popular mineira.",
+                lblAddress: "Endereço", lblHours: "Horário", lblHistory: "História Completa", lblTips: "Dicas de Visitação & Gastronomia", lblContext: "Contexto Atual & Informações", openGps: "ABRIR NO GPS"
             },
             en: {
                 title: "BH Circuit:<br>Pixel Dash", play: "PLAY", howTo: "HOW TO PLAY", cultural: "DISCOVER BH",
                 back: "BACK", backMenu: "MAIN MENU", who: "Choose your runner!", tutorialTitle: "How to Play",
-                tutorialText: "<b>Objective:</b> Travel through Belo Horizonte's landmarks. Jump over obstacles to continue your journey!<br><br><b>Controls:</b><br>• Tap/SPACE to jump.<br>• Jump once for low obstacles.<br>• <b>Avoid aerial obstacles</b> to keep your pace.<br><br><b>Tour Map:</b><br>• <b>Pampulha:</b> Capybaras & Birds.<br>• <b>Market:</b> Buses & Pigeons.<br>• <b>Liberty Sq:</b> Benches & Butterflies.<br>• <b>Pope's Sq:</b> Cones & Drones.<br><br><b>Tip:</b> Every 350 points, the scenery changes!",
+                tutorialText: "<b>Objective:</b> Travel through Belo Horizonte's landmarks. Jump over obstacles to continue your journey!<br><br><b>Controls:</b><br>• Tap/SPACE to jump.<br>• Jump once for low obstacles.<br>• <b>Avoid aerial obstacles</b> to keep your pace.<br><br><b>Tour Map:</b><br>• <b>Pampulha:</b> Capybaras & Birds.<br>• <b>Market:</b> Buses & Pigeons.<br>• <b>Liberty Sq:</b> Benches & Butterflies.<br>• <b>Pope's Sq:</b> Cones & Drones.<br><br><b>Tip:</b> Every 100 points, the scenery changes!",
                 culturalTitle: "Landmarks", goTitle: "GAME OVER!", tryAgain: "TRY AGAIN", pts: "Score", rec: "High Score",
                 orla: "Pampulha Lagoon", mercado: "Central Market", pracaLib: "Liberty Square", pracaPapa: "Pope's Square",
-                txtPampulha: "The Pampulha Modern Ensemble is a UNESCO World Heritage site. The Church of Saint Francis of Assisi, designed by Oscar Niemeyer, features striking curves that revolutionized architecture.",
-                txtMercado: "Opened in 1929, the Central Market is the soul of Belo Horizonte. Famous for bringing together the best Minas cheese, doce de leite, crafts, and traditional food. A place full of human warmth!",
-                txtLiberdade: "The historical and cultural heart of Belo Horizonte. The square blends neoclassical style with beautiful alleys of imperial palms. Today, it forms the Liberty Circuit, a huge cultural complex.",
-                txtPapa: "Located over 1,100 meters high, it earned this affectionate nickname after Pope John Paul II's visit in 1980, who declared: 'What a beautiful horizon!'. It is the perfect place to admire the city."
+                circuitTitle: "Main Circuits", morePlacesTitle: "Discover More Places",
+                afonsoPenaTitle: "Afonso Pena Avenue", parqueMunicipalTitle: "Municipal Park", feiraHippieTitle: "Hippie Fair",
+                txtPampulha: "The Pampulha Modern Ensemble is a UNESCO World Heritage site. The Church of Saint Francis of Assisi, designed by Oscar Niemeyer, features striking architectural curves.",
+                txtMercado: "Opened in 1929, the Central Market is the soul of Belo Horizonte. Famous for bringing together the best Minas cheese, dulce de leche, crafts, and traditional food.",
+                txtLiberdade: "The historical and cultural heart of Belo Horizonte. The square blends neoclassical style with beautiful alleys of imperial palms. Today, it forms the Liberty Circuit.",
+                txtPapa: "Located over 1,100 meters high, it earned this affectionate nickname after Pope John Paul II's visit in 1980. It is the perfect place to admire the city.",
+                txtAfonsoPenaCard: "The main urban artery of the capital, planned by Aarão Reis. A corridor of immense cultural value connecting crucial historical points of the city.",
+                txtParqueMunicipalCard: "The green heart of BH's hypercenter. Inspired by French parks, it houses rich biodiversity, lakes, and a secular atmosphere of relaxation.",
+                txtFeiraHippieCard: "The largest open-air arts and crafts fair in Latin America. Strictly held on Sundays, it pulses with creativity and local popular economy.",
+                lblAddress: "Address", lblHours: "Hours", lblHistory: "Full History", lblTips: "Visitation & Gastronomy Tips", lblContext: "Current Context & Info", openGps: "OPEN IN GPS"
             },
             es: {
                 title: "Circuito BH:<br>Pixel Dash", play: "JUGAR", howTo: "CÓMO JUGAR", cultural: "CONOCER BH",
                 back: "VOLVER", backMenu: "MENÚ PRINCIPAL", who: "¿Quién va a correr?", tutorialTitle: "Cómo Jugar",
-                tutorialText: "<b>Objetivo:</b> Recorre los lugares icónicos de Belo Horizonte. ¡Salta sobre los obstáculos para continuar tu viaje!<br><br><b>Controles:</b><br>• Toca/ESPACIO para saltar.<br>• Salta una vez para obstáculos bajos.<br>• <b>Evita los obstáculos aéreos</b> para no perder el ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capibaras y Pájaros.<br>• <b>Mercado:</b> Autobuses y Palomas.<br>• <b>Libertad:</b> Bancos y Mariposas.<br>• <b>Papa:</b> Conos y Drones.<br><br><b>Consejo:</b> ¡Cada 350 puntos, el escenario cambia!",
+                tutorialText: "<b>Objetivo:</b> Recorre los lugares icónicos de Belo Horizonte. ¡Salta sobre los obstáculos para continuar tu viaje!<br><br><b>Controles:</b><br>• Toca/ESPACIO para saltar.<br>• Salta una vez para obstáculos bajos.<br>• <b>Evita los obstáculos aéreos</b> para não perder o ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capibaras y Pájaros.<br>• <b>Mercado:</b> Autobuses y Palomas.<br>• <b>Libertad:</b> Bancos y Mariposas.<br>• <b>Papa:</b> Cones e Drones.<br><br><b>Consejo:</b> ¡Cada 100 pontos, el escenario cambia!",
                 culturalTitle: "Puntos Turísticos", goTitle: "¡FIN DEL JUEGO!", tryAgain: "INTENTAR DE NUEVO", pts: "Puntos", rec: "Récord",
                 orla: "Laguna de Pampulha", mercado: "Mercado Central", pracaLib: "Plaza de la Libertad", pracaPapa: "Plaza del Papa",
-                txtPampulha: "El Conjunto Moderno de Pampulha es Patrimonio de la Humanidad por la UNESCO. La Iglesia de San Francisco de Asís, diseñada por Oscar Niemeyer, posee curvas que revolucionaron la arquitectura.",
-                txtMercado: "Inaugurado en 1929, el Mercado Central es el alma de Belo Horizonte. Famoso por reunir el mejor queso minas, dulce de leche y comida tradicional. ¡Un punto de encuentro lleno de calor humano!",
-                txtLiberdade: "El corazón histórico y cultural de Belo Horizonte. La plaza mezcla estilo neoclásico con hermosas alamedas de palmeras imperiales. Hoy forma el Circuito Libertad, un enorme complejo cultural.",
-                txtPapa: "Ubicada a más de 1.100 metros de altura, ganó este apodo tras la visita del Papa Juan Pablo II en 1980, quien exclamó: '¡Qué bello horizonte!'. Es el lugar perfecto para contemplar la ciudad."
+                circuitTitle: "Circuitos Principales", morePlacesTitle: "Conoce Más Lugares",
+                afonsoPenaTitle: "Avenida Afonso Pena", parqueMunicipalTitle: "Parque Municipal", feiraHippieTitle: "Feria Hippie",
+                txtPampulha: "El Conjunto Moderno de Pampulha es Patrimonio de la Humanidad por la UNESCO. La Iglesia de San Francisco de Asís, diseñada por Oscar Niemeyer, posee curvas arquitectónicas únicas.",
+                txtMercado: "Inaugurado in 1929, el Mercado Central es el alma de Belo Horizonte. Famoso por reunir el mejor queso minas, dulce de leche y comida tradicional.",
+                txtLiberdade: "El corazón histórico y cultural de Belo Horizonte. La plaza mezcla estilo neoclásico con hermosas alamedas de palmeiras imperiales. Hoy forma el Circuito Libertad.",
+                txtPapa: "Ubicada a más de 1.100 metros de altura, ganó este apodo tras la visita del Papa Juan Pablo II en 1980. Es el lugar perfecto para contemplar la ciudad.",
+                txtAfonsoPenaCard: "La principal arteria urbana de la capital, planificada por Aarão Reis. Un corredor de inmenso valor cultural que conecta puntos históricos cruciales.",
+                txtParqueMunicipalCard: "El corazón verde del hipercentro de BH. Inspirado en los parques franceses, alberga una rica biodiversidad, lagos y un ambiente secular de relajación.",
+                txtFeiraHippieCard: "La mayor feria de artesanía a cielo abierto de América Latina. Realizada estrictamente los domingos, pulsa con la creatividad y la economía popular.",
+                lblAddress: "Dirección", lblHours: "Horario", lblHistory: "Historia Completa", lblTips: "Consejos de Visita y Gastronomía", lblContext: "Contexto Actual e Info", openGps: "ABRIR EN GPS"
+            }
+        };
+
+        // 📋 BANCO DE DADOS COMPLETO E TOUR HISTÓRICO (PT, EN, ES) Sem coordenadas geográficas
+        const turismoData = {
+            pampulha: {
+                address: "Av. Otacílio Negrão de Lima, 3000 - Pampulha, Belo Horizonte - MG",
+                hours: "Terça a Domingo, das 08:00 às 17:00 (Igreja)",
+                pt: {
+                    title: "Lagoa da Pampulha e Circuito",
+                    history: "Projetado na década de 1940 pelo arquiteto Oscar Niemeyer a pedido do então prefeito Juscelino Kubitschek, o Conjunto Moderno da Pampulha representou um marco revolucionário na arquitetura modernista mundial, unindo engenharia estrutural de vanguarda e curvas inspiradas no barroco mineiro. Em 2016, o complexo foi declarado Patrimônio Cultural da Humanidade pela UNESCO, englobando construções icônicas como a Igreja de São Francisco de Assis, a Casa do Baile (atual Centro de Referência de Arquitetura, Urbanismo e Design) e o Museu Casa Kubitschek, antiga residência de veraneio de JK.",
+                    tips: "Visite o interior da Igreja para apreciar os icônicos painéis de azulejos pintados por Cândido Portinari. Para os arredores, não deixe de conhecer o Museu Casa Kubitschek e caminhar pela orla. Para a gastronomia, o restaurante Xapuri é uma referência internacional de comida tradicional mineira feita no fogão a lenha, localizado nas proximidades.",
+                    context: "A região tem recebido investimentos contínuos em projetos de despoluição hídrica e manutenção estrutural das fachadas históricas. Atenção ao trânsito na Avenida Otacílio Negrão de Lima durante os fins de semana devido ao alto fluxo de ciclistas e pedestres."
+                },
+                en: {
+                    title: "Pampulha Lagoon & Circuit",
+                    history: "Designed in the 1940s by architect Oscar Niemeyer at the request of the mayor Juscelino Kubitschek, the Pampulha Modern Ensemble represented a revolutionary milestone in global modernist architecture. In 2016, the complex was declared a UNESCO World Heritage Site, encompassing iconic buildings like the Church of Saint Francis of Assisi, the Casa do Baile, and the Kubitschek House Museum, JK's former summer house.",
+                    tips: "Visit the interior of the Church to appreciate the iconic tile panels painted by Cândido Portinari. Check out the Kubitschek House Museum. For dining, the nearby Xapuri restaurant is an international benchmark for traditional wood-fired Minas Gerais cuisine.",
+                    context: "The region receives continuous investment in water cleanup initiatives and structural maintenance of historical facades. Traffic along Otacílio Negrão de Lima Avenue can be slow on weekends due to high numbers of cyclists and pedestrians."
+                },
+                es: {
+                    title: "Laguna de Pampulha y Circuito",
+                    history: "Diseñado en la década de 1940 por el arquitecto Oscar Niemeyer a petición del entonces alcalde Juscelino Kubitschek, el Conjunto Moderno de Pampulha representó un hito revolucionario en la arquitectura modernista mundial. En 2016, el complejo fue declarado Patrimonio Cultural de la Humanidad por la UNESCO, incluyendo la Iglesia de San Francisco de Asís, la Casa do Baile y el Museo Casa Kubitschek.",
+                    tips: "Visite el interior de la Iglesia para apreciar los paneles de azulejos pintados por Cândido Portinari. Conozca el Museo Casa Kubitschek. Para la gastronomía, el cercano restaurante Xapuri es un referente internacional de comida tradicional mineira.",
+                    context: "La región recibe inversiones continuas en proyectos de descontaminación del agua y mantenimiento de fachadas históricas. Cuidado con el tráfico en la Avenida Otacílio Negrão de Lima los fines de semana debido al flujo de ciclistas."
+                }
+            },
+            mercado: {
+                address: "Av. Augusto de Lima, 744 - Centro, Belo Horizonte - MG",
+                hours: "Segunda a Sábado, das 07:00 às 18:00; Domingos e Feriados, das 07:00 às 13:00",
+                pt: {
+                    title: "Mercado Central de BH",
+                    history: "Fundado em 1929 em um terreno amplo que servia para o comércio de abastecimento da cidade, o Mercado Central tornou-se um dos maiores polos culturais e econômicos de Belo Horizonte. Concentrando centenas de lojas e boxes, o espaço preserva vivas as tradições culinárias mineiras, onde o comércio de queijos artesanais, doces de leite, ervas medicinais, artigos religiosos e artesanato local se mistura com o calor humano único que define a capital de Minas.",
+                    tips: "Experimente o clássico prato do Mercado: fígado acebolado com jiló em um dos tradicionais botecos de balcão (como o Bar da Lora). Visite as queijarias renomadas para degustar variedades legítimas do Queijo Canastra e do queijo do Serro.",
+                    context: "O Mercado passou recentemente por amplas modernizações em seus sistemas de prevenção e combate a incêndios e melhorias de acessibilidade em seus corredores internos, mantendo o funcionamento regular em todos os dias planejados."
+                },
+                en: {
+                    title: "BH Central Market",
+                    history: "Founded in 1929 to supply food to the growing capital, the Central Market has become one of Belo Horizonte's main cultural and economic hubs. Hosting hundreds of stalls, the venue keeps Minas Gerais culinary traditions alive, blending the sales of artisanal cheeses, traditional sweets, medicinal herbs, and local crafts.",
+                    tips: "Try the Market's signature dish: beef liver with jiló at one of the counter bars (like Bar da Lora). Visit the cheese shops to taste authentic varieties of Canastra and Serro cheese.",
+                    context: "The market recently underwent major modernizations of its fire prevention systems and accessibility upgrades inside its corridors, maintaining regular operating hours."
+                },
+                es: {
+                    title: "Mercado Central de BH",
+                    history: "Fundado en 1929 para abastecer a la creciente capital, el Mercado Central se convirtió en uno de los mayores polos culturales de Belo Horizonte. Con cientos de tiendas, el espacio preserva vivas las tradiciones culinarias locales, donde la venta de quesos artesanales, dulces de leche y artesanías se mezcla con la calidez humana local.",
+                    tips: "Pruebe el plato clásico del Mercado: hígado con jiló en uno de los tradicionales bares de barra (como Bar da Lora). Visite las tiendas especializadas para degustar variedades de Queso Canastra.",
+                    context: "El mercado pasó recientemente por modernizaciones en sus sistemas de prevención de incendios y mejoras de accesibilidad en sus pasillos, operando con total normalidad."
+                }
+            },
+            liberdade: {
+                address: "Praça da Liberdade, s/n - Funcionários, Belo Horizonte - MG",
+                hours: "Acesso gratuito 24h (Museus funcionam geralmente de terça a domingo, das 10:00 às 22:00)",
+                pt: {
+                    title: "Praça da Liberdade e Circuito",
+                    history: "Projetada no final do século XIX para abrigar a sede do poder político estadual quando a capital foi transferida de Ouro Preto para Belo Horizonte, a Praça da Liberdade apresenta um traçado inspirado nos jardins franceses de Versalhes. Composto por prédios de arquitetura neoclássica e modernista, o local deixou de sediar as secretarias administrativas e foi transformado no Circuito Liberdade, o maior complexo de cultura e conhecimento do país, englobando o CCBB, o Memorial Minas Gerais Vale e o Museu das Minas e do Metal.",
+                    tips: "Caminhe calmamente pelas alamedas cercadas por palmeiras imperiais imponentes. Recomendamos visitar o Centro Cultural Banco do Brasil (CCBB) e o Memorial Vale. Para comer, explore as cafeterias gourmets no entorno do bairro Funcionários ou o clássico Café da Dona Lucinha.",
+                    context: "A praça recebe rotineiramente feiras culturais, festivais gastronômicos e decorações temáticas sazonais. Há ocasionais desvios de trânsito em seu entorno para a montagem de grandes palcos e eventos públicos."
+                },
+                en: {
+                    title: "Liberty Square & Circuit",
+                    history: "Designed in the late 19th century to house the state government headquarters when the capital moved to Belo Horizonte, Liberty Square displays a design inspired by French gardens. Featuring neoclassical and modernist buildings, the administrative structures were repurposed into the Liberty Circuit, the country's largest complex of culture, featuring CCBB, Memorial Vale, and the Minds and Metal Museum.",
+                    tips: "Stroll along the historic alleys surrounded by majestic imperial palms. We recommend visiting the CCBB and Memorial Vale. For a meal, explore artisanal coffee shops around the Funcionários neighborhood or the classic Dona Lucinha.",
+                    context: "The square frequently hosts cultural fairs, food festivals, and seasonal decorations. Occasional traffic detours happen around the perimeter for major public events."
+                },
+                es: {
+                    title: "Plaza de la Libertad y Circuito",
+                    history: "Diseñada a finales del siglo XIX para albergar la sede del gobierno estatal, la Plaza de la Libertad presenta un diseño inspirado en los jardines franceses. Sus edificios neoclásicos y modernistas fueron transformados en el Circuito Libertad, el mayor complejo cultural del país, que incluye el CCBB, el Memorial Vale y el Museo de las Minas y del Metal.",
+                    tips: "Camine por las hermosas alamedas rodeadas de palmeras imperiales. Recomendamos visitar el CCBB y el Memorial Vale. Para comer, explore las cafeterías de especialidad en el barrio Funcionários.",
+                    context: "La plaza alberga regularmente ferias culturales y decoraciones estacionales. Hay desvíos ocasionales de tráfico a su alrededor debido al montaje de eventos públicos."
+                }
+            },
+            papa: {
+                address: "Praça Israel Pinheiro, s/n - Alto Mangabeiras, Belo Horizonte - MG",
+                hours: "Acesso gratuito 24h",
+                pt: {
+                    title: "Praça do Papa",
+                    history: "Originalmente denominada Praça Israel Pinheiro, o mirante situado no topo do bairro Mangabeiras, na base da deslumbrante Serra do Curral, foi carinhosamente rebatizado pelo povo após um evento histórico de proporções gigantescas. Em julho de 1980, o Papa João Paulo II realizou ali uma missa campal para mais de dois milhões de fiéis e, tocado pela magnífica vista panorâmica da cidade e das montanhas, exclamou a célebre frase: 'Que belo horizonte!'. Desde então, o local abriga o Monumento à Paz, uma escultura de ferro de 24 metros de altura.",
+                    tips: "O fim de tarde é o momento ideal para contemplar o pôr do sol mais espetacular de BH de um ponto panorâmico privilegiado. Para refeições e lanches, visite as charmosas lanchonetes e pizzarias tradicionais localizadas nas vias de acesso abaixo no bairro Anchieta ou Cruzeiro.",
+                    context: "A infraestrutura urbana do entorno recebeu recentemente melhorias na sinalização turística e pavimentação. O trânsito de veículos e estacionamento nas ruas laterais pode ter restrições específicas nos finais de semana de sol forte."
+                },
+                en: {
+                    title: "Pope's Square",
+                    history: "Originally named Israel Pinheiro Square, this viewpoint located at the high Mangabeiras neighborhood, at the foot of the Serra do Curral mountains, was renamed after an event. In July 1980, Pope John Paul II held an outdoor mass here for over two million people, and deeply moved by the view, exclaimed: 'What a beautiful horizon!'. Since then, the site holds the Monument to Peace.",
+                    tips: "Late afternoon is perfect to catch the most spectacular sunset in BH from a high panoramic vantage point. For dining, look into traditional pizzerias and burger joints located slightly down the hill in the Anchieta neighborhood.",
+                    context: "The surrounding urban infrastructure recently received new tourist signaling and repaving. Vehicle parking on side streets may face specific rules during sunny weekend afternoons."
+                },
+                es: {
+                    title: "Plaza del Papa",
+                    history: "Originalmente llamada Plaza Israel Pinheiro, este mirador situado en lo alto del barrio Mangabeiras, al pie de la Serra do Curral, fue rebautizado tras un evento histórico. En julio de 1980, el Papa Juan Pablo II celebró allí una misa para más de dos millones de personas y, conmovido por la vista, exclamó: '¡Qué bello horizonte!'. Alberga el Monumento a la Paz.",
+                    tips: "El final de la tarde es el momento ideal para contemplar el atardecer más espectacular de la ciudad. Para comer, visite las pizzerías tradicionales ubicadas cuesta abajo en el barrio Anchieta.",
+                    context: "La infraestructura urbana circundante recibió recientemente mejoras en la señalización turística. El estacionamiento en las calles laterales puede tener restricciones los fines de semana."
+                }
+            },
+            afonsopena: {
+                address: "Avenida Afonso Pena, s/n - Centro, Belo Horizonte - MG",
+                hours: "Acesso público 24h",
+                pt: {
+                    title: "Avenida Afonso Pena",
+                    history: "Planejada pelo engenheiro Aarão Reis no final do século XIX para ser a principal espinha dorsal da nova capital de Minas Gerais, a Avenida Afonso Pena conecta as regiões leste e centro-sul de forma imponente. Sendo palco de profundas transformações arquitetônicas, a via abriga prédios de imenso valor histórico e cultural, como o icônico Automóvel Clube, o prestigiado Teatro Municipal de Belo Horizonte e o tradicional Conservatório UFMG, sendo o verdadeiro centro comercial e nervoso da cidade.",
+                    tips: "Explore a pé os trechos arborizados centrais localizados próximos ao cruzamento com a Rua da Bahia, cenário clássico da literatura e da boemia mineira de décadas passadas. Para almoçar ou lanchar de forma rápida e tradicional, visite o icônico Café Palhares e peça o histórico 'Kaol'.",
+                    context: "A avenida passou por intervenções focadas na melhoria e ampliação de ciclovias integradas e recapeamento asfáltico em faixas de ônibus exclusivas. O fluxo é extremamente denso em horários de pico nos dias úteis."
+                },
+                en: {
+                    title: "Afonso Pena Avenue",
+                    history: "Planned by engineer Aarão Reis in the late 19th century to be the main structural core of the new capital, Afonso Pena Avenue connects the east and south-central regions. Witnessing architectural shifts, the avenue holds buildings of deep historical value like the Automobile Club, the Municipal Theater, and the UFMG Conservatory.",
+                    tips: "Walk the beautiful tree-lined paths near the intersection with Rua da Bahia, a classic setting for past bohemian life. For a quick and traditional meal, visit the historic Café Palhares and order their famous 'Kaol' dish.",
+                    context: "The avenue underwent adjustments focused on enhancing connected bike lanes and bus lane repaving. Traffic is extremely heavy during weekdays rush hours."
+                },
+                es: {
+                    title: "Avenida Afonso Pena",
+                    history: "Planificada por el ingeniero Aarão Reis a finales del siglo XIX para ser la espina dorsal de la nueva capital, la Avenida Afonso Pena conecta las regiones este y centro-sur. Testigo de transformaciones arquitectónicas, alberga edificios de inmenso valor como el Automóvel Clube y el Teatro Municipal.",
+                    tips: "Explore a pie los tramos arbolados cerca de la intersección con la Rua da Bahia, un escenario clásico de la bohemia local. Para una comida tradicional, visite el icónico Café Palhares y pida el famoso plato 'Kaol'.",
+                    context: "La avenida pasó por intervenciones para ampliar las ciclovías integradas y repavimentar los carriles exclusivos de autobuses. El flujo es denso durante las horas de mayor actividad en días laborables."
+                }
+            },
+            parquemunicipal: {
+                address: "Av. Afonso Pena, 1377 - Centro, Belo Horizonte - MG",
+                hours: "Terça a Domingo, das 08:00 às 17:00",
+                pt: {
+                    title: "Parque Municipal Américo Renné Giannetti",
+                    history: "Inaugurado em 1897, antes mesmo da própria conclusão oficial da nova capital, o Parque Municipal Américo Renné Giannetti é o patrimônio ecológico mais antigo da cidade. Projetado pelo arquiteto paisagista francês Paul Villon, o parque foi inspirado nos belos jardins românticos franceses. Com uma extensão rica de mata nativa remanescente e exótica, ele funciona como um pulmão verde essencial no denso centro urbano de Belo Horizonte, abrigando o Teatro Francisco Nunes e orquidários antigos.",
+                    tips: "Aproveite para alugar barcos a remo nos lagos históricos do parque ou passear pelas alamedas arborizadas. É um refúgio de silêncio no centro. O local fica do lado do Palácio das Artes, que conta com ótimas opções de cafeterias e espaços de arte contemporânea.",
+                    context: "Os lagos e barcos passaram por uma restauração técnica completa em sua infraestrutura. O acesso é gratuito, mas os portões fecham rigorosamente no horário limite de fim de tarde."
+                },
+                en: {
+                    title: "Américo Renné Giannetti Municipal Park",
+                    history: "Opened in 1897, even before the official completion of the capital, the Municipal Park is the oldest ecological heritage site in the city. Designed by French landscape architect Paul Villon, the park was inspired by French romantic gardens. It functions as an essential green lung inside Belo Horizonte's hypercenter.",
+                    tips: "Rent a paddle boat on the park's historic lakes or stroll down the quiet, shaded paths. The park is right next to Palácio das Artes, which features excellent contemporary art galleries and cafes.",
+                    context: "The lakes and boats underwent a full technical infrastructure restoration. Admission is free, but the gates close strictly at the scheduled evening closing time."
+                },
+                es: {
+                    title: "Parque Municipal Américo Renné Giannetti",
+                    history: "Inaugurado en 1897, antes de la inauguración oficial de la ciudad, el Parque Municipal es el patrimonio ecológico más antiguo de la capital. Diseñado por el paisajista francés Paul Villon, se inspiró en los jardines románticos franceses. Funciona como un pulmón verde esencial en el denso centro urbano.",
+                    tips: "Aproveche para alquilar botes de remo en los lagos históricos del parque. El lugar está al lado del Palácio das Artes, que cuenta con excelentes opciones de cafeterías y espacios de arte.",
+                    context: "Los lagos y botes pasaron por una restauración técnica de su infraestructura. El acceso es gratuito, pero las puertas cierran estrictamente por la tarde."
+                }
+            },
+            feirahippie: {
+                address: "Av. Afonso Pena, s/n (entre Rua da Bahia e Rua Guajajaras) - Centro, Belo Horizonte - MG",
+                hours: "Exclusivamente aos Domingos, das 07:00 às 14:00",
+                pt: {
+                    title: "Feira de Artesanato da Afonso Pena (Feira Hippie)",
+                    history: "Nascida de forma espontânea na Praça da Liberdade em 1969 por iniciativa de artistas plásticos e artesãos de movimentos de vanguarda, a feira cresceu exponencialmente até ser transferida para a Avenida Afonso Pena em 1991. Popularmente apelidada de Feira Hippie, o local consolidou-se como a maior feira de artesanato a céu aberto de toda a América Latina, dividida em setores organizados que vendem desde vestuários, calçados e tapeçarias exclusivas até obras de arte originais e quitutes mineiros tradicionais.",
+                    tips: "Chegue cedo (por volta das 8h) para caminhar com mais espaço entre as barracas. Não deixe de visitar as barracas de alimentação e provar o acarajé mineiro ou o pastel frito na hora com caldo de cana gelado. O entorno da Praça Sete possui restaurantes tradicionais operando.",
+                    context: "A feira opera sob um layout de quarteirões organizados pela prefeitura para otimizar o fluxo de turistas. O trânsito na Avenida Afonso Pena fica completamente bloqueado nas primeiras horas do domingo para a montagem e desmontagem das estruturas das barracas."
+                },
+                en: {
+                    title: "Afonso Pena Crafts Fair (Hippie Fair)",
+                    history: "Spontaneously born at Liberty Square in 1969 by plastic artists and artisans from counterculture movements, the market grew and moved to Afonso Pena Avenue in 1991. Known as the Hippie Fair, it established itself as the largest open-air crafts fair in Latin America, divided into strictly organized sectors.",
+                    tips: "Arrive early (around 8 AM) to avoid the biggest crowds. Make sure to visit the food sections to try fresh street snacks like fried pastel paired with sugarcane juice. The surrounding blocks near Praça Sete offer traditional lunch options.",
+                    context: "The fair operates under structured street grids managed by city hall to optimize visitor safety. Traffic along Afonso Pena Avenue is completely blocked during Sunday daytime hours for the fair tents."
+                },
+                es: {
+                    title: "Feria de Artesanías de Afonso Pena (Feria Hippie)",
+                    history: "Nacida de forma espontánea en la Plaza de la Libertad en 1969 por artistas y artesanos, la feria creció exponencialmente hasta ser trasladada a la Avenida Afonso Pena en 1991. Llamada Feria Hippie, es la mayor feria de artesanía a cielo abierto de América Latina.",
+                    tips: "Llegue temprano (alrededor de las 8 AM) para caminar con más espacio. No deje de visitar los sectores de comida para degustar pastel frito al momento con jugo de caña. El entorno de la Praça Sete ofrece restaurantes tradicionales.",
+                    context: "La feria opera bajo un diseño organizado por la municipalidad para optimizar el flujo. El tráfico en la Avenida Afonso Pena queda completamente bloqueado las primeras horas del domingo."
+                }
             }
         };
 
@@ -510,10 +845,44 @@
                     el.innerHTML = translations[lang][key];
                 }
             });
+            // Se a tela de detalhes estiver aberta, atualiza o conteúdo no idioma selecionado dinamicamente
+            if (document.getElementById('details-screen').classList.contains('active') && currentActivePlaceKey) {
+                renderPlaceDetails(currentActivePlaceKey);
+            }
+        }
+
+        // 📋 SISTEMA DINÂMICO DE DETALHES TURÍSTICOS
+        let currentActivePlaceKey = null;
+        function openDetails(placeKey) {
+            ativarTelaCheia();
+            currentActivePlaceKey = placeKey;
+            renderPlaceDetails(placeKey);
+            changeScreen('details-screen');
+        }
+
+        function renderPlaceDetails(key) {
+            const data = turismoData[key];
+            const localInfo = data[currentLang];
+            
+            document.getElementById('details-title').innerText = localInfo.title;
+            document.getElementById('details-address').innerText = data.address;
+            document.getElementById('details-hours').innerText = data.hours;
+            document.getElementById('details-history').innerText = localInfo.history;
+            document.getElementById('details-tips').innerText = localInfo.tips;
+            document.getElementById('details-context').innerText = localInfo.context;
+            
+            // Link de Navegação Universal no Google Maps pelo Endereço Escrito (sem expor coordenadas técnicas)
+            const encodedAddress = encodeURIComponent(data.address);
+            const gpsBtn = document.getElementById('details-gps-btn');
+            gpsBtn.setAttribute('onclick', `window.open('https://www.google.com/maps/search/?api=1&query=${encodedAddress}', '_blank')`);
+            
+            // Visualização Prévia do Local segura e livre de erros (Iframe incorporado de forma assíncrona baseado no endereço)
+            const mapContainer = document.getElementById('details-map-container');
+            mapContainer.innerHTML = `<iframe src="https://maps.google.com/maps?q=${encodedAddress}&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>`;
         }
 
         // 📱 FUNÇÃO DE TELA CHEIA E PAISAGEM FORÇADA 
-        function ativarTelaCheia() {
+        function activarTelaCheia() {
             try {
                 let elem = document.documentElement;
                 if (elem.requestFullscreen) { elem.requestFullscreen().catch(e => {}); }
@@ -561,17 +930,17 @@
             images[key].src = imageFiles[key];
         }
 
-        // ⚡ VARIÁVEIS DE TIMING (Padrão Ouro para Canvas sem stuttering)
+        // ⚡ VARIÁVEIS DE TIMING
         let gameLoopId;
         let lastTime = 0;
         let accumulator = 0;
-        const TIME_STEP = 1000 / 60; // 60hz exatos para a lógica do jogo
+        const TIME_STEP = 1000 / 60; // 60hz para a física
 
         let score = 0;
         let gameSpeed = 7; 
         const maxSpeed = 16;
         let currentStage = 1;
-        let nextSpeedIncreaseScore = 520; 
+        let nextSpeedIncreaseScore = 150; // Ajustado proporcionalmente à nova velocidade de cenário
         
         let bgX = 0;
         let bgLeft = 'bg_pampulha';
@@ -623,7 +992,7 @@
             score = 0;
             gameSpeed = 7;
             currentStage = 1;
-            nextSpeedIncreaseScore = 520; 
+            nextSpeedIncreaseScore = 150; // Inicializa compensado
             bgX = 0;
             bgLeft = 'bg_pampulha';
             bgRight = 'bg_pampulha';
@@ -631,7 +1000,6 @@
             spawnCooldown = 50;
             consecutivesAerials = 0; 
             
-            // Reseta timers do Loop Suave
             lastTime = performance.now();
             accumulator = 0;
             
@@ -658,30 +1026,25 @@
         canvas.addEventListener('touchstart', (e) => { triggerJump(); e.preventDefault(); }, {passive: false});
         canvas.addEventListener('mousedown', () => { triggerJump(); });
 
-        // 🔄 LOOP GAMEPLAY (Timestep Fixo - A solução definitiva para stutters de FrameRate)
+        // 🔄 LOOP GAMEPLAY
         function loop(timestamp) {
             try {
                 gameLoopId = requestAnimationFrame(loop);
                 
-                // Pega a diferença real de tempo entre este quadro e o último
                 let deltaTime = timestamp - lastTime;
                 lastTime = timestamp;
 
-                // Se o usuário minimizou a aba, evita acumular muito tempo (previne lag intenso na volta)
                 if (deltaTime > 250) deltaTime = 250;
-
                 accumulator += deltaTime;
 
                 let requiresDraw = false;
 
-                // Roda a física exatamente em blocos de 16.66ms (60 FPS puros)
                 while (accumulator >= TIME_STEP) {
                     update();
                     accumulator -= TIME_STEP;
-                    requiresDraw = true; // Só precisamos desenhar algo na tela se a física se moveu
+                    requiresDraw = true;
                 }
 
-                // Desenha perfeitamente sincronizado, economizando recursos de GPU
                 if (requiresDraw) {
                     draw();
                 }
@@ -695,15 +1058,17 @@
             score += 0.15;
             let displayScore = Math.floor(score);
 
-            let cycle = Math.floor(displayScore / 350);
+            // ⚡ MECÂNICA DE CENÁRIO REBALANCEADA: Mudança estrita a cada 100 pontos
+            let cycle = Math.floor(displayScore / 100);
             currentStage = (cycle % 4) + 1; 
 
+            // ⚡ COMPENSAÇÃO DA CURVA DE VELOCIDADE: Incremento mais suave e proporcional (0.6) para manter a jogabilidade refinada
             if (displayScore >= nextSpeedIncreaseScore) {
                 if (gameSpeed < maxSpeed) {
-                    gameSpeed += 1.5; 
+                    gameSpeed += 0.6; 
                     if (gameSpeed > maxSpeed) gameSpeed = maxSpeed;
                 }
-                nextSpeedIncreaseScore += 520;
+                nextSpeedIncreaseScore += 150;
             }
 
             const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
@@ -792,15 +1157,14 @@
             }
         }
 
-        // 🛡️ Desenho Seguro com Math.floor (Impede vibração de pixels nas decimais)
+        // 🛡️ DESENHO SEGURO (Preve vibracao de pixels)
         function desenharSeguro(imgKey, x, y, w, h) {
             try {
                 let img = images[imgKey];
-                // Math.floor garante que coordenadas fluam apenas para baixo, impedindo tremulação de subpixel
-                let pixelX = Math.floor(x);
-                let pixelY = Math.floor(y);
-                let pixelW = Math.floor(w);
-                let pixelH = Math.floor(h);
+                let pixelX = Math.round(x);
+                let pixelY = Math.round(y);
+                let pixelW = Math.round(w);
+                let pixelH = Math.round(h);
                 
                 if (img && img.complete && img.naturalWidth > 0) {
                     ctx.drawImage(img, pixelX, pixelY, pixelW, pixelH);
@@ -812,7 +1176,6 @@
         }
 
         function draw() {
-            // Removido o ctx.clearRect, pois os fundos já cobrem a tela inteira. Dá um belo alívio pra GPU.
             desenharSeguro(bgLeft, bgX, 0, 1280, 720);
             desenharSeguro(bgRight, bgX + 1280, 0, 1280, 720);
 
@@ -824,7 +1187,7 @@
             let pImgName = player.isJumping ? `${skinPrefix}_parado` : `${skinPrefix}_corre${player.currentFrame}`;
             desenharSeguro(pImgName, player.x, player.y, player.width, player.height);
 
-            // ⚡ TEXTOS OTIMIZADOS
+            // ⚡ TEXTOS E CONTADORES DE TELA
             ctx.font = "bold 35px 'Nunito', sans-serif";
             let pontuacaoTexto = `${translations[currentLang].pts}: ${Math.floor(score)}`;
             
