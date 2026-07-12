@@ -345,7 +345,7 @@
         
         /* Estilização específica para as listas do Guia de Visitação */
         .visitor-guide-list {
-            list-style-type: disc;
+            list-style-type: decimal;
             margin-left: 20px;
             margin-bottom: 15px;
         }
@@ -365,7 +365,6 @@
             color: #fff; text-decoration: none; font-weight: 800;
             border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.4);
             font-size: 0.95rem; transition: transform 0.2s;
-            margin-bottom: 15px;
         }
         .cta-link:active { transform: scale(0.95); }
         .gastro-item {
@@ -547,11 +546,13 @@
             <button class="btn btn-darkblue" style="margin-top: 30px; margin-bottom: 40px;" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="backMenu">VOLTAR AO MENU</button>
         </div>
 
-        <!-- 📋 TELA DINÂMICA DE DETALHES -->
+        <!-- 📋 NOVA TELA DINÂMICA DE DETALHES COM ACORDEONS -->
         <div id="details-screen" class="screen">
             <div class="details-wrapper">
                 <div class="details-header">
-                    <div class="details-map-preview" id="details-map-container"></div>
+                    <div class="details-map-preview" id="details-map-container">
+                        <!-- Preenchido via JS -->
+                    </div>
                     <div class="details-info-block">
                         <h2 id="details-title">Nome do Lugar</h2>
                         <div class="details-meta-item"><i>📍</i> <span><b data-i18n="lblAddress">Endereço</b>:<br> <span id="details-address">---</span></span></div>
@@ -560,7 +561,7 @@
                 </div>
                 
                 <div class="details-body">
-                    <details class="custom-accordion">
+                    <details class="custom-accordion" open>
                         <summary>🏛️ &nbsp; <span data-i18n="lblHistory">1. Sobre o Lugar</span></summary>
                         <div class="accordion-content" id="details-history">---</div>
                     </details>
@@ -579,16 +580,6 @@
                         <summary>🍽️ &nbsp; <span data-i18n="lblGastro">4. Gastronomia</span></summary>
                         <div class="accordion-content" id="details-gastro">---</div>
                     </details>
-
-                    <details class="custom-accordion" open>
-                        <summary>🚲 &nbsp; <span data-i18n="lblMobility">5. Mobilidade & Transporte</span></summary>
-                        <div class="accordion-content" id="details-mobility">---</div>
-                    </details>
-
-                    <details class="custom-accordion" open>
-                        <summary>💡 &nbsp; <span data-i18n="lblCuriosities">6. Curiosidades</span></summary>
-                        <div class="accordion-content" id="details-curiosities">---</div>
-                    </details>
                 </div>
             </div>
             
@@ -601,7 +592,7 @@
     </div>
 
     <script>
-        // 🛡️ DICIONÁRIO DE IDIOMAS 
+        // 🛡️ DICIONÁRIO DE IDIOMAS ATUALIZADO
         const translations = {
             pt: {
                 title: "Circuito BH:<br>Pixel Dash", play: "JOGAR", howTo: "COMO JOGAR", cultural: "CONHECER BH",
@@ -618,7 +609,7 @@
                 txtAfonsoPenaCard: "A espinha dorsal de BH, planejada no século XIX. Um corredor histórico com arquitetura eclética e árvores centenárias.",
                 txtParqueMunicipalCard: "O coração verde no centro da metrópole. Inspirado na Belle Époque, conta com lagos românticos, teatros e imensa biodiversidade.",
                 txtFeiraHippieCard: "A maior feira de artesanato a céu aberto da América Latina. Ocupa a Afonso Pena todos os domingos com arte, moda e comida.",
-                lblAddress: "Endereço", lblHours: "Funcionamento", lblHistory: "1. Sobre & História", lblNews: "2. Atualidades", lblGuide: "3. Guia Prático de Visitação", lblGastro: "4. Gastronomia (Onde Comer)", lblMobility: "5. Mobilidade & Transporte", lblCuriosities: "6. Curiosidades", openGps: "VER NO MAPA (GPS)"
+                lblAddress: "Endereço", lblHours: "Funcionamento", lblHistory: "1. Sobre & História Detalhada", lblNews: "2. Atualidades & Política", lblGuide: "3. Guia Prático de Visitação", lblGastro: "4. Gastronomia (Onde Comer)", openGps: "VER NO MAPA (GPS)"
             },
             en: {
                 title: "BH Circuit:<br>Pixel Dash", play: "PLAY", howTo: "HOW TO PLAY", cultural: "DISCOVER BH",
@@ -635,7 +626,7 @@
                 txtAfonsoPenaCard: "The spine of BH, planned in the 19th century. A historical corridor with eclectic architecture and century-old trees.",
                 txtParqueMunicipalCard: "The green heart of the metropolis. Inspired by the Belle Époque, featuring romantic lakes, theaters, and immense biodiversity.",
                 txtFeiraHippieCard: "The largest open-air craft fair in Latin America. Occupies Afonso Pena every Sunday with art, fashion, and food.",
-                lblAddress: "Address", lblHours: "Hours", lblHistory: "1. Detailed History", lblNews: "2. News", lblGuide: "3. Visitor Guide", lblGastro: "4. Gastronomy", lblMobility: "5. Mobility & Transport", lblCuriosities: "6. Fun Facts", openGps: "OPEN IN MAPS"
+                lblAddress: "Address", lblHours: "Hours", lblHistory: "1. Detailed History", lblNews: "2. News & Political Context", lblGuide: "3. Step-by-Step Visitor Guide", lblGastro: "4. Gastronomy", openGps: "OPEN IN MAPS"
             },
             es: {
                 title: "Circuito BH:<br>Pixel Dash", play: "JUGAR", howTo: "CÓMO JUGAR", cultural: "CONOCER BH",
@@ -652,7 +643,7 @@
                 txtAfonsoPenaCard: "La columna vertebral de BH, planificada en el siglo XIX. Un corredor histórico con arquitectura ecléctica.",
                 txtParqueMunicipalCard: "El corazón verde en el centro. Inspirado en la Belle Époque, cuenta con lagos románticos y gran biodiversidad.",
                 txtFeiraHippieCard: "La mayor feria de artesanía a cielo abierto de América Latina. Ocupa la Afonso Pena todos los domingos.",
-                lblAddress: "Dirección", lblHours: "Horario", lblHistory: "1. Sobre e Historia", lblNews: "2. Actualidad", lblGuide: "3. Guía de Visita", lblGastro: "4. Gastronomía", lblMobility: "5. Movilidad y Transporte", lblCuriosities: "6. Curiosidades", openGps: "ABRIR EN MAPAS"
+                lblAddress: "Dirección", lblHours: "Horario", lblHistory: "1. Sobre e Historia", lblNews: "2. Actualidad y Política", lblGuide: "3. Guía Práctica de Visita", lblGastro: "4. Gastronomía", openGps: "ABRIR EN MAPAS"
             }
         };
 
@@ -686,37 +677,31 @@
             try { if (somGameOver.readyState > 0) { somGameOver.currentTime = 0; somGameOver.play().catch(()=>{}); } } catch(e) {}
         }
 
-        // 📋 BANCO DE DADOS ATUALIZADO 
+        // 📋 BANCO DE DADOS ATUALIZADO: HISTÓRIAS LONGAS, NOTÍCIAS, GUIA EXPLÍCITO E HAMBURGUERIA
         const turismoData = {
             pampulha: {
                 address: "Av. Otacílio Negrão de Lima - Pampulha, Belo Horizonte - MG",
-                hours: "Orla: 24h | Casa Kubitschek: Qua a Dom (10h às 18h) | Igreja: Ter a Dom (08h às 17h)",
+                hours: "Orla: 24h | Museu Casa Kubitschek: Qua a Dom (10h às 18h) | Igreja: Ter a Dom (08h às 17h)",
                 pt: {
                     title: "Circuito da Pampulha",
-                    history: "<p>Projetado na década de 1940 pelo gênio arquitetônico Oscar Niemeyer, a pedido do então prefeito Juscelino Kubitschek, o Conjunto Moderno da Pampulha revolucionou a forma de se construir no Brasil. A proposta unia a leveza do concreto armado às curvas ousadas que simulavam as montanhas de Minas Gerais.</p><p>Com os fantásticos jardins projetados por Roberto Burle Marx e os azulejos de Cândido Portinari, o circuito conquistou o cobiçado título de Patrimônio Cultural da Humanidade pela UNESCO em 2016.</p>",
-                    news: "<p>No âmbito ambiental, o principal foco tem sido o contínuo projeto de despoluição da Lagoa da Pampulha. Novas tecnologias de tratamento e fiscalizações rigorosas de despejo irregular foram implementadas para garantir a qualidade de vida das capivaras e aves nativas da região.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Inicie pela Igreja:</strong> A luz da manhã valoriza os azulejos de Portinari.</li><li><strong>2. Casa do Baile:</strong> Faça uma parada estratégica nesta ilha artificial para fotos.</li><li><strong>3. Pôr do sol:</strong> Finalize o passeio no Museu de Arte, o melhor lugar para ver o sol sumindo nas águas.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Xapuri</h4><span>Tradicional Mineiro / Fogão a Lenha / Restaurante Histórico</span></div>",
-                    mobility: "<p><strong>Linhas de Ônibus:</strong> As opções de acesso mais usadas são as linhas 5106, 51, 64, 5107, 6350 e S55. A linha 5106 costuma ser a mais prática partindo do centro.</p><p><strong>Indicação Especial (Zoológico e Botânico):</strong> Ao planejar o circuito, vale muito a pena estender o passeio até a Fundação de Parques e Zoobotanística. O agendamento e compra de ingressos (pedestres e veículos) devem ser feitos diretamente pelo site oficial da Prefeitura de Belo Horizonte.</p><a href='https://prefeitura.pbh.gov.br/' target='_blank' class='cta-link'>🎟️ Portal de Serviços PBH - Ingressos Zoobotanística</a><p><strong>Aluguel de Bikes:</strong> A orla é o local mais tradicional para pedalar em BH. O aplicativo oficial da cidade (Tembici) tem estações espalhadas por quase todos os pontos turísticos do entorno. Lojas de locação presencial também estão na Avenida Otacílio.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 App Tembici (Bike BH)</a>",
-                    curiosities: "<ul class='visitor-guide-list'><li>A Lagoa da Pampulha não é uma formação natural; ela é inteiramente artificial, criada nos anos 1940 durante a gestão de JK.</li><li>A <strong>Casa Kubitschek</strong>, que foi residência de fim de semana de JK na orla, guarda uma excentricidade: sua piscina foi projetada propositalmente com curvas que imitam o formato sinuoso da própria Lagoa da Pampulha.</li><li>O atual Museu de Arte (MAP) já funcionou como um luxuoso e badalado cassino na década de 1940.</li><li>A Igreja de São Francisco causou choque na época. Por suas curvas ousadas, foi rejeitada por alas tradicionais da sociedade.</li><li>O Jardim Botânico (junto ao Zoológico) abriga uma estufa incrível que recria perfeitamente as condições da Mata Atlântica e do Cerrado.</li></ul>"
+                    history: "<p>Projetado na década de 1940 pelo gênio arquitetônico Oscar Niemeyer, a pedido do então prefeito Juscelino Kubitschek, o Conjunto Moderno da Pampulha revolucionou a forma de se construir no Brasil. A proposta unia a leveza do concreto armado às curvas ousadas que simulavam as montanhas de Minas Gerais.</p><p>O complexo foi planejado em torno de uma lagoa artificial e englobava originalmente um cassino (atual Museu de Arte), o Iate Clube, a Casa do Baile e a famosíssima Igreja de São Francisco de Assis, que chegou a ser rejeitada por setores conservadores na época de sua inauguração.</p><p>Com os fantásticos jardins projetados por Roberto Burle Marx e os azulejos de Cândido Portinari, o circuito conquistou o cobiçado título de Patrimônio Cultural da Humanidade pela UNESCO em 2016.</p>",
+                    news: "<p>No âmbito político e ambiental, o principal foco do poder público e de organizações ecológicas tem sido o contínuo projeto de despoluição da Lagoa da Pampulha. Recentemente, novas tecnologias de tratamento das águas e fiscalizações rigorosas de despejo irregular nos córregos afluentes foram implementadas para garantir a preservação do status de patrimônio perante a UNESCO e a qualidade de vida das capivaras e aves nativas da região.</p>",
+                    guide: "<p>Siga este guia prático para aproveitar ao máximo a orla:</p><ul class='visitor-guide-list'><li><strong>1. Inicie pela Igreja:</strong> Chegue cedo e comece a visita pela Igreja de São Francisco de Assis. A luz da manhã valoriza os azulejos de Portinari.</li><li><strong>2. Alugue uma Bicicleta:</strong> Há várias estações de locação próximas. Pedalar pela orla plana é a melhor forma de transitar entre os monumentos.</li><li><strong>3. Casa do Baile:</strong> Faça uma parada estratégica nesta ilha artificial ligada por uma ponte de concreto curva para tirar fotos inesquecíveis.</li><li><strong>4. Pôr do sol:</strong> Finalize o passeio no Museu de Arte (antigo Cassino) ou no gramado em frente à lagoa, o melhor lugar para ver o sol sumindo nas águas.</li></ul><a href='https://prefeitura.pbh.gov.br/fundacao-municipal-de-cultura/museus' target='_blank' class='cta-link'>🎟️ Informações e Ingressos Oficiais</a>",
+                    gastro: "<div class='gastro-item'><h4>Xapuri</h4><span>Tradicional Mineiro / Fogão a Lenha / Restaurante Histórico</span></div><div class='gastro-item'><h4>Paladino</h4><span>Restaurante Fazenda / Carnes Especiais</span></div>"
                 },
                 en: {
                     title: "Pampulha Circuit",
-                    history: "<p>Designed in the 1940s by architectural genius Oscar Niemeyer. It combined the lightness of reinforced concrete with bold curves simulating the mountains of Minas Gerais. It was designated a UNESCO World Heritage site in 2016.</p>",
-                    news: "<p>Environmentally, the main focus is the ongoing project to clean the Pampulha Lagoon to preserve its UNESCO status and protect local wildlife.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Church:</strong> Morning light highlights the tiles perfectly.</li><li><strong>2. Sunset:</strong> End your tour near the Art Museum for the best sunset view.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Xapuri</h4><span>Traditional Wood-Fired Minas Cuisine</span></div>",
-                    mobility: "<p><strong>Bus:</strong> Route 5106 is the most practical from downtown.</p><p><strong>Zoo Tickets:</strong> Extend your tour to the Zoo and Botanical Garden. Tickets must be purchased in advance via the City Hall portal.</p><a href='https://prefeitura.pbh.gov.br/' target='_blank' class='cta-link'>🎟️ Official Zoo Tickets</a><p><strong>Bike Rental:</strong> Use the official Tembici app to rent bikes across the lake's shores.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Download Tembici App</a>",
-                    curiosities: "<ul class='visitor-guide-list'><li>The lagoon is entirely artificial, created in the 1940s.</li><li>The <strong>Casa Kubitschek</strong> pool was architecturally designed to mimic the exact sinuous shape of the Pampulha Lagoon itself.</li><li>The Art Museum used to be a luxurious casino.</li></ul>"
+                    history: "<p>Designed in the 1940s by architectural genius Oscar Niemeyer, at the request of mayor Juscelino Kubitschek, the Pampulha Modern Ensemble revolutionized architecture in Brazil. The proposal combined the lightness of reinforced concrete with bold curves simulating the mountains of Minas Gerais.</p><p>The complex originally included a casino (now an Art Museum), the Yacht Club, the Casa do Baile, and the famous St. Francis Church. With gardens by Burle Marx and tiles by Portinari, it was designated a UNESCO World Heritage site in 2016.</p>",
+                    news: "<p>Politically and environmentally, the main focus is the ongoing project to clean the Pampulha Lagoon. Recently, new water treatment technologies and strict inspections of irregular dumping were implemented to preserve its UNESCO status and protect local wildlife.</p>",
+                    guide: "<p>Follow this step-by-step guide:</p><ul class='visitor-guide-list'><li><strong>1. Start at the Church:</strong> Morning light highlights Portinari's tiles perfectly.</li><li><strong>2. Rent a Bike:</strong> Cycling is the best way to travel between the monuments along the flat shore.</li><li><strong>3. Casa do Baile:</strong> Stop at this artificial island connected by a curved bridge for photos.</li><li><strong>4. Sunset:</strong> End your tour near the Art Museum for the best sunset view over the lagoon.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Xapuri</h4><span>Traditional Wood-Fired Minas Cuisine</span></div>"
                 },
                 es: {
                     title: "Circuito Pampulha",
-                    history: "<p>Diseñado en los 1940 por Oscar Niemeyer. Fue designado Patrimonio de la Humanidad por la UNESCO en 2016.</p>",
-                    news: "<p>El enfoque principal es el proyecto en curso para limpiar la Laguna de Pampulha y proteger la fauna local.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Iglesia:</strong> La luz de la mañana resalta los azulejos.</li><li><strong>2. Atardecer:</strong> Termine en el Museo de Arte para la mejor vista.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Xapuri</h4><span>Comida Tradicional a Leña</span></div>",
-                    mobility: "<p><strong>Autobús:</strong> La línea 5106 es la más práctica desde el centro.</p><p><strong>Entradas al Zoológico:</strong> Los boletos deben comprarse anticipadamente a través del portal del Ayuntamiento.</p><a href='https://prefeitura.pbh.gov.br/' target='_blank' class='cta-link'>🎟️ Entradas Zoológico</a><p><strong>Bicicletas:</strong> Use la aplicación Tembici para alquilar bicicletas en la orilla.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Descargar App Tembici</a>",
-                    curiosities: "<ul class='visitor-guide-list'><li>La laguna es completamente artificial.</li><li>La piscina de la <strong>Casa Kubitschek</strong> fue diseñada para imitar la forma curva de la Laguna de Pampulha.</li><li>El Museo de Arte solía ser un lujoso casino.</li></ul>"
+                    history: "<p>Diseñado en los 1940 por Oscar Niemeyer, a petición del alcalde Juscelino Kubitschek, el Conjunto Moderno de Pampulha revolucionó la arquitectura brasileña. El complejo originalmente incluía un casino, el Club Náutico, la Casa do Baile y la famosa Iglesia de San Francisco.</p><p>Con jardines de Burle Marx y azulejos de Portinari, fue designado Patrimonio de la Humanidad por la UNESCO en 2016.</p>",
+                    news: "<p>Políticamente, el enfoque principal es el proyecto en curso para limpiar la Laguna de Pampulha. Recientemente se han implementado nuevas tecnologías para proteger la fauna local y mantener el estatus de la UNESCO.</p>",
+                    guide: "<p>Guía paso a paso:</p><ul class='visitor-guide-list'><li><strong>1. Inicie en la Iglesia:</strong> La luz de la mañana resalta los azulejos.</li><li><strong>2. Alquile una bicicleta:</strong> Ideal para recorrer los monumentos.</li><li><strong>3. Casa do Baile:</strong> Parada obligatoria para fotos.</li><li><strong>4. Atardecer:</strong> Termine en el Museo de Arte para la mejor vista.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Xapuri</h4><span>Comida Tradicional a Leña</span></div>"
                 }
             },
             mercado: {
@@ -724,61 +709,49 @@
                 hours: "Seg a Sáb (07:00 às 18:00) | Dom e Feriados (07:00 às 13:00)",
                 pt: {
                     title: "Mercado Central",
-                    history: "<p>Inaugurado em 1929, nasceu como um centro de abastecimento. Na década de 1960, a prefeitura decidiu leiloar o terreno, mas os próprios feirantes se organizaram, compraram o espaço e construíram o galpão coberto que conhecemos hoje.</p>",
-                    news: "<p>Em 2026, a mineradora Vale adquiriu os direitos de nome, mas adotou a estratégia de não alterar o nome do local (Right Naming), preservando a tradição mineira para as reformas do centenário. Outro marco foi a lei que proibiu o comércio de animais vivos no local.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Degustação:</strong> Siga direto para os corredores centrais para provar Queijo Canastra.</li><li><strong>2. Boteco:</strong> Peça o clássico Fígado Acebolado com Jiló.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Bar da Lora</h4><span>Famoso Fígado com Jiló</span></div>",
-                    mobility: "<p><strong>Acesso e Bicicletas:</strong> Localizado no coração pulsante do centro, o acesso de carro pode ser congestionado. Há ciclofaixas ao redor e estações do Tembici bem em frente à entrada da Avenida Augusto de Lima.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 App Tembici (Bike BH)</a>",
-                    curiosities: "<ul class='visitor-guide-list'><li>O mercado abriga uma capela dedicada a Nossa Senhora de Fátima.</li><li>Existem corredores focados exclusivamente no misticismo e religiosidade, vendendo ervas curativas e artigos de matriz africana.</li></ul>"
+                    history: "<p>Inaugurado em 1929, o Mercado Central nasceu como um centro de abastecimento a céu aberto para prover alimentos à nova e planejada capital do estado. Na década de 1960, a prefeitura decidiu leiloar o terreno, mas os próprios feirantes se organizaram, compraram o espaço e construíram o galpão coberto que conhecemos hoje.</p><p>Ao longo das décadas, o Mercado se transformou. Deixou de ser um simples local de hortifrúti para se tornar o polo da cultura, artesanato e gastronomia de Minas Gerais, sendo eleito por publicações internacionais como um dos melhores mercados do mundo, abrigando desde rapaduras artesanais até itens de religiosidade afro-brasileira.</p>",
+                    news: "<p>Recentemente, o Mercado esteve no centro de uma polêmica sobre os 'naming rights' (direitos de nome). Em setembro de 2024, um acordo com a casa de apostas KTO resultou no nome 'Mercado Central KTO', gerando forte rejeição dos frequentadores por ferir a identidade do patrimônio. O desfecho ocorreu em julho de 2026, quando a mineradora Vale adquiriu os direitos, mas anunciou a decisão estratégica de não alterar o nome do local (um conceito de 'Right Naming'). A marca original foi mantida em respeito à tradição mineira, e o investimento será direcionado exclusivamente para obras de infraestrutura visando o centenário do mercado em 2029.</p><p>Outro marco importante na história foi a aprovação da lei municipal que proibiu definitivamente o comércio de animais vivos no local. O espaço das antigas gaiolas foi revitalizado e ocupado por novas lojas de artesanato sustentável e armazéns.</p>",
+                    guide: "<p>Organize sua rota no labirinto de corredores:</p><ul class='visitor-guide-list'><li><strong>1. Entrada Estratégica:</strong> Utilize a entrada principal pela Av. Augusto de Lima e pegue um mapa no balcão de informações.</li><li><strong>2. Degustação de Queijos:</strong> Siga direto para os corredores térreos centrais para provar o verdadeiro Queijo Canastra com Doce de Leite (é cortesia nas barracas).</li><li><strong>3. Experiência de Boteco:</strong> Encontre um espaço no balcão do Bar da Lora ou Casa Cheia e peça o clássico Fígado Acebolado com Jiló.</li><li><strong>4. Compras de Cachaça e Artesanato:</strong> Explore as lojas laterais para encontrar panelas de pedra sabão e cachaças envelhecidas autênticas.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Bar da Lora</h4><span>Boteco Raiz / Famoso Fígado com Jiló</span></div><div class='gastro-item'><h4>Roça Capital</h4><span>Cafeteria e Queijaria Especializada</span></div>"
                 },
                 en: {
                     title: "Central Market",
-                    history: "<p>Opened in 1929, it evolved from an open-air supply center into the cultural and gastronomic heart of Minas Gerais.</p>",
-                    news: "<p>Recently, the sale of live animals was permanently banned, revitalizing the area into sustainable craft stores.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Cheese:</strong> Taste Canastra cheese for free.</li><li><strong>2. Bar Food:</strong> Try the classic Liver with Jiló.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Bar da Lora</h4><span>Traditional Local Bar Counter</span></div>",
-                    mobility: "<p><strong>Access & Bikes:</strong> Downtown can be crowded. Tembici bike stations are located right outside the main entrance.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Download Tembici App</a>",
-                    curiosities: "<ul class='visitor-guide-list'><li>The market features a small Catholic chapel hidden inside its corridors.</li><li>There are entire aisles dedicated to mystical herbs and Afro-Brazilian religious items.</li></ul>"
+                    history: "<p>Opened in 1929, the Central Market started as an open-air supply center for the new capital. In the 1960s, merchants bought the land to prevent it from being auctioned and built the covered structure we see today.</p><p>Over the decades, it evolved from a simple fruit market into the cultural and gastronomic heart of Minas Gerais, widely voted as one of the best markets globally.</p>",
+                    news: "<p>Recently, the market faced a 'naming rights' controversy. In September 2024, a deal with betting company KTO ('Mercado Central KTO') faced heavy public rejection. In July 2026, the mining company Vale acquired the rights but strategically decided not to change the name ('Right Naming'), preserving its traditional identity. The investment will focus on infrastructure for its 2029 centenary.</p><p>Another major milestone was the municipal law permanently banning the sale of live animals in the market, a victory for animal rights activists. The old pet sector was revitalized into sustainable craft stores.</p>",
+                    guide: "<p>Navigate the maze with this guide:</p><ul class='visitor-guide-list'><li><strong>1. Starting Point:</strong> Enter via Augusto de Lima Ave and grab a map.</li><li><strong>2. Cheese Tasting:</strong> Head to the main ground corridors to taste Canastra cheese with Dulce de Leche for free.</li><li><strong>3. Authentic Bar Food:</strong> Grab a spot at a counter and order the classic Liver with Jiló.</li><li><strong>4. Souvenirs:</strong> Look for soapstone pots and aged cachaça in the lateral aisles.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Bar da Lora</h4><span>Traditional Local Bar Counter</span></div><div class='gastro-item'><h4>Roça Capital</h4><span>Artisanal Cheeses & Coffee</span></div>"
                 },
                 es: {
                     title: "Mercado Central",
-                    history: "<p>Inaugurado en 1929, evolucionó hasta convertirse en el corazón gastronómico de Minas Gerais.</p>",
-                    news: "<p>Un hito reciente fue la ley que prohibió la venta de animales vivos, revitalizando el espacio con tiendas sostenibles.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Queso:</strong> Pruebe el Queso Canastra.</li><li><strong>2. Comida Tradicional:</strong> Pida Hígado con Jiló.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Bar da Lora</h4><span>Bar Tradicional de Barra</span></div>",
-                    mobility: "<p><strong>Acceso y Bicicletas:</strong> Hay estaciones de bicicletas Tembici justo enfrente de la entrada principal.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Descargar App Tembici</a>",
-                    curiosities: "<ul class='visitor-guide-list'><li>El mercado alberga una capilla católica en su interior.</li><li>Hay pasillos dedicados a hierbas místicas y artículos religiosos afrobrasileños.</li></ul>"
+                    history: "<p>Inaugurado en 1929, comenzó como un centro de abastecimiento al aire libre. En la década de 1960, los comerciantes compraron el terreno y construyeron el mercado cubierto actual.</p><p>Hoy es el corazón cultural de Minas Gerais, elegido como uno de los mejores mercados del mundo.</p>",
+                    news: "<p>Recientemente, el mercado enfrentó una polémica de 'naming rights'. En septiembre de 2024, un acuerdo con la casa de apuestas KTO ('Mercado Central KTO') generó un fuerte rechazo público. En julio de 2026, la minera Vale adquirió los derechos pero decidió estratégicamente no cambiar el nombre ('Right Naming'), preservando la tradición. La inversión se centrará en infraestructura para su centenario en 2029.</p><p>Otro hito fue la ley municipal que prohibió definitivamente la venta de animales vivos en el mercado, revitalizando el espacio con tiendas de artesanía sostenible.</p>",
+                    guide: "<p>Guía de visita:</p><ul class='visitor-guide-list'><li><strong>1. Entrada:</strong> Ingrese por la Avenida Augusto de Lima.</li><li><strong>2. Degustación:</strong> Vaya a los pasillos centrales para probar Queso Canastra.</li><li><strong>3. Comida Tradicional:</strong> Pida Hígado con Jiló en los bares de barra.</li><li><strong>4. Compras:</strong> Busque ollas de piedra jabón y cachaça.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Bar da Lora</h4><span>Bar Tradicional de Barra</span></div><div class='gastro-item'><h4>Roça Capital</h4><span>Cafetería y Quesos</span></div>"
                 }
             },
             liberdade: {
-                address: "Praça da Liberdade - Funcionários, Belo Horizonte - MG",
-                hours: "Praça 24h | Museus: Quarta a Segunda (10h às 22h)",
+                address: "Praça da Liberdade, s/n - Funcionários, Belo Horizonte - MG",
+                hours: "Praça 24h | Museus: Quarta a Segunda (Geralmente 10h às 22h)",
                 pt: {
                     title: "Circuito Liberdade",
-                    history: "<p>Inaugurada no final do século XIX, foi projetada para ser o centro monumental e administrativo de MG. Com a transferência do governo em 2010, os prédios se tornaram o maior polo integrado de cultura do país.</p>",
-                    news: "<p>A grande celebração recente foi a reabertura definitiva do Palácio da Liberdade para visitação pública gratuita, devolvendo o patrimônio à população.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. CCBB:</strong> Visite exposições internacionais gratuitas.</li><li><strong>2. Memorial Vale:</strong> Imersão na história do estado.</li><li><strong>3. Planetário:</strong> Visite o terraço astronômico ao cair da noite.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Café com Letras (No CCBB)</h4><span>Cafeteria Literária</span></div>",
-                    mobility: "<p><strong>Bicicletas e Acesso:</strong> A praça é plana e conectada por ótimas ciclovias à zona sul, sendo cercada por estações de locação de bicicletas do Tembici.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 App Tembici (Bike BH)</a>",
-                    curiosities: "<ul class='visitor-guide-list'><li>O traçado dos jardins foi inspirado no Palácio de Versalhes, na França.</li><li>O icônico coreto central tem detalhes acústicos e já foi palco de grandes discursos políticos.</li></ul>"
+                    history: "<p>Inaugurada no final do século XIX, a Praça da Liberdade foi projetada para ser o centro monumental e administrativo de Minas Gerais. O complexo contava com o Palácio do Governador e as imponentes Secretarias de Estado, em estilo eclético e neoclássico, mesclando-se com jardins de inspiração francesa alinhados a um corredor de palmeiras imperiais.</p><p>Com a transferência da sede do governo para a Cidade Administrativa em 2010, os antigos prédios governamentais foram esvaziados e inteiramente transformados no maior polo integrado de cultura do país. Hoje, a praça abriga museus interativos que recontam a história da arte, dos metais e da identidade mineira.</p>",
+                    news: "<p>Um acontecimento político e cultural muito celebrado recentemente foi a reabertura oficial e definitiva do Palácio da Liberdade (antiga residência oficial dos governadores) para visitação pública gratuita, sem a necessidade de agendamentos burocráticos rigorosos. O ato marcou o ápice da democratização da praça, devolvendo o patrimônio histórico integralmente à população civil.</p>",
+                    guide: "<p>Como explorar o polo cultural:</p><ul class='visitor-guide-list'><li><strong>1. Passeio pelas Palmeiras:</strong> Caminhe pela alameda central da praça para fotos deslumbrantes com o coreto histórico.</li><li><strong>2. Visite o CCBB (Centro Cultural Banco do Brasil):</strong> O prédio sediado na esquina exibe exposições internacionais imperdíveis e gratuitas.</li><li><strong>3. Memorial Minas Gerais Vale:</strong> Uma imersão sensorial de alto nível tecnológico na cultura, história e literatura do estado de Minas Gerais.</li><li><strong>4. Planetário:</strong> Visite o Espaço do Conhecimento UFMG ao cair da noite para observar as estrelas no terraço.</li></ul><a href='https://ccbb.com.br/belo-horizonte/' target='_blank' class='cta-link'>🎟️ Ingressos e Exposições (CCBB)</a>",
+                    gastro: "<div class='gastro-item'><h4>Duke 'n' Duke (Savassi)</h4><span>Premiada Hamburgueria Artesanal (Caminhada curta da praça)</span></div><div class='gastro-item'><h4>Café com Letras (Dentro do CCBB)</h4><span>Cafeteria Literária</span></div><div class='gastro-item'><h4>Dona Lucinha</h4><span>Tradicional Mineiro Raiz</span></div>"
                 },
                 en: {
                     title: "Liberty Circuit",
-                    history: "<p>Built in the late 19th century as the state's administrative center. In 2010, the historic secretariats were transformed into Brazil's largest integrated cultural pole.</p>",
-                    news: "<p>A recent cultural milestone was the permanent opening of the Liberty Palace (former governor's residence) for free public visits.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. CCBB:</strong> Visit for free international art exhibitions.</li><li><strong>2. Memorial Vale:</strong> Dive into local history.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Café com Letras</h4><span>Coffee & Bookstore</span></div>",
-                    mobility: "<p><strong>Bikes:</strong> The square is flat and surrounded by Tembici bike-sharing stations, making it perfect for cycling.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Download Tembici App</a>",
-                    curiosities: "<ul class='visitor-guide-list'><li>The gardens' layout was inspired by the Palace of Versailles in France.</li></ul>"
+                    history: "<p>Built in the late 19th century as the state's administrative center, Liberty Square blends French-inspired gardens with neoclassical architecture. Following the government's relocation in 2010, the historic secretariats were transformed into Brazil's largest integrated cultural pole, housing immersive museums.</p>",
+                    news: "<p>A recent cultural milestone was the permanent opening of the Liberty Palace (former governor's residence) for free public visits, symbolizing the total democratization of the state's historical heritage.</p>",
+                    guide: "<p>How to explore the circuit:</p><ul class='visitor-guide-list'><li><strong>1. The Palm Avenue:</strong> Walk down the central path for iconic photos.</li><li><strong>2. CCBB:</strong> Visit the Banco do Brasil Cultural Center for free international art exhibitions.</li><li><strong>3. Memorial Vale:</strong> Experience a sensory dive into the local history and culture.</li><li><strong>4. UFMG Knowledge Space:</strong> Check out the planetarium and rooftop stargazing.</li></ul><a href='https://ccbb.com.br/belo-horizonte/' target='_blank' class='cta-link'>🎟️ Exhibitions & Tickets (CCBB)</a>",
+                    gastro: "<div class='gastro-item'><h4>Duke 'n' Duke (Savassi)</h4><span>Award-Winning Craft Burgers (Short walk)</span></div><div class='gastro-item'><h4>Café com Letras</h4><span>Coffee & Bookstore (Inside CCBB)</span></div>"
                 },
                 es: {
                     title: "Circuito Libertad",
-                    history: "<p>Construida a finales del siglo XIX como centro administrativo. En 2010, se transformó en el mayor polo cultural integrado del país.</p>",
-                    news: "<p>El hito reciente fue la apertura gratuita del Palacio de la Libertad (antigua residencia del gobernador).</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. CCBB:</strong> Exposiciones de arte gratuitas.</li><li><strong>2. Memorial Vale:</strong> Inmersión en la historia local.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Café com Letras</h4><span>Cafetería y Libros</span></div>",
-                    mobility: "<p><strong>Bicicletas:</strong> La plaza está rodeada de estaciones Tembici, ideal para pasear en bicicleta.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Descargar App Tembici</a>",
-                    curiosities: "<ul class='visitor-guide-list'><li>Los jardines fueron inspirados en el Palacio de Versalles.</li></ul>"
+                    history: "<p>Construida a finales del siglo XIX como centro administrativo, mezcla jardines franceses y arquitectura neoclásica. En 2010, tras la mudanza del gobierno, los edificios se transformaron en el mayor polo cultural integrado del país.</p>",
+                    news: "<p>Un hito reciente fue la apertura permanente y gratuita del Palacio de la Libertad (antigua residencia del gobernador) al público, democratizando el patrimonio histórico.</p>",
+                    guide: "<p>Guía de exploración:</p><ul class='visitor-guide-list'><li><strong>1. Avenida de las Palmeras:</strong> Camine por el centro de la plaza.</li><li><strong>2. CCBB:</strong> Exposiciones de arte gratuitas.</li><li><strong>3. Memorial Vale:</strong> Inmersión tecnológica en la historia local.</li><li><strong>4. Planetario:</strong> Visite el Espacio del Conocimiento de la UFMG.</li></ul><a href='https://ccbb.com.br/belo-horizonte/' target='_blank' class='cta-link'>🎟️ Exposiciones (CCBB)</a>",
+                    gastro: "<div class='gastro-item'><h4>Duke 'n' Duke (Savassi)</h4><span>Hamburguesas Artesanales Premiadas</span></div><div class='gastro-item'><h4>Café com Letras</h4><span>Cafetería (En CCBB)</span></div>"
                 }
             },
             papa: {
@@ -786,30 +759,24 @@
                 hours: "Aberto ao público 24 horas",
                 pt: {
                     title: "Praça do Papa",
-                    history: "<p>Localizada na alta altitude do Mangabeiras, aos pés da Serra do Curral. A mudança de nome ocorreu na visita do Papa João Paulo II em 1980, que declarou: 'Que belo horizonte!'.</p>",
-                    news: "<p>Atualmente, passa por amplas obras de revitalização. Devido a múltiplos adiamentos, a previsão de entrega foi remarcada para meados de 2026. A sociedade civil também luta intensamente contra mineradoras na serra.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Pôr do sol:</strong> O gramado próximo à Cruz é o melhor ponto.</li><li><strong>2. Clima:</strong> A altitude traz ventos gelados, leve agasalho.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Pizzaria Olegário</h4><span>Italiana / Premium</span></div>",
-                    mobility: "<p><strong>Atenção ao Relevo e Bicicletas:</strong> O acesso até a Praça do Papa envolve ladeiras extremamente íngremes. Para acessar o local de bicicleta, recomenda-se enfaticamente o uso das <strong>bicicletas elétricas</strong> disponibilizadas nas estações do aplicativo Tembici.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 App Tembici (Bike BH)</a>",
-                    curiosities: "<ul class='visitor-guide-list'><li>Antes do Papa visitar, a área era conhecida apenas como um simples mirante de terra batida para jovens.</li><li>A Cruz Metálica gigante, Monumento à Paz, foi produzida com os mesmos aços das poderosas siderúrgicas mineiras.</li></ul>"
+                    history: "<p>Originalmente chamada Praça Israel Pinheiro, o local fica em uma região de alta altitude no nobre bairro Mangabeiras, aos pés da exuberante Serra do Curral. Antes de se tornar um ponto turístico, era apenas um belvedere natural procurado pelos jovens.</p><p>A mudança de patamar (e de nome) ocorreu durante a histórica visita do Papa João Paulo II em 1980. Ao celebrar uma missa campal para mais de dois milhões de fiéis, o pontífice olhou para as montanhas e a cidade abaixo e declarou: 'Que belo horizonte!'. Em sua homenagem, ergueu-se o grande Monumento à Paz, a cruz de aço que coroa a praça hoje.</p>",
+                    news: "<p>Atualmente, o local passa por amplas obras de revitalização e reforma, com tapumes cercando áreas específicas e gerando interdições parciais no espaço. O investimento exato divulgado pela prefeitura totaliza R$ 11.112.610,39. Iniciadas em fevereiro de 2024, as obras já se arrastam por cerca de 2 anos e 5 meses devido a múltiplos adiamentos provocados por chuvas e impasses com fornecedores de materiais, com a previsão atual de entrega remarcada para o período entre julho e agosto de 2026.</p><p>Paralelamente, as pautas políticas ao redor da Praça também focam na proteção ambiental, com organizações civis promovendo constantes embates contra a exploração minerária na Serra do Curral, buscando o tombamento integral para proteger a paisagem.</p>",
+                    guide: "<p>Roteiro perfeito para a região do Mangabeiras:</p><ul class='visitor-guide-list'><li><strong>1. Rua do Amendoim:</strong> Antes de chegar à praça, visite esta curiosa ladeira onde os carros parecem subir sozinhos (ilusão de ótica).</li><li><strong>2. Piquenique na Grama:</strong> Leve toalhas e lanches. O gramado inclinado da praça é perfeito para relaxar.</li><li><strong>3. Pôr do sol nas Montanhas:</strong> Posicione-se próximo à Cruz Metálica por volta das 17h para a melhor vista.</li><li><strong>4. Prepare-se para o clima:</strong> A altitude traz ventos gelados, não esqueça de levar um agasalho.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Pizzaria Olegário</h4><span>Italiana / Premium (Bairro Mangabeiras)</span></div><div class='gastro-item'><h4>Vila Árabe</h4><span>Comida Árabe Tradicional e Farta</span></div>"
                 },
                 en: {
                     title: "Pope's Square",
-                    history: "<p>Located at the foot of the Curral Mountains. Renamed after Pope John Paul II held a mass here in 1980 and exclaimed: 'What a beautiful horizon!'.</p>",
-                    news: "<p>Currently undergoing extensive revitalization works expected to finish in mid-2026.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Sunset Picnic:</strong> Relax on the sloping grass.</li><li><strong>2. Dress warmly:</strong> It gets windy and chilly here.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Pizzaria Olegário</h4><span>Premium Italian Pizza</span></div>",
-                    mobility: "<p><strong>Steep Hills & Electric Bikes:</strong> The road to the square is very steep. We highly recommend renting an <strong>electric bike</strong> through the Tembici app to reach the top effortlessly.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Download Tembici App</a>",
-                    curiosities: "<ul class='visitor-guide-list'><li>The giant steel cross monument was made from the steel of traditional mining companies in the state.</li></ul>"
+                    history: "<p>Originally named Israel Pinheiro Square, located at the foot of the Curral Mountains. It was naturally a lookout point until 1980, when Pope John Paul II held a mass for two million people here. Amazed by the view, he exclaimed: 'What a beautiful horizon!'. A large steel cross was erected in his honor.</p>",
+                    news: "<p>Currently, the square is undergoing extensive revitalization works, with fences partially blocking some areas. The exact investment is R$ 11,112,610.39. Started in February 2024, the project has lasted about 2 years and 5 months due to delays with material suppliers, with an expected completion between July and August 2026.</p><p>Additionally, civic organizations continuously fight against mining operations in the nearby Curral Mountains to preserve the iconic landscape.</p>",
+                    guide: "<p>Your itinerary for the area:</p><ul class='visitor-guide-list'><li><strong>1. Peanut Street (Rua do Amendoim):</strong> Test the optical illusion where cars seem to roll uphill.</li><li><strong>2. Sunset Picnic:</strong> Bring snacks and relax on the sloping grass.</li><li><strong>3. Steel Cross:</strong> The best spot for taking photos of the city below.</li><li><strong>4. Dress accordingly:</strong> It gets very windy and chilly in the late afternoon.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Pizzaria Olegário</h4><span>Premium Italian Pizza</span></div>"
                 },
                 es: {
                     title: "Plaza del Papa",
-                    history: "<p>Ubicada a los pies de la Serra do Curral. Rebautizada luego de que el Papa Juan Pablo II diera una misa aquí en 1980 y exclamara: '¡Qué bello horizonte!'.</p>",
-                    news: "<p>La plaza pasa por amplias obras de revitalización, con entrega prevista para mediados de 2026.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Atardecer:</strong> La vista desde la Cruz es inigualable.</li><li><strong>2. Abrígate:</strong> El viento de la tarde suele ser frío.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Pizzaria Olegário</h4><span>Pizza Italiana Premium</span></div>",
-                    mobility: "<p><strong>Cuestas y Bicicletas Eléctricas:</strong> El acceso tiene pendientes muy pronunciadas. Se recomienda enfáticamente usar las <strong>bicicletas eléctricas</strong> de la aplicación Tembici para subir cómodamente.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Descargar App Tembici</a>",
-                    curiosities: "<ul class='visitor-guide-list'><li>La enorme cruz de acero fue forjada con metales de las industrias siderúrgicas tradicionales de Minas Gerais.</li></ul>"
+                    history: "<p>Ubicada en lo alto del barrio Mangabeiras, a los pies de la Serra do Curral. Rebautizada luego de que el Papa Juan Pablo II diera una misa aquí en 1980 y, maravillado por el paisaje, exclamara: '¡Qué bello horizonte!'. Se erigió un gran monumento en su honor.</p>",
+                    news: "<p>Actualmente, la plaza pasa por amplias obras de revitalización, con vallas que bloquean parcialmente algunas áreas. La inversión exacta es de R$ 11.112.610,39. Iniciadas en febrero de 2024, las obras llevan unos 2 años y 5 meses debido a retrasos con proveedores, con una previsión de entrega entre julio y agosto de 2026.</p><p>Además, organizaciones civiles luchan constantemente contra la minería en la Sierra del Curral para preservar el paisaje emblemático de la región.</p>",
+                    guide: "<p>Ruta recomendada:</p><ul class='visitor-guide-list'><li><strong>1. Rua do Amendoim:</strong> Calle con la famosa ilusión óptica donde los coches parecen subir solos.</li><li><strong>2. Picnic:</strong> Ideal para descansar en el césped.</li><li><strong>3. Atardecer:</strong> La vista desde el monumento de la Cruz de Acero es inigualable.</li><li><strong>4. Abrígate:</strong> El viento de la tarde suele ser frío.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Pizzaria Olegário</h4><span>Pizza Italiana Premium</span></div>"
                 }
             },
             afonsopena: {
@@ -817,30 +784,24 @@
                 hours: "Acesso público 24h",
                 pt: {
                     title: "Avenida Afonso Pena",
-                    history: "<p>A principal espinha dorsal da cidade, idealizada no plano original de 1897, conectando o centro comercial aos bairros da zona sul com arquitetura eclética e art déco.</p>",
-                    news: "<p>O foco atual é o projeto 'Centro de Todo Mundo', implementando novas faixas exclusivas e incentivos para restauro de fachadas históricas.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Praça Sete:</strong> Visite o marco zero (o Pirulito).</li><li><strong>2. Rua da Bahia:</strong> Caminhe pelo reduto da boemia do século XX.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Café Palhares</h4><span>Histórico / Prato 'Kaol'</span></div>",
-                    mobility: "<p><strong>Transporte Público:</strong> A avenida é o principal corredor de ônibus e linhas de BRT Move da cidade. Caminhar por ela é a melhor forma de observar a arquitetura.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>Seu traçado reto e incrivelmente amplo foi inspirado nas majestosas avenidas de Washington D.C. e Paris.</li></ul>"
+                    history: "<p>A principal espinha dorsal da cidade, idealizada no plano original da capital desenhado pelo engenheiro Aarão Reis em 1897. Seu traçado reto e amplo foi fortemente inspirado nas avenidas de Washington D.C. e Paris.</p><p>A avenida, que conecta o agitado centro comercial aos nobres e arborizados bairros da zona sul, já teve diferentes faces, abrigando desde casarões da elite do século passado até imponentes edifícios de arquitetura eclética e art déco, como o icônico edifício Acaiaca e o Automóvel Clube.</p>",
+                    news: "<p>O debate urbano mais latente na avenida atualmente é a revitalização do centro da cidade (o projeto 'Centro de Todo Mundo'). A prefeitura tem intensificado obras de mobilidade, como a criação de pistas exclusivas de ônibus, ciclovias reformuladas e incentivos fiscais para a restauração de fachadas históricas, tentando resgatar o turismo noturno na região.</p>",
+                    guide: "<p>Destaques para explorar ao longo da avenida:</p><ul class='visitor-guide-list'><li><strong>1. Praça Sete:</strong> O marco zero e coração da avenida. Observe o obelisco central (o Pirulito) rodeado por arranha-céus históricos.</li><li><strong>2. Esquina da Rua da Bahia:</strong> Caminhe por este quarteirão que foi o reduto da boemia e da literatura brasileira no século XX.</li><li><strong>3. Teatro Francisco Nunes:</strong> Admire a fachada deste importante pólo cultural localizado dentro do Parque Municipal, que faz margem com a avenida.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Café Palhares</h4><span>Histórico e Tombado / Prove o Prato 'Kaol'</span></div><div class='gastro-item'><h4>A Pão de Queijaria</h4><span>Lanches Artesanais de Queijo e Cafés (Savassi)</span></div>"
                 },
                 en: {
                     title: "Afonso Pena Avenue",
-                    history: "<p>The main spine of BH, planned in 1897, connecting downtown to southern neighborhoods.</p>",
-                    news: "<p>Urban projects focus on revitalizing downtown with new exclusive bus lanes.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Praça Sete:</strong> The city's ground zero.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Café Palhares</h4><span>Historic Bar</span></div>",
-                    mobility: "<p><strong>Public Transport:</strong> It is the main corridor for city buses and BRT lines. Walking is recommended.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>Its wide, straight layout was inspired by Washington D.C. and Paris.</li></ul>"
+                    history: "<p>The main spine of BH, planned in 1897 by engineer Aarão Reis, inspired by the avenues of Paris and Washington D.C. It connects the busy commercial downtown to the leafy southern neighborhoods, showcasing a timeline of architecture from eclectic buildings to art deco landmarks like the Acaiaca building.</p>",
+                    news: "<p>Urban debates currently focus on the 'Downtown for Everyone' revitalization project, implementing new exclusive bus lanes, bike paths, and tax incentives for restoring historic facades to boost nighttime tourism.</p>",
+                    guide: "<p>Highlights along the avenue:</p><ul class='visitor-guide-list'><li><strong>1. Praça Sete:</strong> The city's ground zero and intersection point.</li><li><strong>2. Rua da Bahia Corner:</strong> The former bohemian and literary heart of the city in the 20th century.</li><li><strong>3. Architecture Tour:</strong> Look up to see classic art deco buildings along the route.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Café Palhares</h4><span>Historic Bar / Famous 'Kaol' dish</span></div>"
                 },
                 es: {
                     title: "Avenida Afonso Pena",
-                    history: "<p>La espina dorsal de BH, planificada en 1897, conectando el centro con el sur.</p>",
-                    news: "<p>Proyectos recientes buscan revitalizar el centro con carriles exclusivos para autobuses.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Praça Sete:</strong> El kilómetro cero de la ciudad.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Café Palhares</h4><span>Histórico</span></div>",
-                    mobility: "<p><strong>Transporte Público:</strong> Es el principal corredor de autobuses de la ciudad. Recorrerla a pie es ideal.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>Su diseño amplio fue inspirado en avenidas de París y Washington D.C.</li></ul>"
+                    history: "<p>La espina dorsal de BH, planificada en 1897 e inspirada en París. Conecta el agitado centro con los barrios del sur, mostrando una línea de tiempo arquitectónica con imponentes edificios art déco y neoclásicos.</p>",
+                    news: "<p>El debate urbano actual se centra en el proyecto de revitalización del centro, que incluye nuevas rutas de autobuses, ciclovías e incentivos para restaurar fachadas históricas.</p>",
+                    guide: "<p>Puntos de interés:</p><ul class='visitor-guide-list'><li><strong>1. Praça Sete:</strong> El kilómetro cero de la ciudad.</li><li><strong>2. Cruce Rua da Bahia:</strong> El antiguo corazón literario y bohemio.</li><li><strong>3. Arquitectura:</strong> Disfrute del estilo art déco de los edificios que bordean la vía.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Café Palhares</h4><span>Histórico / Plato famoso 'Kaol'</span></div>"
                 }
             },
             parquemunicipal: {
@@ -848,61 +809,49 @@
                 hours: "Terça a Domingo, das 08:00 às 17:00",
                 pt: {
                     title: "Parque Municipal",
-                    history: "<p>Inaugurado em 1897, meses antes da conclusão de BH. Inspirado nos jardins românticos franceses da Belle Époque, hoje é o maior pulmão verde central.</p>",
-                    news: "<p>Novos programas da prefeitura passaram a promover eventos de cinema e festivais de luzes noturnos aqui.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Lagos:</strong> Alugue um barco a remo no lago central.</li><li><strong>2. Palácio das Artes:</strong> Conheça o teatro anexo.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Cantina do Lucas (Edifício Maletta)</h4><span>Restaurante Tombado</span></div>",
-                    mobility: "<p><strong>Metrô e Ônibus:</strong> Possui fácil acesso por estar a poucos quarteirões da Praça da Estação (Estação Central do Metrô) e receber dezenas de linhas de ônibus em suas portarias na Afonso Pena.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>Ele é mais antigo que a própria cidade, servindo como o 'quintal' inicial dos engenheiros construtores de BH.</li><li>Apesar do tráfego intenso do lado de fora, o isolamento acústico natural da mata permite ouvir centenas de espécies de pássaros nativos na reserva.</li></ul>"
+                    history: "<p>O Parque Municipal Américo Renné Giannetti é mais antigo que a própria cidade, tendo sido inaugurado meses antes da conclusão de Belo Horizonte, em 1897. Concebido como o 'quintal' dos governantes da nova metrópole, foi fortemente inspirado nos requintados jardins românticos franceses da Belle Époque.</p><p>Originalmente muito maior, o parque sofreu reduções de área ao longo das décadas para a construção de ruas, do colégio estadual e de alas hospitalares. Ainda assim, permanece como o mais denso pulmão verde do centro da cidade, abrigando árvores seculares, monumentos e teatros de relevância nacional.</p>",
+                    news: "<p>Na agenda cultural contemporânea, as novidades políticas e sociais do parque giram em torno dos novos programas da prefeitura que promovem a ocupação noturna segura do espaço. Eventos de cinema ao ar livre e festivais de luzes passaram a ser sediados aqui, alterando a visão antiga de que o parque devia fechar cedo, devolvendo a vida noturna cultural aos cidadãos.</p>",
+                    guide: "<p>O que não deixar de fazer no Parque:</p><ul class='visitor-guide-list'><li><strong>1. Passeio nos Lagos:</strong> Alugue um romântico e tradicional barco a remo no lago central e curta a natureza.</li><li><strong>2. Orquidário e Coreto:</strong> Visite as estufas e fotografe o histórico coreto centenário.</li><li><strong>3. Teatro de Bonecos e Palácio das Artes:</strong> Se estiver com crianças, confira a programação infantil. Adultos devem esticar a visita ao grandioso centro de arte acoplado à entrada do parque.</li><li><strong>4. Observação de Aves:</strong> O silêncio dentro da reserva permite avistar dezenas de pássaros nativos ignorando o trânsito lá fora.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Cantina do Lucas (Edifício Maletta)</h4><span>Restaurante Tombado como Patrimônio Histórico / Culinária Italiana e Mineira</span></div>"
                 },
                 en: {
                     title: "Municipal Park",
-                    history: "<p>Inaugurated in 1897, it was inspired by French romantic gardens of the Belle Époque.</p>",
-                    news: "<p>New municipal programs now allow the park to remain open safely at night for cultural events.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Rowboats:</strong> Rent a traditional boat on the lake.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Cantina do Lucas</h4><span>Historic Restaurant nearby</span></div>",
-                    mobility: "<p><strong>Metro:</strong> Located just blocks from the Central Station, with multiple bus lines stopping at its gates.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>It is actually older than the capital itself, serving as a resting place for the city's builders.</li></ul>"
+                    history: "<p>Inaugurated in 1897, months before the official opening of the city, it is the oldest ecological heritage site. Inspired by French romantic gardens of the Belle Époque, it served as the original 'backyard' for the city's founders.</p><p>Though reduced in size over the years due to urbanization, it remains the thickest green lung in the busy downtown, housing ancient trees and historic theaters.</p>",
+                    news: "<p>Recently, new municipal programs have allowed the park to remain open safely at night for cultural events, open-air cinemas, and light festivals, shifting the dynamic of the city's nightlife.</p>",
+                    guide: "<p>Must-do activities:</p><ul class='visitor-guide-list'><li><strong>1. Lake Rowboats:</strong> Rent a traditional boat on the historic artificial lake.</li><li><strong>2. Palácio das Artes:</strong> Visit the enormous art and theater complex connected to the park's main entrance.</li><li><strong>3. Orchid Garden:</strong> Explore the greenhouses and the 19th-century gazebo.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Cantina do Lucas</h4><span>Historic Heritage Restaurant (Nearby Maletta Bldg)</span></div>"
                 },
                 es: {
                     title: "Parque Municipal",
-                    history: "<p>Inaugurado en 1897 e inspirado en los jardines románticos franceses.</p>",
-                    news: "<p>Nuevos programas organizan cine al aire libre y festivales culturales nocturnos.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Botes:</strong> Alquile un bote de remos en el lago.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Cantina do Lucas</h4><span>Restaurante Histórico</span></div>",
-                    mobility: "<p><strong>Metro:</strong> Fácil acceso desde la Estación Central, además de varias líneas de autobús en las entradas.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>Es más antiguo que la propia ciudad, utilizado originalmente por los constructores de la capital.</li></ul>"
+                    history: "<p>Inaugurado en 1897, antes de la conclusión oficial de la ciudad, es el patrimonio ecológico más antiguo. Inspirado en los jardines románticos franceses, fue el patio trasero de los fundadores de la capital.</p><p>Hoy permanece como el pulmón verde más denso del centro, albergando árboles centenarios y teatros históricos.</p>",
+                    news: "<p>Recientemente, programas municipales han promovido la ocupación nocturna segura del parque, organizando cine al aire libre y festivales culturales para revitalizar la zona céntrica.</p>",
+                    guide: "<p>Actividades imperdibles:</p><ul class='visitor-guide-list'><li><strong>1. Paseo en bote:</strong> Alquile un bote de remos en el lago central.</li><li><strong>2. Palácio das Artes:</strong> Visite el complejo cultural adjunto a la entrada.</li><li><strong>3. Naturaleza:</strong> Explore el orquideario y relájese lejos del ruido del tráfico.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Cantina do Lucas</h4><span>Restaurante Histórico (Edificio Maletta)</span></div>"
                 }
             },
             feirahippie: {
                 address: "Avenida Afonso Pena - Centro, Belo Horizonte - MG",
-                hours: "Aos Domingos (07:00 às 14:00)",
+                hours: "Exclusivamente aos Domingos (07:00 às 14:00)",
                 pt: {
                     title: "Feira Hippie de BH",
-                    history: "<p>Começou espontaneamente em 1969 na Praça da Liberdade e em 1991 foi transferida para a Avenida Afonso Pena. Hoje é a maior feira a céu aberto da América Latina.</p>",
-                    news: "<p>Foco na padronização para acessibilidade e a recente modernização com licitações rigorosas para o setor gastronômico da feira.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Chegue cedo:</strong> Evite a superlotação após as 10h.</li><li><strong>2. Alimentação:</strong> Não vá embora sem provar o famoso pastel com caldo de cana.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Barracas da Feira</h4><span>Comida de Rua Típica</span></div>",
-                    mobility: "<p><strong>Trânsito Interditado:</strong> Aos domingos, a Avenida Afonso Pena é totalmente fechada para veículos neste trecho. Utilize táxis/apps até as ruas adjacentes ou vá de Metrô (Estação Central).</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>A feira nasceu pelas mãos de artistas plásticos e intelectuais de forma rebelde contra as restrições da ditadura militar.</li><li>Ela movimenta aproximadamente 80 mil pessoas a cada domingo.</li></ul>"
+                    history: "<p>A história da feira começou de forma modesta e espontânea em 1969, quando um grupo de artesãos, hippies e intelectuais fugindo da censura da Ditadura Militar começou a expor seus trabalhos na Praça da Liberdade. Com o enorme sucesso e adesão de milhares de artistas ao longo das décadas, o espaço na praça ficou inviável.</p><p>Em 1991, a feira foi transferida para a grandiosa Avenida Afonso Pena. Hoje, rebatizada oficialmente como Feira de Arte, Artesanato e Produtores de Variedades, ostenta o título de maior feira de artesanato a céu aberto da América Latina, atraindo cerca de 80 mil visitantes todos os domingos.</p>",
+                    news: "<p>Nos últimos anos, a administração pública focou na padronização das barracas para garantir acessibilidade, além de realizar processos licitatórios rigorosos para modernizar o setor de alimentação, que hoje inclui além das comidas típicas de rua, opções artesanais e veganas aprovadas pela vigilância sanitária.</p>",
+                    guide: "<p>O manual de sobrevivência na gigante feira:</p><ul class='visitor-guide-list'><li><strong>1. Horário de Chegada:</strong> Chegue entre 07:30 e 08:30 para caminhar com tranquilidade. Após as 10h, a feira atinge sua capacidade máxima e a locomoção fica lenta.</li><li><strong>2. Divisão por Setores:</strong> A feira é separada por cores e ruas transversais. Há setores exclusivos para Calçados, Moda Infantil, Quadros de Pintura, Bijuterias e Móveis Rústicos.</li><li><strong>3. Roupas e Pechinchas:</strong> Explore as extremidades da feira se estiver buscando peças de vestuário de fábrica a preços acessíveis.</li><li><strong>4. Parada Alimentar:</strong> Nunca vá embora sem cruzar o setor de alimentação e provar os salgados fritos na hora.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Barracas da Feira</h4><span>Comida de Rua (Acarajé, Pastel com Caldo de Cana, Churrasquinho)</span></div><div class='gastro-item'><h4>Polo Gastronômico da Praça Sete</h4><span>Restaurantes e padarias que abrem aos domingos ao redor da feira.</span></div>"
                 },
                 en: {
                     title: "Hippie Fair",
-                    history: "<p>Began in 1969 at Liberty Square and relocated to Afonso Pena in 1991. It is the largest open-air fair in Latin America.</p>",
-                    news: "<p>Recent actions focused on accessibility and hygiene modernization in the food sector.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Arrive Early:</strong> Crowds get heavy after 10 AM.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Food Stalls</h4><span>Fresh Street Food</span></div>",
-                    mobility: "<p><strong>Roads Closed:</strong> The avenue is closed to cars on Sundays. Take the Metro (Central Station) or ride-hailing apps to nearby streets.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>It attracts around 80,000 visitors every Sunday.</li></ul>"
+                    history: "<p>The fair began spontaneously in 1969 when artisans and hippies exhibited their art in Liberty Square during a period of political censorship. It grew massively and in 1991, was relocated to the wide Afonso Pena Avenue.</p><p>Today, it holds the title of the largest open-air craft fair in Latin America, occupying multiple city blocks and attracting around 80,000 visitors every Sunday.</p>",
+                    news: "<p>Recent municipal actions have focused on standardizing the stalls for better accessibility and updating the food sector licenses to include modern, artisanal, and vegan options following strict hygiene rules.</p>",
+                    guide: "<p>Survival guide for the massive fair:</p><ul class='visitor-guide-list'><li><strong>1. Arrive Early:</strong> Be there around 8:00 AM. After 10:00 AM, the crowds make walking very slow.</li><li><strong>2. Sector Layout:</strong> The fair is divided into specific goods (Shoes, Clothes, Paintings, Furniture).</li><li><strong>3. Street Food:</strong> The food sector is mandatory. Don't leave without trying the freshly fried 'Pastel' with sugarcane juice.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Fair Food Stalls</h4><span>Street food (Fresh Pastel, Acarajé)</span></div>"
                 },
                 es: {
                     title: "Feria Hippie",
-                    history: "<p>Comenzó en 1969 en la Plaza de la Libertad. Hoy es la mayor feria a cielo abierto de América Latina.</p>",
-                    news: "<p>Se ha centrado en mejorar la accesibilidad y modernizar las normas de salud de los puestos de comida.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Llegue temprano:</strong> Evite la multitud después de las 10 AM.</li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Puestos de Comida</h4><span>Comida Callejera</span></div>",
-                    mobility: "<p><strong>Calles Cerradas:</strong> La avenida se cierra a los coches. Es mejor usar el Metro o caminar desde calles adyacentes.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>Atrae a unos 80.000 visitantes todos los domingos.</li></ul>"
+                    history: "<p>Comenzó de forma espontánea en 1969 en la Plaza de la Libertad por un grupo de artesanos. Con su inmenso crecimiento, se trasladó a la Avenida Afonso Pena en 1991.</p><p>Hoy en día, es la mayor feria de artesanía a cielo abierto de América Latina, atrayendo a unos 80.000 visitantes todos los domingos.</p>",
+                    news: "<p>Las políticas municipales recientes se han centrado en la estandarización de los puestos para mejorar la accesibilidad y en la modernización del sector gastronómico con nuevas regulaciones sanitarias.</p>",
+                    guide: "<p>Manual para recorrer la feria:</p><ul class='visitor-guide-list'><li><strong>1. Llegada Temprana:</strong> Llegue alrededor de las 8:00 AM para evitar las aglomeraciones densas que empiezan a las 10:00 AM.</li><li><strong>2. Sectores:</strong> Busque las áreas divididas por tipo de producto (Zapatos, Ropa, Arte, Muebles).</li><li><strong>3. Parada de Comida:</strong> Visitar el sector gastronómico callejero y probar un 'Pastel' frito es obligatorio.</li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Puestos de la Feria</h4><span>Comida callejera (Pastel frito, Jugo de caña)</span></div>"
                 }
             }
         };
@@ -927,8 +876,6 @@
             document.getElementById('details-news').innerHTML = localInfo.news;
             document.getElementById('details-guide').innerHTML = localInfo.guide;
             document.getElementById('details-gastro').innerHTML = localInfo.gastro;
-            document.getElementById('details-mobility').innerHTML = localInfo.mobility;
-            document.getElementById('details-curiosities').innerHTML = localInfo.curiosities;
             
             const encodedAddress = encodeURIComponent(data.address);
             const gpsBtn = document.getElementById('details-gps-btn');
