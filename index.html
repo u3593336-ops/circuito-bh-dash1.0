@@ -641,7 +641,7 @@
             es: {
                 title: "Circuito BH:<br>Pixel Dash", play: "JUGAR", howTo: "CÓMO JUGAR", cultural: "CONOCER BH",
                 back: "VOLVER", backMenu: "MENÚ PRINCIPAL", who: "¿Quién va a correr?", tutorialTitle: "Cómo Jugar",
-                tutorialText: "<b>Objetivo:</b> Recorre los lugares icónicos de Belo Horizonte. ¡Salta sobre los obstáculos para continuar tu viaje!<br><br><b>Controles:</b><br>• Toca/ESPACIO para saltar.<br>• Salta una vez para obstáculos bajos.<br>• <b>Evita los obstáculos aéreos</b> para no perder el ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capibaras y Pájaros.<br>• <b>Mercado:</b> Autobuses y Palomas.<br>• <b>Libertad:</b> Bancos y Mariposas.<br>• <b>Papa:</b> Conos y Drones.<br><br><b>Consejo:</b> ¡Cada 100 puntos, el escenario cambia!",
+                tutorialText: "<b>Objetivo:</b> Recorre los lugares icónicos de Belo Horizonte. ¡Salta sobre los obstáculos para continuar tu viaje!<br><br><b>Controles:</b><br>• Toca/ESPACIO para saltar.<br>• Salta una vez para obstáculos bajos.<br>• <b>Evita los obstáculos aéreos</b> para no perder el ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capibaras y Pájaros.<br>• <b>Mercado:</b> Autobuses y Palomas.<br>• <b>Libertad:</b> Bancos y Mariposas.<br>• <b>Papa:</b> Conos y Drones.<br><br><b>Consejo:</b> ¡Cada 100 pontos, el escenario cambia!",
                 culturalTitle: "Puntos Turísticos", goTitle: "¡FIN DEL JUEGO!", tryAgain: "INTENTAR DE NUEVO", pts: "Puntos", rec: "Récord",
                 orla: "Circuito Pampulha", mercado: "Mercado Central", pracaLib: "Circuito Libertad", pracaPapa: "Plaza del Papa",
                 circuitTitle: "Circuitos Principales", morePlacesTitle: "Conoce Más Lugares",
@@ -675,321 +675,603 @@
         let highScore = 0;
         try { highScore = localStorage.getItem('pixelDash_high') || 0; } catch (e) { console.warn("Local storage bloqueado."); }
 
-        // 📋 BANCO DE DADOS ATUALIZADO (CONTEÚDOS MASSIVAMENTE EXPANDIDOS E CORRIGIDOS)
+        const poolPulo = [new Audio('som_pulo.mp3'), new Audio('som_pulo.mp3'), new Audio('som_pulo.mp3')];
+        poolPulo.forEach(a => a.volume = 0.3);
+        let puloIndex = 0;
+        const somGameOver = new Audio('som_gameover.mp3'); somGameOver.volume = 0.6; 
+
+        function tocarPulo() {
+            try { let som = poolPulo[puloIndex]; if (som.readyState > 0 || som.src) { som.currentTime = 0; som.play().catch(()=>{}); } puloIndex = (puloIndex + 1) % poolPulo.length; } catch(e) {}
+        }
+        function tocarGameOver() {
+            try { if (somGameOver.readyState > 0 || somGameOver.src) { somGameOver.currentTime = 0; somGameOver.play().catch(()=>{}); } } catch(e) {}
+        }
+
+        // 📋 BANCO DE DADOS ATUALIZADO (RESTAURANTES EXCLUSIVOS, CORREÇÕES DE LOCALIDADE DE BH E MARCOS HISTÓRICOS)
         const turismoData = {
             pampulha: {
                 address: "Av. Otacílio Negrão de Lima - Pampulha, Belo Horizonte - MG",
                 hours: "Orla: 24h | Casa Kubitschek: Qua a Dom (10h às 18h) | Igreja: Ter a Dom (08h às 17h)",
                 pt: {
                     title: "Circuito da Pampulha",
-                    history: "<p>Projetado na década de 1940 pelo gênio arquitetônico Oscar Niemeyer, a pedido do então visionário prefeito Juscelino Kubitschek, o Conjunto Moderno da Pampulha representou um divisor de águas e revolucionou a forma de se pensar e construir no Brasil. A proposta audaciosa unia, de forma inédita, a leveza estrutural do concreto armado às curvas ousadas e contínuas que simulavam perfeitamente o formato sinuoso das montanhas de Minas Gerais.</p><p>Complementado de forma magistral pelos fantásticos jardins tropicais projetados pelo paisagista Roberto Burle Marx e pelos marcantes azulejos do artista plástico Cândido Portinari, o complexo arquitetônico não apenas moldou a identidade visual de Belo Horizonte, como conquistou o cobiçado e merecidíssimo título de Patrimônio Cultural da Humanidade concedido pela UNESCO no ano de 2016.</p>",
-                    news: "<p>No âmbito das atualidades e do panorama ambiental, a região tem estado frequentemente nos noticiários locais e internacionais devido ao contínuo, complexo e custoso projeto de despoluição das águas da Lagoa da Pampulha. Recentemente, novas tecnologias de tratamento em profundidade e fiscalizações ostensivas e muito mais rigorosas contra o despejo irregular de esgoto foram implementadas pelas autoridades locais. Essas ações integradas são fundamentais não apenas para manter o título da UNESCO, mas essencialmente para garantir a qualidade de vida e a saúde da crescente população de capivaras, aves nativas, peixes e jacarés que habitam livremente o ecossistema da lagoa, tornando-se atrações por si só.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Inicie pela Igreja de São Francisco de Assis:</strong> A luz do sol da manhã valoriza os painéis de azulejos de Portinari de uma maneira espetacular, ideal para fotografias.</li><li><strong>2. Casa do Baile:</strong> Faça uma parada estratégica e prolongada nesta ilha artificial. O desenho contínuo da marquise que acompanha a curva da lagoa é um espetáculo à parte.</li><li><strong>3. Pôr do sol no MAP:</strong> Finalize a parte histórica do passeio no Museu de Arte da Pampulha (antigo cassino), considerado pelos locais como o melhor ponto geográfico para observar o sol sumindo nas águas refletidas.</li><li><strong>4. Zoológico e Botânico:</strong> Vale muito a pena estender o roteiro para passar algumas horas na Fundação de Parques e Zoobotanística. Agendamento e compra de ingressos, além da verificação de horários de funcionamento, devem ser feitos estritamente pelo site oficial da Prefeitura de BH.<br><a href='https://prefeitura.pbh.gov.br/fundacao-de-parques-e-zoobotanica/informacoes/precos-e-horarios' target='_blank' class='cta-link'>🎟️ Ingressos e Horários do Zoológico</a></li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Xapuri</h4><span>Referência máxima e histórica em culinária mineira tradicional, com ambiente rústico incrivelmente acolhedor e fogão a lenha genuíno.</span></div><div class='gastro-item'><h4>American Burger Delivery (Pampulha)</h4><span>Para quem busca um lanche mais rápido, moderno e encorpado, uma das hamburguerias artesanais mais amadas de BH com unidade na orla.</span></div><div class='gastro-item'><h4>Sorveteria São Domingos</h4><span>Uma verdadeira instituição de Belo Horizonte. A tradicional gelateria mineira com décadas de história, servindo sabores exóticos de frutas do Cerrado.</span></div><div class='gastro-item'><h4>Mi Garba! Gelateria</h4><span>Uma opção premium de gelato italiano autêntico que conquistou o coração dos belo-horizontinos, excelente para os dias quentes caminhando pela orla.</span></div>",
-                    mobility: "<p><strong>Linhas de Ônibus:</strong> As opções de acesso mais usadas e confiáveis partindo da área central são as linhas 5106, 51, 64, 5107, 6350 e S55. A linha 5106 costuma ser a mais prática, rápida e direta partindo do centro de BH.</p><p><strong>Aluguel de Bikes:</strong> A orla de 18 km é, sem dúvida, o local mais tradicional, plano e seguro para pedalar na capital. O aplicativo oficial de compartilhamento da cidade (Tembici) tem várias dezenas de estações espalhadas por quase todos os pontos turísticos ao redor do espelho d'água.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>A Lagoa da Pampulha não é uma formação geológica natural; ela é uma bacia de contenção inteiramente artificial, criada nos anos 1940 durante o ambicioso plano de expansão urbana da gestão de Juscelino Kubitschek.</li><li>A Igreja de São Francisco de Assis causou um profundo choque cultural na época de sua inauguração. Por suas curvas ousadas e representação artística não convencional, o projeto foi amplamente rejeitado pelas alas tradicionais da sociedade, e a Arquidiocese de BH se recusou a consagrar e celebrar missas no local por 14 anos.</li><li>O atual e respeitado Museu de Arte (MAP) já funcionou, durante os seus anos dourados na década de 1940, como um luxuoso, extravagante e badalado cassino que atraía a elite de todo o país.</li></ul>"
+                    history: "<p>Projetado na década de 1940 pelo gênio arquitetônico Oscar Niemeyer, a pedido do então prefeito Juscelino Kubitschek, o Conjunto Moderno da Pampulha revolucionou a forma de se construir no Brasil. A proposta unia a leveza do concreto armado às curvas ousadas que simulavam as montanhas de Minas Gerais.</p><p>Com os fantásticos jardins projetados por Roberto Burle Marx e os azulejos de Cândido Portinari, o circuito conquistou o cobiçado título de Patrimônio Cultural da Humanidade pela UNESCO em 2016.</p>",
+                    news: "<p>No âmbito ambiental, o principal foco tem sido o contínuo projeto de despoluição da Lagoa da Pampulha. Novas tecnologias de tratamento e fiscalizações rigorosas de despejo irregular foram implementadas para garantir a qualidade de vida das capivaras e aves nativas da região.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Inicie pela Igreja:</strong> A luz da manhã valoriza os azulejos de Portinari.</li><li><strong>2. Casa do Baile:</strong> Faça uma parada estratégica nesta ilha artificial para fotos.</li><li><strong>3. Pôr do sol:</strong> Finalize o passeio no Museu de Arte, o melhor lugar para ver o sol sumindo nas águas.</li><li><strong>4. Zoológico e Botânico:</strong> Vale muito a pena estender o passeio até a Fundação de Parques e Zoobotanística. Agendamento e compra de ingressos via site oficial da PBH.<br><a href='https://prefeitura.pbh.gov.br/' target='_blank' class='cta-link'>🎟️ Ingressos Zoobotanística & Atrações</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Xapuri</h4><span>Referência máxima em culinária mineira tradicional, com ambiente rústico e autêntico localizado no bairro Trevo (Pampulha).</span></div><div class='gastro-item'><h4>Anella</h4><span>Restaurante italiano extremamente tradicional, famoso pelas massas artesanais feitas na casa.</span></div><div class='gastro-item'><h4>Paladino</h4><span>Oferece uma experiência de 'fazenda na cidade' com culinária mineira de alta qualidade, ideal para almoços de domingo.</span></div>",
+                    mobility: "<p><strong>Linhas de Ônibus:</strong> As opções de acesso mais usadas são as linhas 5106, 51, 64, 5107, 6350 e S55. A linha 5106 costuma ser a mais prática partindo do centro.</p><p><strong>Aluguel de Bikes:</strong> A orla é o local mais tradicional para pedalar em BH. O aplicativo oficial da cidade (Tembici) tem estações espalhadas por quase todos os pontos turísticos do entorno.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 App Tembici (Bike BH)</a>",
+                    curiosities: "<ul class='visitor-guide-list'><li>A Lagoa da Pampulha não é uma formação natural; ela é inteiramente artificial, criada nos anos 1940 durante a gestão de JK.</li><li>A <strong>Casa Kubitschek</strong>, que foi residência de fim de semana de JK na orla, guarda uma excentricidade: sua piscina foi projetada propositalmente com curvas que imitam o formato sinuoso da própria Lagoa da Pampulha.</li><li>O atual Museu de Arte (MAP) já funcionou como um luxuoso e badalado cassino na década de 1940.</li><li>A Igreja de São Francisco causou choque na época. Por suas curvas ousadas, foi rejeitada por alas tradicionais da sociedade.</li><li>O Jardim Botânico (junto ao Zoológico) abriga uma estufa incrível que recria perfeitamente as condições da Mata Atlântica e do Cerrado.</li></ul>"
                 },
-                en: { title: "Pampulha Circuit", history: "<p>Designed in the 1940s by Oscar Niemeyer.</p>", news: "<p>Focus on cleaning the lagoon.</p>", guide: "<p>Visit the zoo: <a href='https://prefeitura.pbh.gov.br/fundacao-de-parques-e-zoobotanica/informacoes/precos-e-horarios' target='_blank'>Zoo Tickets</a></p>", gastro: "<p>Local restaurants and gelatos.</p>", mobility: "<p>Bus 5106 or Tembici bikes.</p>", curiosities: "<p>The lagoon is artificial.</p>" },
-                es: { title: "Circuito Pampulha", history: "<p>Diseñado en los 1940 por Oscar Niemeyer.</p>", news: "<p>Limpieza de la laguna.</p>", guide: "<p>Visite el zoo: <a href='https://prefeitura.pbh.gov.br/fundacao-de-parques-e-zoobotanica/informacoes/precos-e-horarios' target='_blank'>Entradas Zoo</a></p>", gastro: "<p>Restaurantes y heladerías locales.</p>", mobility: "<p>Bus 5106 o bicicletas Tembici.</p>", curiosities: "<p>La laguna es artificial.</p>" }
+                en: {
+                    title: "Pampulha Circuit",
+                    history: "<p>Designed in the 1940s by architectural genius Oscar Niemeyer. It combined the lightness of reinforced concrete with bold curves simulating the mountains of Minas Gerais. It was designated a UNESCO World Heritage site in 2016.</p>",
+                    news: "<p>Environmentally, the main focus is the ongoing project to clean the Pampulha Lagoon to preserve its UNESCO status and protect local wildlife.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Church:</strong> Morning light highlights the tiles perfectly.</li><li><strong>2. Sunset:</strong> End your tour near the Art Museum for the best sunset view.</li><li><strong>3. Zoo & Botanical Garden:</strong> Extend your tour to the Zoo. Tickets must be purchased in advance.<br><a href='https://prefeitura.pbh.gov.br/' target='_blank' class='cta-link'>🎟️ Official Zoo & Attractions Tickets</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Xapuri</h4><span>The ultimate reference in traditional Minas cuisine, featuring a rustic and authentic atmosphere.</span></div><div class='gastro-item'><h4>Anella</h4><span>Highly traditional Italian restaurant, famous for its house-made artisanal pasta.</span></div><div class='gastro-item'><h4>Paladino</h4><span>Offers a 'farm in the city' experience with high-quality Minas cuisine in a spacious setting.</span></div>",
+                    mobility: "<p><strong>Bus:</strong> Route 5106 is the most practical from downtown.</p><p><strong>Bike Rental:</strong> Use the official Tembici app to rent bikes across the lake's shores.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Download Tembici App</a>",
+                    curiosities: "<ul class='visitor-guide-list'><li>The lagoon is entirely artificial, created in the 1940s.</li><li>The <strong>Casa Kubitschek</strong> pool was architecturally designed to mimic the exact sinuous shape of the Pampulha Lagoon itself.</li><li>The Art Museum used to be a luxurious casino.</li></ul>"
+                },
+                es: {
+                    title: "Circuito Pampulha",
+                    history: "<p>Diseñado en los 1940 por Oscar Niemeyer. Fue designado Patrimonio de la Humanidad por la UNESCO en 2016.</p>",
+                    news: "<p>El enfoque principal es el proyecto en curso para limpiar la Laguna de Pampulha y proteger la fauna local.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Iglesia:</strong> La luz de la mañana resalta los azulejos.</li><li><strong>2. Atardecer:</strong> Termine en el Museo de Arte para la mejor vista.</li><li><strong>3. Zoológico y Jardín Botánico:</strong> Los boletos deben comprarse anticipadamente a través del portal del Ayuntamiento.<br><a href='https://prefeitura.pbh.gov.br/' target='_blank' class='cta-link'>🎟️ Entradas Zoológico y Atracciones</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Xapuri</h4><span>Referencia máxima en cocina tradicional mineira, con un ambiente rústico y auténtico.</span></div><div class='gastro-item'><h4>Anella</h4><span>Restaurante italiano sumamente tradicional, famoso por sus pastas artesanales hechas en casa.</span></div><div class='gastro-item'><h4>Paladino</h4><span>Ofrece una experiencia de 'granja en la ciudad' con cocina mineira de alta calidad en un ambiente amplio.</span></div>",
+                    mobility: "<p><strong>Autobús:</strong> La línea 5106 es la más práctica desde el centro.</p><p><strong>Bicicletas:</strong> Use la aplicación Tembici para alquilar bicicletas en la orilla.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Descargar App Tembici</a>",
+                    curiosities: "<ul class='visitor-guide-list'><li>La laguna es completamente artificial.</li><li>La piscina de la <strong>Casa Kubitschek</strong> fue diseñada para imitar la forma curva de la Laguna de Pampulha.</li><li>El Museo de Arte solía ser un lujoso casino.</li></ul>"
+                }
             },
             mercado: {
                 address: "Av. Augusto de Lima, 744 - Centro, Belo Horizonte - MG",
                 hours: "Seg a Sáb (07:00 às 18:00) | Dom e Feriados (07:00 às 13:00)",
                 pt: {
                     title: "Mercado Central",
-                    history: "<p>Inaugurado oficialmente em 7 de setembro de 1929, o espaço nasceu primariamente como um grande centro de abastecimento de hortifruti a céu aberto para a nova capital em crescimento. Contudo, o grande ponto de virada da sua história ocorreu na década de 1960. O então prefeito decidiu que o terreno supervalorizado seria leiloado para a iniciativa privada e as barracas seriam extintas. Num movimento histórico de resistência e amor ao ofício, os próprios feirantes e pequenos produtores rurais se organizaram em uma cooperativa, levantaram recursos impressionantes e compraram o espaço da prefeitura, construindo posteriormente o icônico galpão coberto e o verdadeiro labirinto de corredores que conhecemos, amamos e frequentamos hoje. Esse esforço o transformou na verdadeira alma de Minas Gerais.</p>",
-                    news: "<p>No contexto de atualidades, o Mercado Central esteve no epicentro de uma enorme e barulhenta polêmica de repercussão nacional que mobilizou a sociedade mineira. Durante o período de expansão das casas de apostas esportivas no Brasil, as chamadas 'Bets' fizeram propostas financeiras extremamente agressivas e milionárias na tentativa de adquirir os chamados 'Naming Rights' do mercado, o que alteraria oficialmente e comercialmente o seu histórico nome de fundação.</p><p>Houve uma imediata, massiva e apaixonada reação de rejeição por parte de historiadores, jornalistas, frequentadores assíduos e lojistas mais antigos. Compreendendo o incalculável peso cultural, imaterial e afetivo que o espaço carrega para a identidade do belo-horizontino, a administração oficial do mercado e a prefeitura decidiram recusar formalmente as ofertas multimilionárias, decretando, para o alívio geral, que a manutenção do nome tradicional 'Mercado Central' é um pilar inegociável da história da cidade.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Degustação Guiada:</strong> Esqueça a timidez. Siga direto para os corredores centrais (perto das rampas) para receber pequenos pedaços gratuitos de Queijos Canastra diretamente dos produtores.</li><li><strong>2. Boteco de Raiz:</strong> A experiência jamais estará completa sem se espremer nos clássicos e barulhentos balcões de lata para pedir um monumental Fígado Acebolado com Jiló, acompanhado de uma cerveja estupidamente gelada.</li><li><strong>3. Mapeamento e Consulta:</strong> O mercado é um labirinto, então perca-se propositalmente, mas use o mapa do site oficial caso queira encontrar as lojas de cachaças premium, de ervas místicas e artesanato regional.<br><a href='https://mercadocentral.com.br/' target='_blank' class='cta-link'>📅 Site Oficial, Mapa e Lojas</a></li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Casa Cheia</h4><span>Famoso mundialmente por seus pratos premiados, suculentos e robustos, como o lendário 'Feijão Tropeiro' e o farto 'Mexidão'.</span></div><div class='gastro-item'><h4>Bar da Lora</h4><span>Verdadeiro patrimônio, amplamente conhecido pela coxinha de proporções épicas, já premiada em festivais, e por sintetizar a autêntica cultura boêmia de balcão do mercado.</span></div><div class='gastro-item'><h4>Lullo Gelato (Frente ao Mercado)</h4><span>Saindo um pouco do salgado para o doce, essa conceituada gelateria localizada no quarteirão anexo ao mercado oferece opções fenomenais de gelato italiano em casquinhas artesanais.</span></div><div class='gastro-item'><h4>Bacon Paradise (Região Central)</h4><span>Para quem prefere um burger extremamente suculento e repleto de bacon, essa é uma das hamburguerias temáticas mais clássicas e indulgentes próximas do centro da cidade.</span></div>",
-                    mobility: "<p><strong>Metrô e Ônibus:</strong> Fica a poucos quarteirões planos e movimentados da <strong>Estação Central do Metrô</strong>. Além disso, as calçadas do mercado são amplamente atendidas pelos corredores rápidos das linhas do Move BRT (nas avenidas Paraná e Santos Dumont), e cruzadas por dezenas de linhas centrais como a 2104, 30, 35 e 50.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>Como uma das mais belas formas de reverência cultural, todos os corredores principais e vielas do mercado não recebem números, mas sim nomes oficiais de pequenas, aconchegantes e históricas cidades do interior do estado de Minas Gerais.</li><li>No miolo do gigantesco galpão, escondida no andar superior para surpresa de muitos turistas, o mercado abriga uma encantadora capela católica devota a Nossa Senhora de Fátima, onde missas são regularmente rezadas.</li></ul>"
+                    history: "<p>Inaugurado em 1929, nasceu como um centro de abastecimento. Na década de 1960, a prefeitura decidiu leiloar o terreno, mas os próprios feirantes se organizaram, compraram o espaço e construíram o galpão coberto que conhecemos hoje.</p>",
+                    news: "<p>Em 2026, a mineradora Vale adquiriu os direitos de nome, mas adotou a estratégia de não alterar o nome do local (Right Naming), preservando a tradição mineira para as reformas do centenário. Outro marco foi a lei que proibiu o comércio de animais vivos no local.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Degustação:</strong> Siga direto para os corredores centrais para provar Queijo Canastra.</li><li><strong>2. Boteco:</strong> Peça o clássico Fígado Acebolado com Jiló nos balcões.</li><li><strong>3. Consulta:</strong> Veja lojas oficiais no site do mercado.<br><a href='https://mercadocentral.com.br/' target='_blank' class='cta-link'>📅 Site Oficial & Programação</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Casa Cheia</h4><span>Famoso por seus pratos premiados, como o 'Feijão Tropeiro' e o 'Mexidão'.</span></div><div class='gastro-item'><h4>Restaurante do Mercado</h4><span>Um clássico do local, ideal para quem quer vivenciar a gastronomia raiz do mercado.</span></div><div class='gastro-item'><h4>Bar da Lora</h4><span>Conhecido pela coxinha premiada e pelos petiscos que são a cara da cultura boêmia do mercado.</span></div>",
+                    mobility: "<p><strong>Metrô e Ônibus:</strong> Fica a poucos quarteirões da <strong>Estação Central do Metrô</strong>. É amplamente atendido pelas linhas do Move BRT nas avenidas Paraná e Santos Dumont, além das linhas centrais 2104, 30, 35 e 50.</p><p><strong>Bicicletas:</strong> Há estações do Tembici bem em frente à entrada da Avenida Augusto de Lima.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 App Tembici (Bike BH)</a>",
+                    curiosities: "<ul class='visitor-guide-list'><li>O mercado abriga uma capela dedicada a Nossa Senhora de Fátima em suas dependências.</li><li>Existem corredores focados exclusivamente no misticismo e religiosidade, vendendo ervas curativas e artigos de matriz africana.</li><li>O Mercado possui mais de 400 lojas concentradas em um único e gigante quarteirão.</li><li>Como forma de homenagem, os corredores principais recebem nomes de cidades tradicionais do interior de Minas.</li><li>O famoso abacaxi descascado na hora e servido em rodelas é uma das tradições mais antigas dos corredores.</li></ul>"
                 },
-                en: { title: "Central Market", history: "<p>Opened in 1929.</p>", news: "<p>Rejected naming rights from betting companies.</p>", guide: "<p>Cheese tasting is a must.</p>", gastro: "<p>Traditional and fast food options.</p>", mobility: "<p>Central Station Metro.</p>", curiosities: "<p>Over 400 shops.</p>" },
-                es: { title: "Mercado Central", history: "<p>Inaugurado en 1929.</p>", news: "<p>Rechazo a patrocinios de apuestas.</p>", guide: "<p>Degustación de quesos.</p>", gastro: "<p>Comida tradicional.</p>", mobility: "<p>Metro Estación Central.</p>", curiosities: "<p>Más de 400 tiendas.</p>" }
+                en: {
+                    title: "Central Market",
+                    history: "<p>Opened in 1929, it evolved from an open-air supply center into the cultural and gastronomic heart of Minas Gerais.</p>",
+                    news: "<p>Recently, the sale of live animals was permanently banned, revitalizing the area into sustainable craft stores.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Cheese:</strong> Taste Canastra cheese for free.</li><li><strong>2. Bar Food:</strong> Try the classic Liver with Jiló.</li><li><strong>3. Events:</strong> Check open stores on the official site.<br><a href='https://mercadocentral.com.br/' target='_blank' class='cta-link'>📅 Official Website & Schedule</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Casa Cheia</h4><span>Famous for its award-winning dishes like 'Feijão Tropeiro' and 'Mexidão'.</span></div><div class='gastro-item'><h4>Restaurante do Mercado</h4><span>A local classic, ideal for anyone wishing to experience traditional market gastronomy.</span></div><div class='gastro-item'><h4>Bar da Lora</h4><span>Known for its award-winning coxinha and appetizers that define the market's bohemian culture.</span></div>",
+                    mobility: "<p><strong>Metro & Buses:</strong> Accessible via the <strong>Central Metro Station</strong> (few blocks away) and multiple BRT Move lines on Paraná and Santos Dumont Avenues, as well as lines 2104, 30, 35, and 50.</p><p><strong>Bikes:</strong> Tembici bike stations are located right outside the main entrance.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Download Tembici App</a>",
+                    curiosities: "<ul class='visitor-guide-list'><li>The market features a small Catholic chapel hidden inside its corridors.</li><li>There are entire aisles dedicated to mystical herbs and Afro-Brazilian religious items.</li><li>The Market houses over 400 shops spanning a single giant block.</li><li>The aisles are famously named after historic cities in Minas Gerais.</li><li>Eating freshly peeled pineapple sold by vendors is one of the oldest traditions among visitors.</li></ul>"
+                },
+                es: {
+                    title: "Mercado Central",
+                    history: "<p>Inaugurado en 1929, evolucionó hasta convertirse en el corazón gastronómico de Minas Gerais.</p>",
+                    news: "<p>Un hito reciente fue la ley que prohibió la venta de animales vivos, revitalizando el espacio con tiendas sostenibles.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Queso:</strong> Pruebe el Queso Canastra.</li><li><strong>2. Comida Tradicional:</strong> Pida Hígado con Jiló.</li><li><strong>3. Horarios:</strong> Revise las tiendas oficiales en la web.<br><a href='https://mercadocentral.com.br/' target='_blank' class='cta-link'>📅 Sitio Oficial y Programación</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Casa Cheia</h4><span>Famoso por sus platos premiados, como el 'Feijão Tropeiro' y el 'Mexidão'.</span></div><div class='gastro-item'><h4>Restaurante do Mercado</h4><span>Un clásico del lugar, ideal para quienes desean vivenciar la gastronomía raíz del mercado.</span></div><div class='gastro-item'><h4>Bar da Lora</h4><span>Conocido por su coxinha premiada y tapas que representan la cultura bohemia del mercado.</span></div>",
+                    mobility: "<p><strong>Metro y Autobús:</strong> Accesible a pocas calles de la <strong>Estación Central del Metro</strong> y varias líneas BRT en las avenidas Paraná y Santos Dumont, además de los buses 2104, 30, 35 y 50.</p><p><strong>Bicicletas:</strong> Hay estaciones Tembici justo enfrente de la entrada principal.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Descargar App Tembici</a>",
+                    curiosities: "<ul class='visitor-guide-list'><li>El mercado alberga una capilla católica en su interior.</li><li>Hay pasillos dedicados a hierbas místicas y artículos religiosos afrobrasileños.</li><li>El Mercado tiene más de 400 tiendas concentradas en una sola cuadra.</li><li>Los pasillos llevan nombres de ciudades tradicionales de Minas Gerais.</li><li>Comer piña recién pelada en los pasillos es una de las tradiciones más antiguas de los visitantes.</li></ul>"
+                }
             },
             liberdade: {
                 address: "Praça da Liberdade - Funcionários, Belo Horizonte - MG",
                 hours: "Praça 24h | Museus: Quarta a Segunda (10h às 22h)",
                 pt: {
-                    title: "Circuito Praça da Liberdade",
-                    history: "<p>Planejada minunciosamente e inaugurada no final do século XIX, simultaneamente à própria fundação de Belo Horizonte, a Praça da Liberdade foi desenhada para ser o grandioso e imponente centro monumental e administrativo de todo o estado de MG. Seus contornos originais abrigavam as secretarias de estado em suntuosos prédios neoclássicos importados conceitualmente da Europa.</p><p>Em um ambicioso projeto de ressignificação e devolução do espaço para a população em 2010, com a transferência burocrática da sede do governo para a longínqua Cidade Administrativa, esses imensos prédios históricos que cercam a praça foram esvaziados e inteiramente convertidos em museus tecnológicos, interativos e galerias de arte imersivas. Com isso, formou-se de maneira orgânica o maior, mais moderno e acessível polo integrado de cultura e artes de todo o território brasileiro.</p>",
-                    news: "<p>O Circuito segue investindo massivamente na democratização do acesso cultural. Os prédios históricos vêm passando por detalhados e delicados restauros de suas fachadas para a reabertura de áreas que outrora eram restritas aos governadores. Além disso, os complexos de museus interligados (como CCBB, Memorial Minas Gerais Vale e Museu das Minas e do Metal) têm expandido suas exposições de atualidades voltadas para a arte imersiva, tecnologia interativa e experiências sensoriais que abordam temas desde as mudanças climáticas e sustentabilidade até o legado histórico da mineração no Brasil.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Inicie pelo CCBB:</strong> O Centro Cultural Banco do Brasil ocupa um dos maiores e mais impressionantes prédios da praça. Suas exposições internacionais, muitas vezes gratuitas ou a preços populares, são de cair o queixo e costumam atrair milhares de visitantes aos finais de semana.</li><li><strong>2. Memorial Vale e Museu do Metal:</strong> Dois prédios excepcionais que oferecem mergulhos interativos, utilizando projeções e áudios, para contar a história dramática e poética do estado de Minas Gerais.</li><li><strong>3. Planejamento Completo e Ingressos:</strong> Centralize a sua consulta de horários e exibições, pois há atrações em dezenas de prédios simultâneos.<br><a href='https://ccbb.com.br/belo-horizonte/' target='_blank' class='cta-link'>🏛️ Site Exclusivo do CCBB BH</a></li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Taste-Vin</h4><span>Localizado nas redondezas luxuosas de Lourdes/Savassi, é reverenciado como um dos restaurantes franceses mais prestigiados do Brasil, conhecido pela perfeição de seus icônicos suflês.</span></div><div class='gastro-item'><h4>Eddie Fine Burgers (Savassi)</h4><span>A poucos quarteirões da praça, essa lanchonete retrô ao estilo americano dos anos 50 é lendária em BH por servir milkshakes imbatíveis e hambúrgueres encorpados.</span></div><div class='gastro-item'><h4>San Ro Gelateria</h4><span>Uma jóia italiana artesanal muito próxima do circuito. Perfeita para saborear um autêntico gelato de pistache enquanto você se senta nos bancos da Praça da Liberdade à tarde.</span></div>",
-                    mobility: "<p><strong>Linhas de Ônibus:</strong> Embora incrivelmente centralizada, a praça não possui uma estação de metrô imediata. O acesso de ônibus é absurdamente farto, feito através de inúmeras linhas como 2104, 4032, 4106, 5102, 8102 e 9103.</p><p><strong>Bicicletas e Patinetes:</strong> Por ser um ambiente majoritariamente plano, ladeado de imensas palmeiras imperiais, a praça é cercada por diversas estações estratégicas de compartilhamento do Tembici, sendo o local preferido das famílias para dar a volta completa nos fins de semana.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>O traçado perfeitamente desenhado dos extensos jardins e a disposição exata das fontes luminosas centrais não são coincidência: foram projetados para serem uma réplica e uma singela homenagem aos famosos jardins do Palácio de Versalhes, na França.</li><li>Observando a praça de uma visão superior aérea ou de satélite, nota-se claramente que o seu traçado geométrico, somado ao contorno das alamedas de palmeiras imperiais, forma propositalmente o desenho exato de um cálice, simbolizando a eucaristia.</li><li>Desafiando todas as regras simétricas e neoclássicas dos prédios governamentais, o Edifício Niemeyer (o enorme prédio residencial em formato curvilíneo que parece um navio ao lado da praça) foi plantado ali propositalmente nos anos 50 para causar ruptura estética e quebrar a formalidade do espaço.</li></ul>"
+                    title: "Circuito Liberdade",
+                    history: "<p>Inaugurada no final do século XIX, foi projetada para ser o centro monumental e administrativo de MG. Com a transferência do governo em 2010, os prédios se tornaram o maior polo integrado de cultura do país.</p>",
+                    news: "<p>A grande celebração recente foi a reabertura definitiva do Palácio da Liberdade para visitação pública gratuita, devolvendo o patrimônio à população.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. CCBB:</strong> Visite exposições internacionais gratuitas.</li><li><strong>2. Memorial Vale:</strong> Imersão na história do estado.</li><li><strong>3. Consulta:</strong> Veja todas as exposições ativas e horários.<br><a href='https://circuitoliberdade.mg.gov.br/' target='_blank' class='cta-link'>🏛️ Programação Geral dos Museus</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Taste-Vin</h4><span>Um dos restaurantes franceses mais renomados de BH, famoso pelo seu suflê de queijos.</span></div><div class='gastro-item'><h4>Café com Letras</h4><span>Clássico da Savassi, a poucos quarteirões da praça, unindo literatura, jazz e excelente gastronomia.</span></div><div class='gastro-item'><h4>D’Agostim Di Paratella</h4><span>Referência em alta gastronomia italiana clássica, com um cardápio muito elogiado pela crítica.</span></div>",
+                    mobility: "<p><strong>Linhas de Ônibus:</strong> Principal acesso pelas linhas de ônibus municipais 2104, 4032, 4106, 5102, 8102 e 9103. Não há estação de metrô direta na praça.</p><p><strong>Bicicletas:</strong> A praça é plana e conectada por ótimas ciclovias à zona sul, sendo cercada por estações do Tembici.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 App Tembici (Bike BH)</a>",
+                    curiosities: "<ul class='visitor-guide-list'><li>O traçado dos jardins e as fontes luminosas foram amplamente inspirados no Palácio de Versalhes, na França.</li><li>O icônico coreto central possui um design com propriedades acústicas e já foi palco de grandes discursos políticos históricos.</li><li>O Palácio da Liberdade foi construído com requinte máximo: escadarias da Bélgica, cristais de Murano e telhas de Marselha.</li><li>O traçado geométrico da praça, quando visto de cima, forma o desenho de um cálice, em alusão à eucaristia.</li><li>O famoso Edifício Niemeyer (vizinho da praça) foi desenhado com um formato ondulado que destoa propositalmente da simetria dos prédios neoclássicos ao redor.</li></ul>"
                 },
-                en: { title: "Liberty Circuit", history: "<p>Late 19th-century administrative center.</p>", news: "<p>Constant tech and art updates.</p>", guide: "<p>CCBB is a must visit: <a href='https://ccbb.com.br/belo-horizonte/' target='_blank'>CCBB Official Site</a></p>", gastro: "<p>Great burgers and gelatos nearby.</p>", mobility: "<p>Buses and bikes available.</p>", curiosities: "<p>Versailles-inspired gardens.</p>" },
-                es: { title: "Circuito Libertad", history: "<p>Centro administrativo de finales del s. XIX.</p>", news: "<p>Actualizaciones de arte y tecnología.</p>", guide: "<p>Visite el CCBB: <a href='https://ccbb.com.br/belo-horizonte/' target='_blank'>CCBB Oficial</a></p>", gastro: "<p>Hamburguesas y helados excelentes.</p>", mobility: "<p>Autobuses y bicicletas cerca.</p>", curiosities: "<p>Jardines inspirados en Versalles.</p>" }
+                en: {
+                    title: "Liberty Circuit",
+                    history: "<p>Built in the late 19th century as the state's administrative center. In 2010, the historic secretariats were transformed into Brazil's largest integrated cultural pole.</p>",
+                    news: "<p>A recent cultural milestone was the permanent opening of the Liberty Palace (former governor's residence) for free public visits.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. CCBB:</strong> Visit for free international art exhibitions.</li><li><strong>2. Memorial Vale:</strong> Dive into local history.</li><li><strong>3. Museums Agenda:</strong> Access the updated cultural hub website.<br><a href='https://circuitoliberdade.mg.gov.br/' target='_blank' class='cta-link'>🏛️ Museum Circuit Schedule</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Taste-Vin</h4><span>One of BH's most renowned French restaurants, famous for its soufflés.</span></div><div class='gastro-item'><h4>Café com Letras</h4><span>A Savassi classic, uniting literature, jazz music, and great food just blocks away.</span></div><div class='gastro-item'><h4>D’Agostim Di Paratella</h4><span>A benchmark for fine Italian dining, with a menu highly praised by critics.</span></div>",
+                    mobility: "<p><strong>Buses:</strong> Easy access via lines like 2104, 4032, 4106, 5102, 8102, and 9103. There is no direct metro station at the square.</p><p><strong>Bikes:</strong> The square is flat and surrounded by Tembici bike-sharing stations, making it perfect for cycling.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Download Tembici App</a>",
+                    curiosities: "<ul class='visitor-guide-list'><li>The gardens' layout and illuminated fountains were inspired by the Palace of Versailles in France.</li><li>The iconic central bandstand has acoustic properties and has hosted major political speeches.</li><li>The Liberty Palace was built with materials imported from Europe, including staircases from Belgium and Murano crystals.</li><li>The square's geometric layout, seen from above, forms the shape of a chalice, alluding to the Eucharist.</li><li>The neighboring Niemeyer Building has a wavy shape that deliberately contrasts with the symmetrical neoclassical buildings.</li></ul>"
+                },
+                es: {
+                    title: "Circuito Libertad",
+                    history: "<p>Construida a finales del siglo XIX como centro administrativo. En 2010, se transformó en el mayor polo cultural integrado del país.</p>",
+                    news: "<p>El hito recente fue la apertura gratuita del Palacio de la Libertad (antigua residencia del gobernador).</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. CCBB:</strong> Exposiciones de arte gratuitas.</li><li><strong>2. Memorial Vale:</strong> Inmersión en la historia local.</li><li><strong>3. Eventos:</strong> Consulte la agenda de exposiciones activa.<br><a href='https://circuitoliberdade.mg.gov.br/' target='_blank' class='cta-link'>🏛️ Programación Completa de Museos</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Taste-Vin</h4><span>Uno de los restaurantes franceses más renombrados de BH, famoso por su suflé.</span></div><div class='gastro-item'><h4>Café com Letras</h4><span>Clásico de Savassi, que une literatura, jazz y excelente gastronomía.</span></div><div class='gastro-item'><h4>D’Agostim Di Paratella</h4><span>Referencia en la alta gastronomía italiana, con un menú muy elogiado por la crítica.</span></div>",
+                    mobility: "<p><strong>Autobuses:</strong> Accesible por líneas de autobuses urbanos 2104, 4032, 4106, 5102, 8102 y 9103. No hay estación de metro directa.</p><p><strong>Bicicletas:</strong> La plaza está rodeada de estaciones Tembici, ideal para pasear en bicicleta.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Descargar App Tembici</a>",
+                    curiosities: "<ul class='visitor-guide-list'><li>El diseño de los jardines y las fuentes se inspiró en el Palacio de Versalles en Francia.</li><li>El icónico quiosco central tiene propiedades acústicas y ha sido escenario de discursos políticos históricos.</li><li>El Palacio de la Libertad fue construido con materiales importados de Europa, incluidas escaleras de Bélgica y cristales de Murano.</li><li>El trazado geométrico da la plaza, visto desde arriba, tiene forma de cáliz.</li><li>El Edificio Niemeyer, vecino de la plaza, tiene una forma ondulada que contrasta intencionalmente con los edificios neoclásicos.</li></ul>"
+                }
             },
             papa: {
                 address: "Praça Israel Pinheiro - Alto Mangabeiras, Belo Horizonte - MG",
                 hours: "Aberto ao público 24 horas",
                 pt: {
                     title: "Praça do Papa",
-                    history: "<p>Com seu nome oficial, mas pouquíssimo utilizado, batizada como 'Praça Israel Pinheiro', este espetacular complexo urbano está posicionado quase literalmente nos céus da cidade, assentado nas altitudes elevadas e sinuosas do bairro Mangabeiras, colado e aos pés da imponente Muralha que protege a capital: a Serra do Curral.</p><p>A emblemática mudança afetiva e definitiva do nome da praça ocorreu como resultado direto do mais grandioso evento religioso já visto na cidade: a visita oficial do Papa João Paulo II no ano de 1980. Na ocasião histórica, ao se aproximar da borda do gigantesco mirante de frente para uma multidão de quase 2 milhões de pessoas, o pontífice não conteve seu deslumbramento com a paisagem esparramada aos seus pés e proclamou pelo microfone a célebre e eternizada frase: 'Que belo horizonte!'. A partir daquele exato momento, o local, que era apenas um descampado alto e de terra batida para jovens aventureiros da década de 70, passou a ser venerado e reestruturado, tornando-se para sempre a 'Praça do Papa'.</p>",
-                    news: "<p><strong>Interdição para Revitalização Histórica:</strong> Atualmente, a famosa e amada Praça do Papa e os seus mirantes adjacentes foram alvo de noticiários em toda a cidade devido à sua completa interdição para a execução da maior reforma estrutural e paisagística de sua história recente.</p><p>Segundo a prefeitura, as pesadas obras de revitalização têm um tempo de duração planejado rigorosamente de 12 meses. Para entregar um espaço muito mais moderno, duradouro e inclusivo, está sendo injetado um expressivo valor financeiro de aproximadamente R$ 2,5 milhões (dois milhões e quinhentos mil reais). Esse montante grandioso será inteiramente investido na substituição de todo o antigo piso deteriorado pelas raízes, na total reconfiguração, limpeza e proteção do gigantesco monumento da Cruz (Monumento à Paz), bem como na instalação de robustos, tecnológicos e eficientes sistemas de iluminação em LED. O foco central das obras, amplamente divulgado, é também garantir acessibilidade universal (algo que a praça pecava por ser cheia de degraus) e reestruturar os jardins e a segurança, sem alterar a sua visão panorâmica protegida por lei.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Parque das Mangabeiras (O Pulmão Verde):</strong> É estritamente impossível visitar a praça e não esticar a caminhada de 5 minutos colina acima para entrar no espetacular Parque das Mangabeiras. Trata-se da maior reserva ambiental urbana da América Latina localizada em altitude. Com trilhas densas que passam por cascatas e dezenas de mirantes escondidos de madeira, é o habitat natural e refúgio de quatis, micos, esquilos e seriemas, todos circulando livremente entre os visitantes.</li><li><strong>2. Mirante e Pôr do Sol:</strong> O longo e espaçoso gramado inclinado que circunda a grande Cruz de Ferro é, indiscutivelmente, o local mais disputado por jovens, casais e famílias com cachorros para se estender uma canga, abrir uma cesta de piquenique e presenciar um pôr do sol cinematográfico, quando a cidade toda começa a piscar suas luzes na transição da tarde para a noite.</li><li><strong>3. Planejamento de Visita:</strong> Não se esqueça de verificar horários exatos de fechamento das portarias e checar eventuais dias de manutenção antes de subir a serra.<br><a href='https://prefeitura.pbh.gov.br/fundacao-de-parques-e-zoobotanica/informacoes/parques/parque-das-mangabeiras' target='_blank' class='cta-link'>🌳 Site Oficial do Parque das Mangabeiras</a></li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Néctar da Serra</h4><span>Uma clássica e tradicionalíssima lanchonete saudável da região, extremamente famosa por seus imensos sucos refrescantes em jarras de vidro, enormes taças de açaí autêntico e lanches naturais, sendo a parada obrigatória pós-caminhada no parque.</span></div><div class='gastro-item'><h4>Nico Sanduíches</h4><span>Uma das pérolas ocultas e cultuadas do bairro. Oferece sanduíches artesanais e práticos feitos com capricho extremo e insumos de altíssima qualidade, perfeito para matar a fome da ladeira.</span></div><div class='gastro-item'><h4>Mi Garba! Gelateria (Unidade Sul)</h4><span>Para rebater a secura e o sol que costuma castigar a altitude em certos meses, essa fantástica gelateria fornece a melhor recompensa doce italiana imaginável a poucos minutos da descida da praça.</span></div>",
-                    mobility: "<p><strong>Linhas de Ônibus:</strong> As opções quase únicas, exclusivas e mais valentes e tradicionais para o acesso por transporte público são as linhas 4103 e 4108, que possuem potentes motores para vencer as subidas íngremes e param confortavelmente nos pontos que rodeiam a praça. Não há metrô nas redondezas devido à gigantesca barreira topográfica e altimetria da área.</p><p><strong>Atenção Extrema ao Relevo e Uso de Bicicletas:</strong> O acesso até o topo do Mangabeiras envolve ladeiras quilométricas e extremamente, impiedosamente íngremes (como a própria subida da Avenida Afonso Pena). Para os corajosos que pretendem chegar de bicicleta, recomenda-se fortissimamente o uso das <strong>bicicletas elétricas</strong> disponibilizadas nas estações centrais do aplicativo Tembici. Sem a assistência do motor elétrico, a subida exige nível de condicionamento físico de atleta profissional.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>A inconfundível, gigante e pesada Cruz Metálica, também chamada de 'Monumento à Paz', que corta o horizonte da praça e serve de ponto de encontro, foi desenhada e erguida às pressas e de forma magistral utilizando os mesmos aços pesados fornecidos e fundidos pelas brutais e tradicionais indústrias siderúrgicas do estado.</li><li>Não perca o Relógio de Sol instalado no centro de um dos pátios de paralelepípedos. É um instrumento astronômico real e preciso, figurando como um dos poucos e talvez o maior do seu tipo existente em todo o Brasil.</li><li>Coladinha à Praça do Papa, os visitantes frequentemente se divertem na famosa, bizarra e lendária 'Rua do Amendoim'. Por conta de uma ilusão de ótica inacreditável causada pelo horizonte recortado, veículos parados nela e deixados em ponto morto parecem, magicamente, estar desafiando a gravidade e subindo uma íngreme ladeira de ré e sozinhos.</li></ul>"
+                    history: "<p>Localizada na alta altitude do Mangabeiras, aos pés da Serra do Curral. A mudança de nome ocorreu na visita do Papa João Paulo II em 1980, que declarou ao observar do mirante: 'Que belo horizonte!'.</p>",
+                    news: "<p>Atualmente, a praça e arredores passam por revitalização. A sociedade civil também atua fortemente na preservação da Serra do Curral contra a mineração, protegendo a paisagem do entorno.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Pôr do sol:</strong> O gramado próximo à Cruz é o melhor ponto.</li><li><strong>2. Clima:</strong> A altitude traz ventos gelados, leve agasalho.</li><li><strong>3. Parques:</strong> Veja a programação ambiental e de eventos do entorno.<br><a href='https://prefeitura.pbh.gov.br/' target='_blank' class='cta-link'>🌳 Guia de Parques PBH</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Néctar da Serra</h4><span>Tradicional na região do Mangabeiras, famoso por seus sucos, açaí e lanches naturais ideais após o passeio.</span></div><div class='gastro-item'><h4>Marché</h4><span>Um bistrô charmoso que combina gastronomia francesa com o ambiente aconchegante da região.</span></div><div class='gastro-item'><h4>Benvindo</h4><span>Localizado próximo ao Sion/Mangabeiras, é um restaurante muito querido pela qualidade do atendimento e pratos variados.</span></div>",
+                    mobility: "<p><strong>Linhas de Ônibus:</strong> As opções exclusivas e mais tradicionais para o local são as linhas 4103 e 4108, que sobem até o topo da praça. Não há metrô próximo devido à altitude elevada.</p><p><strong>Atenção ao Relevo e Bicicletas:</strong> O acesso envolve ladeiras extremamente íngremes. Recomenda-se o uso das <strong>bicicletas elétricas</strong> nas estações Tembici.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 App Tembici (Bike BH)</a>",
+                    curiosities: "<ul class='visitor-guide-list'><li>Antes do Papa visitar em 1980, a área era conhecida informalmente como um simples mirante de terra batida frequentado por jovens.</li><li>A Cruz Metálica gigante (Monumento à Paz) foi produzida utilizando os mesmos aços robustos das tradicionais indústrias siderúrgicas mineiras.</li><li>O relógio de sol instalado no centro geométrico da praça é um dos poucos e maiores do seu tipo no Brasil.</li><li>A vizinha 'Rua do Amendoim' abriga uma famosa e divertida ilusão de ótica onde os carros, deixados em ponto morto, parecem subir a ladeira sozinhos.</li><li>Fica a mais de 1.100 metros de altitude em relação ao nível do mar, garantindo um dos climas mais frios da capital.</li></ul>"
                 },
-                en: { title: "Pope's Square", history: "<p>Renamed after the Pope's visit in 1980.</p>", news: "<p>Currently under a massive R$ 2.5 million 12-month revitalization.</p>", guide: "<p>Visit the Mangabeiras Park: <a href='https://prefeitura.pbh.gov.br/fundacao-de-parques-e-zoobotanica/informacoes/parques/parque-das-mangabeiras' target='_blank'>Mangabeiras Park</a></p>", gastro: "<p>Healthy food, burgers and gelatos.</p>", mobility: "<p>Bus 4103/4108. Electric bikes recommended.</p>", curiosities: "<p>Famous optical illusion street nearby.</p>" },
-                es: { title: "Plaza del Papa", history: "<p>Renombrada tras la visita del Papa en 1980.</p>", news: "<p>Cerrada por revitalización de R$ 2.5 millones por 12 meses.</p>", guide: "<p>Parque Mangabeiras: <a href='https://prefeitura.pbh.gov.br/fundacao-de-parques-e-zoobotanica/informacoes/parques/parque-das-mangabeiras' target='_blank'>Parque Mangabeiras</a></p>", gastro: "<p>Comida saludable, sándwiches y helados.</p>", mobility: "<p>Autobús 4103/4108. Bicicletas eléctricas.</p>", curiosities: "<p>Calle de ilusión óptica cercana.</p>" }
+                en: {
+                    title: "Pope's Square",
+                    history: "<p>Located at the foot of the Curral Mountains. Renamed after Pope John Paul II held a mass here in 1980 and exclaimed: 'What a beautiful horizon!'.</p>",
+                    news: "<p>Currently undergoing extensive revitalization works. Civil society is also active in protecting the surrounding mountains from mining.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Sunset Picnic:</strong> Relax on the sloping grass.</li><li><strong>2. Dress warmly:</strong> It gets windy and chilly here.</li><li><strong>3. Park Info:</strong> Check updates from the municipal environmental portal.<br><a href='https://prefeitura.pbh.gov.br/' target='_blank' class='cta-link'>🌳 PBH Municipal Parks Guide</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Néctar da Serra</h4><span>Traditional in the Mangabeiras region, famous for juices, açaí, and natural snacks ideal after a walk.</span></div><div class='gastro-item'><h4>Marché</h4><span>A charming bistro combining French gastronomy with the cozy atmosphere of the region.</span></div><div class='gastro-item'><h4>Benvindo</h4><span>Located near Sion/Mangabeiras, it is highly loved for its service quality and varied dishes.</span></div>",
+                    mobility: "<p><strong>Bus:</strong> Take lines 4103 or 4108 directly to the square. No metro lines are available due to the mountain location.</p><p><strong>Steep Hills & Electric Bikes:</strong> The road is very steep. We highly recommend renting an <strong>electric bike</strong> through the Tembici app.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Download Tembici App</a>",
+                    curiosities: "<ul class='visitor-guide-list'><li>Before the Pope visited in 1980, the area was just an informal dirt lookout spot for local youth.</li><li>The giant steel cross monument was forged using materials from the traditional mining and steel companies of the state.</li><li>The sundial installed in the square is one of the few and largest of its kind in Brazil.</li><li>The nearby 'Peanut Street' features a famous optical illusion where cars in neutral gear seem to roll uphill on their own.</li><li>It is located at an altitude of over 1,100 meters, ensuring it has one of the coolest microclimates in the capital.</li></ul>"
+                },
+                es: {
+                    title: "Plaza del Papa",
+                    history: "<p>Ubicada a los pies de la Serra do Curral. Rebautizada luego de que el Papa Juan Pablo II diera una misa aquí en 1980 y exclamara: '¡Qué bello horizonte!'.</p>",
+                    news: "<p>La plaza pasa por amplias obras de revitalización para el turismo ecológico de la ciudad.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Atardecer:</strong> La vista desde la Cruz es inigualable.</li><li><strong>2. Abrígate:</strong> El viento de la tarde suele ser frío.</li><li><strong>3. Parques:</strong> Consulte eventos y guías ecológicas del área.<br><a href='https://prefeitura.pbh.gov.br/' target='_blank' class='cta-link'>🌳 Guía de Parques Municipales PBH</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Néctar da Serra</h4><span>Tradicional en la región, famoso por jugos, açaí y meriendas naturales después del paseo.</span></div><div class='gastro-item'><h4>Marché</h4><span>Un bistró encantador que combina la gastronomía francesa con el ambiente acogedor de la región.</span></div><div class='gastro-item'><h4>Benvindo</h4><span>Ubicado cerca de Sion/Mangabeiras, es un restaurante muy querido por la calidad de su servicio y platos variados.</span></div>",
+                    mobility: "<p><strong>Autobús:</strong> Líneas urbanas 4103 o 4108 directo a la plaza. No hay servicios de metro por la elevación del terreno.</p><p><strong>Cuestas y Bicicletas Eléctricas:</strong> El acceso tiene pendientes muy pronunciadas. Se recomienda usar las <strong>bicicletas eléctricas</strong> de Tembici.</p><a href='https://tembici.com.br/' target='_blank' class='cta-link'>🚲 Descargar App Tembici</a>",
+                    curiosities: "<ul class='visitor-guide-list'><li>Antes de la visita del Papa en 1980, la zona era conocida como un simple mirador de tierra para los jóvenes locales.</li><li>La enorme cruz de acero fue forjada con metales de las industrias siderúrgicas tradicionales de Minas Gerais.</li><li>El reloj de sol de la plaza es uno de los pocos y más grandes de su tipo en Brasil.</li><li>La cercana 'Calle del Maní' tiene una famosa ilusión óptica donde los coches en punto muerto parecen subir la colina por sí solos.</li><li>Se encuentra a más de 1.100 metros de altitud, garantizando uno de los climas más fríos de la ciudad.</li></ul>"
+                }
+            },
+            afonsopena: {
+                address: "Avenida Afonso Pena - Centro, Belo Horizonte - MG",
+                hours: "Acesso público 24h",
+                pt: {
+                    title: "Avenida Afonso Pena",
+                    history: "<p>A principal espinha dorsal da cidade, idealizada no plano original de 1897, conectando o centro comercial aos bairros da zona sul com arquitetura eclética e art déco.</p>",
+                    news: "<p>O foco atual é o projeto 'Centro de Todo Mundo', implementando novas faixas exclusivas e incentivos para restauro de fachadas históricas.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Praça Sete:</strong> Visite o marco zero (o Pirulito).</li><li><strong>2. Rua da Bahia:</strong> Caminhe pelo reduto da boemia do século XX.</li><li><strong>3. Roteiros:</strong> Acesse guias turísticos da prefeitura para caminhadas no centro.<br><a href='https://belohorizonte.com.br/' target='_blank' class='cta-link'>🗺️ Portal Oficial de Turismo de BH</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Café Palhares</h4><span>Patrimônio imaterial de BH, o autêntico bar do centro, famoso desde 1938 por servir o lendário prato 'Kaol' (Cachaça, Arroz, Ovo e Linguiça).</span></div><div class='gastro-item'><h4>Café Nice</h4><span>Marco histórico no centro, excelente para almoços tradicionais e lanches rápidos.</span></div><div class='gastro-item'><h4>Restaurante do Bolão (Unidade Centro)</h4><span>Famoso pelo seu prato 'Rochedão' e pela tradição que atravessa gerações.</span></div>",
+                    mobility: "<p><strong>Transporte Público & Metrô:</strong> A avenida é o principal corredor de transporte da capital. Ao final da via, localiza-se a <strong>Estação Central do Metrô</strong>. É percorrida por dezenas de linhas municipais (Ex: 104, 1030, 4103, 4108, 5102) e corredores dedicados do BRT Move.</p>",
+                    curiosities: "<ul class='visitor-guide-list'><li>Seu traçado reto e incrivelmente amplo foi planejado pela comissão construtora inspirando-se nas majestosas avenidas de Washington D.C. e de Paris.</li><li>Até meados dos anos 1960, a avenida era cortada por trilhos de bonde elétrico e tinha um romântico canteiro central com centenas de figueiras.</li><li>O Automóvel Clube e o prédio da Prefeitura são alguns dos poucos edifícios originais que resistiram à intensa verticalização e especulação imobiliária do século XX.</li><li>O famoso 'Pirulito' (obelisco) da Praça Sete foi doado pelo povo de Betim em 1922 para comemorar o Centenário da Independência do Brasil.</li></ul>"
+                },
+                en: {
+                    title: "Afonso Pena Avenue",
+                    history: "<p>The main spine of BH, planned in 1897, connecting downtown to southern neighborhoods.</p>",
+                    news: "<p>Urban projects focus on revitalizing downtown with new exclusive bus lanes.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Praça Sete:</strong> The city's ground zero monument.</li><li><strong>2. Tourism Hub:</strong> Access map coordinates and updates.<br><a href='https://belohorizonte.com.br/' target='_blank' class='cta-link'>🗺️ BH Official Tourism Portal</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Café Palhares</h4><span>Downtown heritage since 1938, serving the legendary 'Kaol' dish (rice, egg, sausage, and pork rinds).</span></div><div class='gastro-item'><h4>Café Nice</h4><span>A historic downtown landmark, excellent for traditional lunches and quick snacks.</span></div><div class='gastro-item'><h4>Restaurante do Bolão (Centro Branch)</h4><span>Famous for its 'Rochedão' dish and generations-spanning tradition.</span></div>",
+                    mobility: "<p><strong>Public Transport & Metro:</strong> It is the main traffic spine of the capital, ending right next to the <strong>Central Metro Station</strong>. It features major BRT Move lanes and is crossed by lines 104, 1030, 4103, 4108, and 5102.</p>",
+                    curiosities: "<ul class='visitor-guide-list'><li>Its wide, straight layout was heavily inspired by the grand avenues of Washington D.C. and Paris.</li><li>Until the 1960s, the avenue was crossed by electric tram tracks and featured a beautiful median filled with fig trees.</li><li>The Automobile Club and the City Hall are some of the few original buildings that survived the aggressive modernization of the 20th century.</li><li>The famous 'Pirulito' obelisk in Praça Sete was donated by the neighboring city of Betim in 1922 to celebrate Brazil's Centennial of Independence.</li></ul>"
+                },
+                es: {
+                    title: "Avenida Afonso Pena",
+                    history: "<p>La espina dorsal de BH, planificada en 1897, conectando el centro con el sur.</p>",
+                    news: "<p>Proyectos recientes buscan revitalizar el centro con carriles exclusivos para autobuses.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Praça Sete:</strong> El kilómetro cero de la ciudad.</li><li><strong>2. Rutas:</strong> Acceda al portal de turismo para recorridos urbanos guiados.<br><a href='https://belohorizonte.com.br/' target='_blank' class='cta-link'>🗺️ Portal Oficial de Turismo de BH</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Café Palhares</h4><span>Patrimonio de BH desde 1938, sirviendo su famoso plato tradicional 'Kaol' (arroz, huevo y salchicha).</span></div><div class='gastro-item'><h4>Café Nice</h4><span>Hito histórico en el centro, excelente para almuerzos tradicionales y bocadillos rápidos.</span></div><div class='gastro-item'><h4>Restaurante do Bolão (Sucursal Centro)</h4><span>Famoso por su plato 'Rochedão' y por la tradición que cruza generaciones.</span></div>",
+                    mobility: "<p><strong>Transporte Público y Metro:</strong> Principal arteria urbana de autobuses y del sistema BRT Move, conectada al norte con la <strong>Estación Central del Metro</strong>. Ideal para recorrer a pie mediante líneas 104, 1030, 4103, 4108 y 5102.</p>",
+                    curiosities: "<ul class='visitor-guide-list'><li>Su diseño recto y excepcionalmente amplio se inspiró en las avenidas de París y Washington D.C.</li><li>Hasta los años 1960, la avenida estaba atravesada por tranvías eléctricos y tenía un romântico camellón central con higueras.</li><li>El Automóvil Club y el Ayuntamiento son de los pocos edificios originales que sobrevivieron a la intensa modernización.</li><li>El famoso obelisco 'Pirulito' fue donado por el pueblo de Betim en 1922 para celebrar el Centenario de la Independencia de Brasil.</li></ul>"
+                }
+            },
+            parquemunicipal: {
+                address: "Av. Afonso Pena, 1377 - Centro, Belo Horizonte - MG",
+                hours: "Terça a Domingo, das 08:00 às 17:00",
+                pt: {
+                    title: "Parque Municipal",
+                    history: "<p>Inaugurado em 1897, meses antes da conclusão de BH. Inspirado nos jardins românticos franceses da Belle Époque, hoje é o maior pulmão verde central.</p>",
+                    news: "<p>Novos programas da prefeitura passaram a promover eventos de cinema e festivais de luzes noturnos aqui.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Lagos:</strong> Alugue um barco a remo no lago central.</li><li><strong>2. Espetáculos:</strong> Confira as peças teatrais e óperas no complexo cultural adjacente.<br><a href='https://fcs.mg.gov.br/' target='_blank' class='cta-link'>🎭 Programação do Palácio das Artes</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Cantina do Lucas</h4><span>Localizada no Edifício Maletta, é um dos pontos de encontro cultural e boêmio mais importantes vizinhos ao parque.</span></div><div class='gastro-item'><h4>Pizzarela</h4><span>Um ícone da cidade localizado próximo ao parque, muito conhecido pelas pizzas e massas tradicionais.</span></div><div class='gastro-item'><h4>Paracone</h4><span>Restaurante tradicional que atende o público do centro com pratos clássicos e bom custo-benefício.</span></div>",
+                    mobility: "<p><strong>Metrô e Ônibus integrados:</strong> O parque possui localização centralizada privilegiada, ficando a escassos quarteirões da Praça da Estação (<strong>Estação Central do Metrô</strong>). Suas portarias principais na Av. Afonso Pena recebem linhas cruciais como a 104, 4103, 5102, 7900 e 85.</p>",
+                    curiosities: "<ul class='visitor-guide-list'><li>O parque é mais antigo que a própria cidade, tendo servido inicialmente como o 'quintal' e alojamento provisório dos engenheiros que construíam a capital.</li><li>Apesar do tráfego caótico do lado de fora, o isolamento acústico natural das árvores centenárias permite que o visitante escute centenas de espécies de pássaros nativos.</li><li>Originalmente, o parque ocupava uma área quase duas vezes maior, perdendo espaço ao longo das décadas para obras como o Teatro Francisco Nunes e a Faculdade de Medicina.</li><li>O projeto de paisagismo original foi assinado pelo prestigiado arquiteto francês Paul Villon.</li><li>O parque ainda abriga um dos mais tradicionais parques de diversões do estado, mantendo brinquedos com uma estética saudosa e vintage.</li></ul>"
+                },
+                en: {
+                    title: "Municipal Park",
+                    history: "<p>Inaugurated in 1897, it was inspired by French romantic gardens of the Belle Époque.</p>",
+                    news: "<p>New municipal programs now allow the park to remain open safely at night for cultural events.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Rowboats:</strong> Rent a traditional boat on the lake.</li><li><strong>2. Performances:</strong> Check theater or orchestra plays at the annexed theater building.<br><a href='https://fcs.mg.gov.br/' target='_blank' class='cta-link'>🎭 Palácio das Artes Event Schedule</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Cantina do Lucas</h4><span>Located in the Maletta Building, one of the most important cultural meeting points near the park.</span></div><div class='gastro-item'><h4>Pizzarela</h4><span>A city icon located near the park, well known for its traditional pizzas and pastas.</span></div><div class='gastro-item'><h4>Paracone</h4><span>Traditional restaurant serving the downtown public with classic dishes and good cost-benefit.</span></div>",
+                    mobility: "<p><strong>Metro & Buses:</strong> Located just blocks from the <strong>Central Metro Station</strong>, with multiple urban bus lines stopping directly at its main gates (e.g., routes 104, 4103, 5102, 7900, and 85).</p>",
+                    curiosities: "<ul class='visitor-guide-list'><li>It is actually older than the capital itself, originally serving as a campsite and resting place for the city's builders.</li><li>Despite the intense traffic outside, the natural acoustic isolation of the dense trees allows you to hear hundreds of native bird species.</li><li>Originally, the park occupied an area almost twice its current size.</li><li>The original landscaping was designed by the prestigious French architect Paul Villon.</li><li>It still houses a charming traditional amusement park, featuring a vintage-style Ferris wheel and classic rides.</li></ul>"
+                },
+                es: {
+                    title: "Parque Municipal",
+                    history: "<p>Inaugurado en 1897 e inspirado en los jardines románticos franceses.</p>",
+                    news: "<p>Nuevos programas organizan cine al aire libre y festivales culturales nocturnos.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Botes:</strong> Alquile un bote de remos en el lago.</li><li><strong>2. Cartelera:</strong> Revise las funciones teatrales y artísticas del recinto.<br><a href='https://fcs.mg.gov.br/' target='_blank' class='cta-link'>🎭 Cartelera Cultural Palácio das Artes</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Cantina do Lucas</h4><span>Ubicada en el Edificio Maletta, uno de los puntos de encuentro cultural más importantes cerca del parque.</span></div><div class='gastro-item'><h4>Pizzarela</h4><span>Un ícono de la ciudad ubicado cerca del parque, muy conocido por sus pizzas y pastas tradicionales.</span></div><div class='gastro-item'><h4>Paracone</h4><span>Restaurante tradicional que atiende al público del centro con platos clásicos y buena relación calidad-precio.</span></div>",
+                    mobility: "<p><strong>Metro y Autobuses:</strong> Acceso inmejorable al situarse a muy pocas calles de la <strong>Estación Central del Metro</strong>. Sus accesos por Av. Afonso Pena reciben colectivos como las líneas 104, 4103, 5102, 7900 y 85.</p>",
+                    curiosities: "<ul class='visitor-guide-list'><li>Es más antiguo que la propia ciudad, utilizado originalmente como campamento por los constructores de la capital.</li><li>A pesar del caótico tráfico exterior, el aislamiento acústico natural de los árboles permite escuchar cientos de especies de aves nativas.</li><li>Originalmente, el parque ocupaba un área casi el doble de la actual.</li><li>El diseño original de paisajismo fue obra del prestigioso arquitecto francés Paul Villon.</li><li>Alberga un encantador y tradicional parque de diversiones con una noria y atracciones de estilo clásico y vintage.</li></ul>"
+                }
             },
             feirahippie: {
                 address: "Avenida Afonso Pena - Centro, Belo Horizonte - MG",
                 hours: "Aos Domingos (07:00 às 14:00)",
                 pt: {
                     title: "Feira Hippie de BH",
-                    history: "<p>A gloriosa e colorida Feira de Artes, Artesanato e Produtores de Variedades de Belo Horizonte, carinhosa, imortal e informalmente conhecida por todos como 'Feira Hippie', é um verdadeiro organismo vivo que pulsa no coração da capital. Sua semente foi plantada originalmente em 1969, no auge do movimento da contracultura, por um pequeno, destemido e talentoso grupo de artistas plásticos e hippies cabeludos que passaram a expor, sem qualquer estrutura formal, suas tapeçarias, esculturas de pedra-sabão, quadros psicodélicos e bijuterias ao longo das belíssimas alamedas de palmeiras imperiais da histórica Praça da Liberdade.</p><p>O sucesso da exposição livre de domingo, a impressionante qualidade artística e a incrível aceitação do público foram tamanhos que a feira expandiu de forma descontrolada nas décadas seguintes. Com o aumento astronômico do fluxo de visitantes, a prefeitura, em um movimento estratégico no longínquo ano de 1991, decidiu transferir todo aquele complexo cultural, humano e comercial de forma organizada e setorizada para o amplo asfalto da gigantesca Avenida Afonso Pena. Lá, ela fincou raízes profundas, cresceu ainda mais, agregou roupas, calçados e alimentação, e consolidou-se como a absolutamente inquestionável maior feira de artesanato a céu aberto de toda a América Latina.</p>",
-                    news: "<p>Sobrevivendo à modernidade e às inovações tecnológicas, as atuais pautas sobre a Feira Hippie têm girado em torno da monumental e definitiva transição digital adotada pelos mais de dois mil feirantes. Os pagamentos e transações realizadas pelas antigas e lentas maquininhas de cartão ou dinheiro vivo deram lugar massivo ao uso do PIX, dinamizando impressionantemente as compras rápidas nos corredores.</p><p>Além disso, o movimento da atualidade é um grande projeto municipal recém-lançado focado puramente em ampliar agressivamente a fiscalização, melhorar a segurança preventiva, recadastrar antigas barracas familiares que passaram de geração para geração, e coibir duramente a venda de produtos industrializados de origem importada (chinesa), garantindo e protegendo rigidamente a tradição inegociável de que o produto vendido na Feira Hippie deve, obrigatoriamente, nascer das mãos de um artesão e produtor local genuíno.</p>",
-                    guide: "<ul class='visitor-guide-list'><li><strong>1. Chegue Cedo (Muito Cedo):</strong> Para escapar do mar enlouquecedor de milhares de pessoas e do calor estafante do asfalto refletido pelo meio-dia, o verdadeiro segredo de mestre é programar-se para estar na feira entre 07:30 e 08:30 da manhã, quando a temperatura é amena, as barracas estão perfeitamente abastecidas e as numerações de calçados ainda não sumiram.</li><li><strong>2. Mapeamento de Setores:</strong> A feira é um oceano de quase três mil toldos de lona branca divididos em rigorosos setores por ruas transversais e cores. Se você procura bolsas de couro legítimo, não perca tempo na ala de tapeçaria. Se o foco for roupas de cama e mesa rústicas, vá direto para os quarteirões iniciais perto do Parque Municipal.</li><li><strong>3. Dinheiro Trocado Salva Vidas:</strong> Embora absolutamente todas as barracas, sem exceção, sejam ultra modernas e aceitem cartões por aproximação ou PIX, ter algumas notas miúdas para a compra instantânea de pequenos itens, como água, picolés ou biscoitos, agiliza a vida. Verifique também no portal oficial os mapas completos e as localizações precisas dos setores de seu interesse.<br><a href='https://feirahippiedebh.com.br/' target='_blank' class='cta-link'>🛍️ Mapa Oficial de Setores da Feira</a></li></ul>",
-                    gastro: "<div class='gastro-item'><h4>Barracas de Acarajé (Tradição da Feira)</h4><span>É um verdadeiro pecado sair de casa no domingo de manhã e não comer na própria rua. As gigantescas e famosíssimas barracas de acarajé, comandadas por autênticas baianas que carregam ingredientes puros e fritam o bolinho de feijão-fradinho ali na hora, com vatapá e caruru quentes, são o coração culinário da feira.</span></div><div class='gastro-item'><h4>As Clássicas Barracas de Espetinhos</h4><span>Embalando o autêntico clima caótico e boêmio e espalhando a clássica nuvem de fumaça pela Avenida Afonso Pena, as infindáveis e incrivelmente disputadas barracas de espetinho de boi, frango, medalhão com farofa e vinagrete formam o almoço oficial e barato de noventa por cento dos belo-horizontinos aos domingos.</span></div><div class='gastro-item'><h4>Cachorro-quente, Tapioca e Sucos Naturais das Barracas</h4><span>As laterais da feira, bem rente ao majestoso Parque Municipal, são completamente forradas de centenas de quiosques rápidos focados exclusivamente em lanches ágeis, pastéis fritos na hora com caldo de cana gelado e garrafas suadas com misturas refrescantes de suco de frutas. A recomendação expressa é consumir apenas e exclusivamente as ricas opções oferecidas na própria rua pelos produtores da feira.</span></div>",
-                    mobility: "<p><strong>Metrô, BRT Move e Linhas de Ônibus Tradicionais:</strong> Como a feira tranca a principal artéria vascular da capital aos domingos, o transporte público é, de longe, disparado a melhor forma de chegar e ir embora. Evite profundamente e a qualquer custo tentar achar vagas para carros particulares nas redondezas ou contar com aplicativos.</p><p>As linhas exclusivas e rápidas do moderno <strong>BRT Move (Linhas 50, 51, 61, e 65)</strong> possuem amplas e tecnológicas estações de descida na vizinha e perfeitamente plana Avenida Paraná, apenas dois quarteirões da aglomeração e da Praça Sete. As robustas e variadas <strong>Linhas de Ônibus Convencionais (como 104, 1030, 4103, 4108, 5102, e 9103)</strong> adaptam seus percursos perfeitamente todos os domingos e despejam milhares de passageiros nos desvios das ruas adjacentes paralelas. A gigantesca <strong>Estação Central do Metrô</strong>, ligando quase a cidade toda, está posicionada na Praça da Estação, a uma ridícula, rápida e curtíssima caminhada tranquila e totalmente plana de não mais que 5 minutos até o exato ponto de início das imensas fileiras de barracas.</p>",
-                    curiosities: "<ul class='visitor-guide-list'><li>Você sabia que a grandiosidade colossal da Feira Hippie impressiona tanto que, segundo estimativas conservadoras do sindicato dos produtores e da prefeitura local, ela chega a receber inacreditáveis setenta mil visitantes passeando e consumindo ativamente todos os domingos em períodos normais? Em dias de pico próximo às datas festivas, esse fluxo enlouquecedor pode ultrapassar facilmente e com margem a formidável e estonteante marca de cem mil pessoas circulando freneticamente entre o alvorecer e o sol a pino.</li><li>Outro fato muito curioso, peculiar e logístico é a impressionante metamorfose noturna, silenciosa e pesada da Avenida Afonso Pena. As largas e movimentadas pistas de asfalto preto, que são dominadas por agressivos ônibus articulados, milhares de carros de passeio e motos apressadas nos pesados engarrafamentos e congestionamentos habituais de sábado à noite, transformam-se milagrosamente. Na madrugada sombria, como por magia e suor braçal de equipes formidáveis de montadores madrugadores, o asfalto é completamente desocupado, os carros desviados pelas autoridades e toda a estrutura metálica infindável de milhares de barracas ordenadas brota no asfalto vazio antes mesmo de os primeiros intensos e calorentos raios solares do domingo começarem a raiar e lamber as calçadas da capital.</li></ul>"
+                    history: "<p>Começou espontaneamente em 1969 na Praça da Liberdade e em 1991 foi transferida para a Avenida Afonso Pena. Hoje é a maior feira a céu aberto da América Latina.</p>",
+                    news: "<p>Foco na padronização para acessibilidade e a recente modernização com licitações rigorosas para o setor gastronômico da feira.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Chegue cedo:</strong> Evite a superlotação após as 10h.</li><li><strong>2. Alimentação:</strong> Não vá embora sem provar as iguarias regionais nas barracas de alimentação.</li><li><strong>3. Mapeamento:</strong> Veja a listagem de setores e expositores oficiais da prefeitura.<br><a href='https://prefeitura.pbh.gov.br/' target='_blank' class='cta-link'>🛍️ Guia Oficial da Feira Hippie</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Barracas de Comida Típica</h4><span>A experiência gastronômica recomendada aqui é provar as iguarias vendidas diretamente nas barracas da feira, como o famoso acarajé, o pastel com caldo de cana e os diversos quitutes mineiros tradicionais preparados na hora.</span></div>",
+                    mobility: "<p><strong>Trânsito Interditado e Desvios de Domingo:</strong> Aos domingos, o trecho central da Avenida Afonso Pena fica completamente bloqueado para carros. A melhor rota de acesso limpo é descer direto na <strong>Estação Central do Metrô</strong> e caminhar dois quarteirões. As linhas de ônibus realizam desvios temporários por vias paralelas (como Av. Augusto de Lima e Av. João Pinheiro).</p>",
+                    curiosities: "<ul class='visitor-guide-list'><li>A feira nasceu de forma rebelde nos anos 60 pelas mãos de artistas plásticos e intelectuais que desafiavam as restrições culturais da ditadura militar.</li><li>Ela atrai um fluxo gigantesco, movimentando em média 80 mil visitantes a cada domingo.</li><li>Para que as pessoas não se percam, os corredores são organizados e divididos em 16 setores representados por cores diferentes.</li><li>Em seu auge de tamanho na década de 1990, a feira chegou a contabilizar mais de 3.000 expositores e barracas oficiais.</li><li>Ainda é possível encontrar muitos artesãos da 'velha guarda' (que iniciaram na Praça da Liberdade nos anos 70) comandando suas barracas tradicionais.</li></ul>"
                 },
-                en: { title: "Hippie Fair", history: "<p>Started in 1969. Largest in Latin America.</p>", news: "<p>Pix payments and strict product regulations.</p>", guide: "<p>Official sectors: <a href='https://feirahippiedebh.com.br/' target='_blank'>Fair Map</a></p>", gastro: "<p>Only local fair food stalls: Acarajé, BBQ sticks, Pastels.</p>", mobility: "<p>Bus lines (Move 50/51/61/65) or Metro Central.</p>", curiosities: "<p>Over 70,000 visitors every Sunday.</p>" },
-                es: { title: "Feria Hippie", history: "<p>Iniciada en 1969. La mayor de América Latina.</p>", news: "<p>Pagos Pix y regulación de artesanías.</p>", guide: "<p>Sectores: <a href='https://feirahippiedebh.com.br/' target='_blank'>Mapa de la Feria</a></p>", gastro: "<p>Únicamente puestos locales: Acarajé, Brochetas, Pasteles.</p>", mobility: "<p>Autobuses (Move 50/51/61/65) o Metro Central.</p>", curiosities: "<p>Más de 70,000 visitantes cada domingo.</p>" }
+                en: {
+                    title: "Hippie Fair",
+                    history: "<p>Began in 1969 at Liberty Square and relocated to Afonso Pena in 1991. It is the largest open-air fair in Latin America.</p>",
+                    news: "<p>Recent actions focused on accessibility and hygiene modernization in the food sector.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Arrive Early:</strong> Crowds get heavy after 10 AM.</li><li><strong>2. Fair Guide:</strong> Access maps and official vendors registry from the city council portal.<br><a href='https://prefeitura.pbh.gov.br/' target='_blank' class='cta-link'>🛍️ Official Hippie Fair Guide</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Traditional Food Stalls</h4><span>The recommended food experience here is tasting the delicacies sold directly at the fair's stalls, such as the famous acarajé, pastel with sugarcane juice, and various traditional Minas treats prepared on the spot.</span></div>",
+                    mobility: "<p><strong>Sunday Road Closures:</strong> The avenue is completely closed to motor vehicles on Sundays. The most practical route is taking the metro directly to the <strong>Central Metro Station</strong> and walking two blocks. Regular bus routes are detoured to parallel avenues (Augusto de Lima and João Pinheiro).</p>",
+                    curiosities: "<ul class='visitor-guide-list'><li>The fair was born in the 60s as a rebellious act by artists and intellectuals defying the cultural restrictions of the military dictatorship.</li><li>It attracts an incredibly massive crowd, bringing in around 80,000 visitors every single Sunday.</li><li>To help visitors navigate, the stalls are strategically divided into 16 differently colored sectors.</li><li>At its peak in the 1990s, the fair hosted over 3,000 official exhibitors.</li><li>You can still find many 'old school' artisans from the 1970s Liberty Square era proudly managing their traditional stalls.</li></ul>"
+                },
+                es: {
+                    title: "Feria Hippie",
+                    history: "<p>Comenzó en 1969 en la Plaza de la Libertad. Hoy es la mayor feria a cielo abierto de América Latina.</p>",
+                    news: "<p>Se ha centrado en mejorar la accesibilidad y modernizar las normas de salud de los puestos de comida.</p>",
+                    guide: "<ul class='visitor-guide-list'><li><strong>1. Llegue temprano:</strong> Evite la multitud después de las 10 AM.</li><li><strong>2. Sectores:</strong> Consulte el mapa de distribución de artesanos en el portal municipal.<br><a href='https://prefeitura.pbh.gov.br/' target='_blank' class='cta-link'>🛍️ Guía Oficial de la Feria Hippie</a></li></ul>",
+                    gastro: "<div class='gastro-item'><h4>Puestos de Comida Típica</h4><span>La experiencia gastronómica recomendada aquí es probar los manjares que se venden directamente en los puestos de la feria, como el famoso acarajé, el pastel con jugo de caña y los diversos bocadillos tradicionales de Minas preparados al instante.</span></div>",
+                    mobility: "<p><strong>Calles Cerradas de Domingo:</strong> La avenida se cierra totalmente a los coches los domingos. La alternativa de acceso más limpia es usar la <strong>Estación Central del Metro</strong> y caminar 2 calles. Los autobuses urbanos realizan desvíos por calles laterales (como Av. Augusto de Lima y Av. João Pinheiro).</p>",
+                    curiosities: "<ul class='visitor-guide-list'><li>La feria nació en los años 60 como un acto rebelde de artistas que desafiaban las restricciones culturales de la dictadura militar.</li><li>Atrae a una multitud gigantesca, con unos 80.000 visitantes cada domingo.</li><li>Para evitar que la gente se pierda, los pasillos están organizados en 16 sectores representados por diferentes colores.</li><li>En su apogeo de tamaño en la década de 1990, llegó a tener más de 3.000 expositores oficiales.</li><li>Todavía es posible encontrar a muchos artesanos de la 'vieja escuela' de los años 70 administrando sus puestos tradicionales.</li></ul>"
+                }
             }
         };
 
-        // Completando os outros locais mais simples
-        turismoData.afonsopena = turismoData.feirahippie; 
-        turismoData.parquemunicipal = turismoData.liberdade; 
-
         let currentActivePlaceKey = null;
-
-        function openDetails(key) {
-            currentActivePlaceKey = key;
-            renderPlaceDetails(key);
+        function openDetails(placeKey) {
+            ativarTelaCheia();
+            currentActivePlaceKey = placeKey;
+            renderPlaceDetails(placeKey);
             changeScreen('details-screen');
         }
 
         function renderPlaceDetails(key) {
             const data = turismoData[key];
-            if (!data || !data[currentLang]) return;
-
-            const content = data[currentLang];
-            document.getElementById('details-title').innerHTML = content.title;
+            const localInfo = data[currentLang];
+            
+            document.getElementById('details-title').innerText = localInfo.title;
             document.getElementById('details-address').innerText = data.address;
             document.getElementById('details-hours').innerText = data.hours;
             
-            document.getElementById('details-history').innerHTML = content.history;
-            document.getElementById('details-news').innerHTML = content.news;
-            document.getElementById('details-guide').innerHTML = content.guide;
-            document.getElementById('details-gastro').innerHTML = content.gastro;
-            document.getElementById('details-mobility').innerHTML = content.mobility;
-            document.getElementById('details-curiosities').innerHTML = content.curiosities;
-
-            const mapBtn = document.getElementById('details-gps-btn');
-            mapBtn.onclick = function() {
-                window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.address)}`, '_blank');
-            };
-
+            document.getElementById('details-history').innerHTML = localInfo.history;
+            document.getElementById('details-news').innerHTML = localInfo.news;
+            document.getElementById('details-guide').innerHTML = localInfo.guide;
+            document.getElementById('details-gastro').innerHTML = localInfo.gastro;
+            document.getElementById('details-mobility').innerHTML = localInfo.mobility;
+            document.getElementById('details-curiosities').innerHTML = localInfo.curiosities;
+            
+            const encodedAddress = encodeURIComponent(data.address);
+            const gpsBtn = document.getElementById('details-gps-btn');
+            gpsBtn.setAttribute('onclick', `window.open('https://www.google.com/maps/search/?api=1&query=${encodedAddress}', '_blank')`);
+            
             const mapContainer = document.getElementById('details-map-container');
-            mapContainer.innerHTML = `<iframe src="https://maps.google.com/maps?q=${encodeURIComponent(data.address)}&t=&z=15&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>`;
-        }
-
-        function changeScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
+            mapContainer.innerHTML = `<iframe src="https://maps.google.com/maps?q=${encodedAddress}&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>`;
         }
 
         function ativarTelaCheia() {
-            let el = document.documentElement;
-            if (!document.fullscreenElement && el.requestFullscreen) {
-                el.requestFullscreen().catch(() => {});
+            try {
+                let elem = document.documentElement;
+                if (elem.requestFullscreen) { 
+                    elem.requestFullscreen().catch(e => console.warn("Fullscreen bloqueado por falta de interação do usuário:", e)); 
+                }
+                else if (elem.webkitRequestFullscreen) { 
+                    elem.webkitRequestFullscreen(); 
+                }
+                
+                if (screen.orientation && screen.orientation.lock) {
+                    screen.orientation.lock('landscape').catch(e => console.warn("Orientation lock não suportado:", e));
+                }
+            } catch (err) {
+                console.warn("API de Fullscreen encontrou um erro:", err);
             }
         }
 
-        // ==========================================
-        // 🎮 MOTOR DO JOGO PIXEL DASH (RECONSTRUÍDO)
-        // ==========================================
+        function changeScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+            
+            const langSelector = document.getElementById('lang-selector');
+            if (screenId === 'game-screen') {
+                langSelector.style.display = 'none';
+            } else {
+                langSelector.style.display = 'flex';
+            }
+
+            if(screenId !== 'game-screen' && gameLoopId) {
+                cancelAnimationFrame(gameLoopId);
+                gameLoopId = null;
+            }
+        }
+
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
-        
-        let gameActive = false;
+        ctx.imageSmoothingEnabled = false;
+
+        const images = {};
+        const imageFiles = {
+            bg_pampulha: 'bg_pampulha.png', bg_mercado: 'bg_mercado.png', bg_liberdade: 'bg_liberdade.png', bg_papa: 'bg_papa.png',
+            pao_parado: 'pao_parado.png', pao_corre1: 'pao_corre1.png', pao_corre2: 'pao_corre2.png',
+            cafe_parado: 'cafe_parado.png', cafe_corre1: 'cafe_corre1.png', cafe_corre2: 'cafe_corre2.png',
+            obs_cone: 'obs_cone.png', obs_capivara: 'obs_capivara.png', obs_banco: 'obs_banco.png',
+            obs_borboleta: 'obs_borboleta.png', obs_passarinho: 'obs_passarinho.png', obs_drone: 'obs_drone.png',
+            obs_onibus: 'obs_onibus.png', obs_pombo: 'obs_pombo.png'
+        };
+
+        for (let key in imageFiles) {
+            images[key] = new Image();
+            images[key].src = imageFiles[key];
+        }
+
+        let gameLoopId = null;
+        let lastTime = 0;
+        let accumulator = 0;
+        const TIME_STEP = 1000 / 60; 
+
         let score = 0;
-        let baseSpeed = 7; // Personagem começando mais rápido
-        let gameSpeed = baseSpeed;
-        let nextSpeedUp = 500; // Incremento estrito a cada 500 pontos
+        let gameSpeed = 7; 
+        const maxSpeed = 16;
+        let currentStage = 1;
+        let nextSpeedIncreaseScore = 150; 
         
-        const scenarioNames = ["Circuito Pampulha", "Mercado Central", "Circuito Praça da Liberdade", "Praça do Papa"];
-        const scenarioColors = ["#1e3a8a", "#064e3b", "#701a75", "#7f1d1d"]; // Fundo adaptativo
-        let scenarioIndex = 0;
-        
-        let lastObstacleX = 0;
+        let bgX = 0;
+        let bgLeft = 'bg_pampulha';
+        let bgRight = 'bg_pampulha';
+
+        let spawnCooldown = 0;
+        let consecutivesAerials = 0; 
+
+        const POSICAO_CHAO = 630; 
+        const GRAVIDADE = 0.6;
+        const FORCA_PULO = -15.5;
 
         let player = {
-            x: 150, y: 0, w: 60, h: 60,
-            dy: 0, gravity: 0.8, jumpForce: -16,
-            grounded: true, character: 'pao' // 'pao' ou 'cafe'
+            x: 150, y: 0, width: 80, height: 100,
+            velocityY: 0, isJumping: false,
+            frameTimer: 0, currentFrame: 1, selectedSkin: 'pao'
         };
 
         let obstacles = [];
-        let reqId;
 
-        // Controle de pulo
-        function jump() {
-            if (player.grounded) {
-                player.dy = player.jumpForce;
-                player.grounded = false;
-                tocarPulo();
+        const obstacleRules = {
+            1: [ 
+                { img: 'obs_capivara', width: 95, height: 70, tipo: 'terra', targetY: POSICAO_CHAO },
+                { img: 'obs_capivara', width: 95, height: 70, tipo: 'terra', targetY: POSICAO_CHAO },
+                { img: 'obs_passarinho', width: 60, height: 50, tipo: 'ar', targetY: 480 }
+            ],
+            2: [ 
+                { img: 'obs_onibus', width: 140, height: 75, tipo: 'terra', targetY: POSICAO_CHAO },
+                { img: 'obs_onibus', width: 140, height: 75, tipo: 'terra', targetY: POSICAO_CHAO },
+                { img: 'obs_pombo', width: 55, height: 55, tipo: 'ar', targetY: 480 }
+            ],
+            3: [ 
+                { img: 'obs_banco', width: 120, height: 65, tipo: 'terra', targetY: POSICAO_CHAO },
+                { img: 'obs_banco', width: 120, height: 65, tipo: 'terra', targetY: POSICAO_CHAO },
+                { img: 'obs_borboleta', width: 50, height: 50, tipo: 'ar', targetY: 460 } 
+            ],
+            4: [ 
+                { img: 'obs_cone', width: 55, height: 65, tipo: 'terra', targetY: POSICAO_CHAO },
+                { img: 'obs_cone', width: 55, height: 65, tipo: 'terra', targetY: POSICAO_CHAO },
+                { img: 'obs_drone', width: 75, height: 55, tipo: 'ar', targetY: 400 }
+            ]
+        };
+
+        function startGame(skin) {
+            player.selectedSkin = skin;
+            player.y = POSICAO_CHAO - player.height;
+            player.velocityY = 0;
+            player.isJumping = false;
+            score = 0;
+            gameSpeed = 7;
+            currentStage = 1;
+            nextSpeedIncreaseScore = 150;
+            bgX = 0;
+            bgLeft = 'bg_pampulha';
+            bgRight = 'bg_pampulha';
+            obstacles = [];
+            spawnCooldown = 50;
+            consecutivesAerials = 0; 
+            
+            lastTime = performance.now();
+            accumulator = 0;
+            
+            changeScreen('game-screen');
+            if(gameLoopId) cancelAnimationFrame(gameLoopId);
+            gameLoopId = requestAnimationFrame(loop);
+        }
+
+        function triggerJump() {
+            if (!player.isJumping) {
+                player.velocityY = FORCA_PULO;
+                player.isJumping = true;
+                tocarPulo(); 
             }
         }
 
         window.addEventListener('keydown', (e) => {
-            if (e.code === 'Space' && gameActive) jump();
+            if (e.code === 'Space' || e.code === 'ArrowUp') { 
+                if(document.getElementById('game-screen').classList.contains('active')) {
+                    triggerJump(); e.preventDefault(); 
+                }
+            }
         });
-        window.addEventListener('touchstart', (e) => {
-            if (gameActive) jump();
-        }, {passive: false});
+        canvas.addEventListener('touchstart', (e) => { triggerJump(); e.preventDefault(); }, {passive: false});
+        canvas.addEventListener('mousedown', () => { triggerJump(); });
 
-        function spawnObstacle() {
-            // Garantir que não haja instant kill (obstáculos muito perto)
-            const minGap = canvas.width - lastObstacleX;
-            if (minGap < 500) return; // Distância segura
-            
-            // Mais probabilidade de obstáculo terrestre (80% chão, 20% ar)
-            const isAerial = Math.random() > 0.8;
-            const w = isAerial ? 50 : 40 + Math.random() * 30;
-            const h = isAerial ? 40 : 50 + Math.random() * 40;
-            
-            // Altura do chão = 600
-            const y = isAerial ? 480 - Math.random() * 50 : 600 - h; 
+        function loop(timestamp) {
+            try {
+                if (!gameLoopId) return; 
+                gameLoopId = requestAnimationFrame(loop);
+                
+                let deltaTime = timestamp - lastTime;
+                lastTime = timestamp;
 
-            obstacles.push({ x: canvas.width + 50, y: y, w: w, h: h, aerial: isAerial });
+                if (deltaTime > 250) deltaTime = 250;
+                accumulator += deltaTime;
+
+                let requiresDraw = false;
+
+                while (accumulator >= TIME_STEP) {
+                    update();
+                    accumulator -= TIME_STEP;
+                    requiresDraw = true;
+                }
+
+                if (requiresDraw) {
+                    draw();
+                }
+
+            } catch (error) {
+                console.warn("Erro no loop evitado.", error);
+            }
         }
 
-        function startGame(charKey) {
-            player.character = charKey;
-            score = 0;
-            gameSpeed = baseSpeed;
-            nextSpeedUp = 500;
-            scenarioIndex = 0;
-            obstacles = [];
-            player.y = 600 - player.h;
-            player.dy = 0;
-            player.grounded = true;
-            gameActive = true;
-            changeScreen('game-screen');
-            lastObstacleX = canvas.width;
-            loop();
-        }
+        function update() {
+            score += 0.15;
+            let displayScore = Math.floor(score);
 
-        function gameOver() {
-            gameActive = false;
-            cancelAnimationFrame(reqId);
-            tocarGameOver();
-            
-            let currentScore = Math.floor(score);
-            if (currentScore > highScore) {
-                highScore = currentScore;
-                try { localStorage.setItem('pixelDash_high', highScore); } catch(e) {}
-            }
-            
-            document.getElementById('final-score').innerText = currentScore;
-            document.getElementById('high-score').innerText = highScore;
-            setTimeout(() => { changeScreen('gameover-screen'); }, 500);
-        }
+            let cycle = Math.floor(displayScore / 100);
+            currentStage = (cycle % 4) + 1; 
 
-        function loop() {
-            if (!gameActive) return;
-
-            // FÍSICA
-            player.dy += player.gravity;
-            player.y += player.dy;
-
-            // Chão fixo em y = 600
-            if (player.y + player.h >= 600) {
-                player.y = 600 - player.h;
-                player.dy = 0;
-                player.grounded = true;
+            if (displayScore >= nextSpeedIncreaseScore) {
+                if (gameSpeed < maxSpeed) {
+                    gameSpeed += 0.6; 
+                    if (gameSpeed > maxSpeed) gameSpeed = maxSpeed;
+                }
+                nextSpeedIncreaseScore += 150;
             }
 
-            // PONTUAÇÃO & PROGRESSÃO ESTRITA A CADA 500
-            score += gameSpeed * 0.05;
-            let intScore = Math.floor(score);
-            
-            if (intScore >= nextSpeedUp) {
-                gameSpeed += 1.5; 
-                nextSpeedUp += 500; // Estritamente a cada 500 pontos
+            const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
+            let expectedBg = stageBackgrounds[currentStage - 1];
+
+            bgX -= gameSpeed;
+            if (bgX <= -1280) {
+                bgX += 1280; 
+                bgLeft = bgRight; 
+                bgRight = expectedBg; 
             }
 
-            // TRANSIÇÃO DE CENÁRIO (A CADA 100)
-            scenarioIndex = Math.floor(intScore / 100) % 4;
+            player.velocityY += GRAVIDADE;
+            player.y += player.velocityY;
+            
+            if (player.y >= POSICAO_CHAO - player.height) {
+                player.y = POSICAO_CHAO - player.height;
+                player.velocityY = 0;
+                player.isJumping = false;
+            }
 
-            // SPAWN E ATUALIZAÇÃO DE OBSTÁCULOS
-            if (obstacles.length > 0) {
-                lastObstacleX = obstacles[obstacles.length - 1].x;
+            // Animação estruturada de corrida das sprites pixeladas
+            player.frameTimer += 1;
+            if (player.frameTimer >= 6) {
+                player.frameTimer = 0;
+                player.currentFrame = player.currentFrame === 1 ? 2 : 1;
+            }
+
+            // Gerenciamento modular e randômico de obstáculos
+            if (spawnCooldown > 0) {
+                spawnCooldown--;
             } else {
-                lastObstacleX = 0; // Força spawn inicial
+                if (Math.random() < 0.02) {
+                    let pool = obstacleRules[currentStage];
+                    let chosen = pool[Math.floor(Math.random() * pool.length)];
+                    
+                    if (chosen.tipo === 'ar') {
+                        if (consecutivesAerials >= 2) {
+                            chosen = pool.find(o => o.tipo === 'terra') || chosen;
+                        }
+                    }
+
+                    if (chosen.tipo === 'ar') consecutivesAerials++;
+                    else consecutivesAerials = 0;
+
+                    obstacles.push({
+                        img: chosen.img,
+                        x: 1280,
+                        y: chosen.tipo === 'terra' ? POSICAO_CHAO - chosen.height : chosen.targetY,
+                        width: chosen.width,
+                        height: chosen.height,
+                        tipo: chosen.tipo
+                    });
+                    
+                    spawnCooldown = Math.floor(Math.random() * 50) + Math.max(40, 90 - gameSpeed * 3);
+                }
             }
 
-            if (Math.random() < 0.015 && lastObstacleX < canvas.width - 450) {
-                spawnObstacle();
-            }
-
-            for (let i = 0; i < obstacles.length; i++) {
+            // Tratamento interno das Hitboxes reduzidas
+            for (let i = obstacles.length - 1; i >= 0; i--) {
                 let obs = obstacles[i];
                 obs.x -= gameSpeed;
 
-                // Colisão (AABB com tolerância)
-                if (player.x + 10 < obs.x + obs.w &&
-                    player.x + player.w - 10 > obs.x &&
-                    player.y + 10 < obs.y + obs.h &&
-                    player.y + player.h - 10 > obs.y) {
-                    gameOver();
+                let paddingX = obs.width * 0.15;
+                let paddingY = obs.height * 0.15;
+                
+                if (
+                    player.x + 15 < obs.x + obs.width - paddingX &&
+                    player.x + player.width - 15 > obs.x + paddingX &&
+                    player.y + 10 < obs.y + obs.height - paddingY &&
+                    player.y + player.height - 10 > obs.y + paddingY
+                ) {
+                    endGame();
+                    return;
+                }
+
+                if (obs.x + obs.width < 0) {
+                    obstacles.splice(i, 1);
                 }
             }
-            // Remove os que saíram da tela
-            obstacles = obstacles.filter(o => o.x + o.w > -10);
-
-            // RENDERIZAÇÃO
-            ctx.fillStyle = scenarioColors[scenarioIndex]; // Cor de fundo do cenário
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Chão
-            ctx.fillStyle = "#222";
-            ctx.fillRect(0, 600, canvas.width, 120);
-
-            // Jogador (Placeholder Cúbico já que as imagens não vão carregar externamente aqui)
-            ctx.fillStyle = player.character === 'pao' ? "#fde047" : "#5c4033";
-            ctx.fillRect(player.x, player.y, player.w, player.h);
-            
-            // Olhinhos pro personagem
-            ctx.fillStyle = "#000";
-            ctx.fillRect(player.x + 35, player.y + 15, 8, 8);
-            ctx.fillRect(player.x + 50, player.y + 15, 8, 8);
-
-            // Obstáculos
-            obstacles.forEach(obs => {
-                ctx.fillStyle = obs.aerial ? "#ef4444" : "#10b981";
-                ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
-                // Borda interna para dar cara de 'pixel'
-                ctx.strokeStyle = "#000";
-                ctx.lineWidth = 4;
-                ctx.strokeRect(obs.x, obs.y, obs.w, obs.h);
-            });
-
-            // UI: Score
-            ctx.fillStyle = "#fff";
-            ctx.font = "bold 30px Nunito";
-            ctx.textAlign = "left";
-            ctx.fillText(`${translations[currentLang].pts || 'Pontos'}: ${intScore}`, 20, 50);
-
-            // UI: Indicador de Cenário (Exclusivamente em Amarelo Médio - Canto Superior Direito)
-            ctx.fillStyle = "#FFD700"; // Amarelo Médio (Ouro)
-            ctx.font = "bold 26px Nunito";
-            ctx.textAlign = "right";
-            ctx.fillText(scenarioNames[scenarioIndex], canvas.width - 30, 50);
-
-            if (gameActive) reqId = requestAnimationFrame(loop);
         }
 
-        window.onload = () => {
-            setLanguage('pt');
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (images[bgLeft]) {
+                ctx.drawImage(images[bgLeft], bgX, 0, 1280, 720);
+            }
+            if (images[bgRight]) {
+                ctx.drawImage(images[bgRight], bgX + 1280, 0, 1280, 720);
+            }
+
+            obstacles.forEach(obs => {
+                if (images[obs.img]) {
+                    ctx.drawImage(images[obs.img], obs.x, obs.y, obs.width, obs.height);
+                }
+            });
+
+            let spriteKey = player.selectedSkin + '_parado';
+            if (!player.isJumping) {
+                spriteKey = player.selectedSkin + '_corre' + player.currentFrame;
+            }
+
+            if (images[spriteKey]) {
+                ctx.drawImage(images[spriteKey], player.x, player.y, player.width, player.height);
+            }
+
+            // HUD Flutuante do Canvas com suporte dinâmico a 3 idiomas
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 30px 'Nunito'";
+            ctx.shadowColor = "rgba(0, 0, 0, 0.7)";
+            ctx.shadowBlur = 4;
+            
+            let txtPontos = currentLang === 'pt' ? 'Pontos: ' : (currentLang === 'es' ? 'Puntos: ' : 'Score: ');
+            ctx.fillText(txtPontos + Math.floor(score), 30, 50);
+
+            let txtCircuito = "";
+            if (currentStage === 1) txtCircuito = currentLang === 'pt' ? 'Circuito: Pampulha' : (currentLang === 'es' ? 'Circuito: Pampulha' : 'Circuit: Pampulha');
+            if (currentStage === 2) txtCircuito = currentLang === 'pt' ? 'Circuito: Mercado Central' : (currentLang === 'es' ? 'Circuito: Mercado Central' : 'Circuit: Central Market');
+            if (currentStage === 3) txtCircuito = currentLang === 'pt' ? 'Circuito: Liberdade' : (currentLang === 'es' ? 'Circuito: Libertad' : 'Circuit: Liberty');
+            if (currentStage === 4) txtCircuito = currentLang === 'pt' ? 'Circuito: Praça do Papa' : (currentLang === 'es' ? 'Circuito: Plaza del Papa' : 'Circuit: Pope\'s Square');
+            
+            ctx.fillText(txtCircuito, 30, 90);
+            ctx.shadowBlur = 0;
+        }
+
+        function endGame() {
+            if (gameLoopId) {
+                cancelAnimationFrame(gameLoopId);
+                gameLoopId = null;
+            }
+            tocarGameOver();
+            
+            let finalScore = Math.floor(score);
+            if (finalScore > highScore) {
+                highScore = finalScore;
+                try { localStorage.setItem('pixelDash_high', highScore); } catch(e) {}
+            }
+            
+            document.getElementById('final-score').innerText = finalScore;
+            document.getElementById('high-score').innerText = highScore;
+            
+            changeScreen('gameover-screen');
         }
     </script>
 </body>
