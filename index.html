@@ -244,13 +244,14 @@
             margin-top: 10px;
             justify-content: center;
         }
+        
+        /* CORREÇÃO 1: Proporção corrigida para não deformar o último card no celular */
         .card {
             background: #1e1e1e;
             border-radius: 15px;
             overflow: hidden;
             width: 240px;
             max-width: 100%; 
-            flex-grow: 1;
             box-shadow: 0 10px 20px rgba(0,0,0,0.4);
             border: 1px solid #333;
             transition: transform 0.2s, border-color 0.2s;
@@ -472,7 +473,7 @@
                     • <b>Mercado:</b> Ônibus e Pombos.<br>
                     • <b>Liberdade:</b> Bancos e Borboletas.<br>
                     • <b>Papa:</b> Cones e Drones.<br><br>
-                    <b>Dica:</b> A cada 100 pontos, o cenário muda!
+                    <b>Dica:</b> A cada 80 pontos, o cenário muda!
                 </span>
             </div>
             <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="back">VOLTAR</button>
@@ -701,7 +702,7 @@
             pt: {
                 title: "Circuito BH:<br>Pixel Dash", play: "JOGAR", howTo: "COMO JOGAR", cultural: "CONHECER BH", famous: "INDICAÇÕES DE FAMOSOS",
                 back: "VOLTAR", backMenu: "MENU PRINCIPAL", who: "Quem vai correr?", tutorialTitle: "Como Jogar", famousTitle: "Indicações de Famosos",
-                tutorialText: "<b>Objetivo:</b> Percorra os cartões-postais de Belo Horizonte. Salte sobre os obstáculos para continuar sua jornada!<br><br><b>Controles:</b><br>• Toque/ESPAÇO para pular.<br>• Pule uma vez para obstáculos baixos.<br>• <b>Evite os obstáculos aéreos</b> para não perder o ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capivaras e Pássaros.<br>• <b>Mercado:</b> Ônibus e Pombos.<br>• <b>Liberdade:</b> Bancos e Borboletas.<br>• <b>Papa:</b> Cones e Drones.<br><br><b>Dica:</b> A cada 100 pontos, o cenário muda!",
+                tutorialText: "<b>Objetivo:</b> Percorra os cartões-postais de Belo Horizonte. Salte sobre os obstáculos para continuar sua jornada!<br><br><b>Controles:</b><br>• Toque/ESPAÇO para pular.<br>• Pule uma vez para obstáculos baixos.<br>• <b>Evite os obstáculos aéreos</b> para não perder o ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capivaras e Pássaros.<br>• <b>Mercado:</b> Ônibus e Pombos.<br>• <b>Liberdade:</b> Bancos e Borboletas.<br>• <b>Papa:</b> Cones e Drones.<br><br><b>Dica:</b> A cada 80 pontos, o cenário muda!",
                 culturalTitle: "Pontos Turísticos", goTitle: "FIM DE JOGO!", tryAgain: "TENTAR NOVAMENTE", pts: "Pontos", rec: "Recorde",
                 orla: "Circuito Pampulha", mercado: "Mercado Central", pracaLib: "Circuito Liberdade", pracaPapa: "Praça do Papa",
                 circuitTitle: "Circuitos Principais", morePlacesTitle: "Conheça Mais Lugares",
@@ -718,7 +719,7 @@
             en: {
                 title: "BH Circuit:<br>Pixel Dash", play: "PLAY", howTo: "HOW TO PLAY", cultural: "DISCOVER BH", famous: "FAMOUS RECOMMENDATIONS",
                 back: "BACK", backMenu: "MAIN MENU", who: "Choose your runner!", tutorialTitle: "How to Play", famousTitle: "Famous Recommendations",
-                tutorialText: "<b>Objective:</b> Travel through Belo Horizonte's landmarks. Jump over obstacles to continue your journey!<br><br><b>Controls:</b><br>• Tap/SPACE to jump.<br>• Jump once for low obstacles.<br>• <b>Avoid aerial obstacles</b> to keep your pace.<br><br><b>Tour Map:</b><br>• <b>Pampulha:</b> Capybaras & Birds.<br>• <b>Market:</b> Buses & Pigeons.<br>• <b>Liberty Sq:</b> Benches & Butterflies.<br>• <b>Pope's Sq:</b> Cones & Drones.<br><br><b>Tip:</b> Every 100 points, the scenery changes!",
+                tutorialText: "<b>Objective:</b> Travel through Belo Horizonte's landmarks. Jump over obstacles to continue your journey!<br><br><b>Controls:</b><br>• Tap/SPACE to jump.<br>• Jump once for low obstacles.<br>• <b>Avoid aerial obstacles</b> to keep your pace.<br><br><b>Tour Map:</b><br>• <b>Pampulha:</b> Capybaras & Birds.<br>• <b>Market:</b> Buses & Pigeons.<br>• <b>Liberty Sq:</b> Benches & Butterflies.<br>• <b>Pope's Sq:</b> Cones & Drones.<br><br><b>Tip:</b> Every 80 points, the scenery changes!",
                 culturalTitle: "Landmarks", goTitle: "GAME OVER!", tryAgain: "TRY AGAIN", pts: "Score", rec: "High Score",
                 orla: "Pampulha Circuit", mercado: "Central Market", pracaLib: "Liberty Circuit", pracaPapa: "Pope's Square",
                 circuitTitle: "Main Circuits", morePlacesTitle: "Discover More Places",
@@ -735,7 +736,7 @@
             es: {
                 title: "Circuito BH:<br>Pixel Dash", play: "JUGAR", howTo: "CÓMO JUGAR", cultural: "CONOCER BH", famous: "RECOMENDACIONES",
                 back: "VOLVER", backMenu: "MENÚ PRINCIPAL", who: "¿Quién va a correr?", tutorialTitle: "Cómo Jugar", famousTitle: "Recomendaciones de Famosos",
-                tutorialText: "<b>Objetivo:</b> Recorre los lugares icónicos de Belo Horizonte. ¡Salta sobre los obstáculos para continuar tu viaje!<br><br><b>Controles:</b><br>• Toca/ESPACIO para saltar.<br>• Salta una vez para obstáculos bajos.<br>• <b>Evita los obstáculos aéreos</b> para no perder el ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capibaras y Pájaros.<br>• <b>Mercado:</b> Autobuses y Palomas.<br>• <b>Libertad:</b> Bancos y Mariposas.<br>• <b>Papa:</b> Conos y Drones.<br><br><b>Consejo:</b> ¡Cada 100 puntos, el escenario cambia!",
+                tutorialText: "<b>Objetivo:</b> Recorre los lugares icónicos de Belo Horizonte. ¡Salta sobre los obstáculos para continuar tu viaje!<br><br><b>Controles:</b><br>• Toca/ESPACIO para saltar.<br>• Salta una vez para obstáculos bajos.<br>• <b>Evita los obstáculos aéreos</b> para no perder el ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capibaras y Pájaros.<br>• <b>Mercado:</b> Autobuses y Palomas.<br>• <b>Libertad:</b> Bancos y Mariposas.<br>• <b>Papa:</b> Conos y Drones.<br><br><b>Consejo:</b> ¡Cada 80 puntos, el escenario cambia!",
                 culturalTitle: "Puntos Turísticos", goTitle: "¡FIN DEL JUEGO!", tryAgain: "INTENTAR DE NUEVO", pts: "Puntos", rec: "Récord",
                 orla: "Circuito Pampulha", mercado: "Mercado Central", pracaLib: "Circuito Libertad", pracaPapa: "Plaza del Papa",
                 circuitTitle: "Circuitos Principales", morePlacesTitle: "Conoce Más Lugares",
@@ -790,7 +791,7 @@
                     title: "Circuito da Pampulha",
                     history: "<p>Projetado na década de 1940 pelo gênio arquitetônico Oscar Niemeyer, a pedido do então prefeito Juscelino Kubitschek, o Conjunto Moderno da Pampulha revolucionou a forma de se construir no Brasil. A proposta unia a leveza do concreto armado às curvas ousadas que simulavam as montanhas de Minas Gerais.</p><p>O complexo foi planejado em torno de uma lagoa artificial e englobava originalmente um cassino (atual Museu de Arte), o Iate Clube, a Casa do Baile e a famosíssima Igreja de São Francisco de Assis, que chegou a ser rejeitada por setores conservadores na época de sua inauguração.</p><p>Com os fantásticos jardins projetados por Roberto Burle Marx e os azulejos de Cândido Portinari, o circuito conquistou o cobiçado título de Patrimônio Cultural da Humanidade pela UNESCO em 2016.</p><p>O projeto foi tão inovador na época que influenciou gerações inteiras de arquitetos mundiais, cravando o modernismo brasileiro no mapa global. A capela, por exemplo, contrariou dogmas estéticos profundos da Igreja Católica daquela era.</p>",
                     news: "<p>No âmbito político e ambiental, o principal foco do poder público e de organizações ecológicas tem sido o contínuo projeto de despoluição da Lagoa da Pampulha. Recentemente, novas tecnologias de tratamento das águas e fiscalizações rigorosas de despejo irregular nos córregos afluentes foram implementadas para garantir a preservação do status de patrimônio perante a UNESCO e a qualidade de vida das capivaras e aves nativas da região.</p><p>Além da despoluição, eventos artísticos noturnos e a expansão contínua da ciclovia têm fomentado um turismo muito mais sustentável e interligado para a população local.</p>",
-                    guide: "<p>Siga este guia prático para aproveitar ao máximo a orla:</p><ul class='visitor-guide-list'><li><strong>Inicie pela Igreja:</strong> Chegue cedo e comece a visita pela Igreja de São Francisco de Assis. A luz da manhã valoriza os azulejos de Portinari.</li><li><strong>Alugue uma Bicicleta:</strong> Há várias estações de locação próximas. Pedalar pela orla plana é a melhor forma de transitar entre os monumentos.</li><li><strong>Casa do Baile:</strong> Faça uma parada estratégica nesta ilha artificial ligada por uma ponte de concreto curva para tirar fotos inesquecíveis.</li><li><strong>Pôr do sol:</strong> Finalize o passeio no Museu de Arte (antigo Cassino) ou no gramado em frente à lagoa, o melhor lugar para ver o sol sumindo nas águas.</li></ul><a href='https://prefeitura.pbh.gov.br/fundacao-municipal-de-cultura/museus' target='_blank' class='cta-link'>🎟️ Informações e Ingressos Museus</a><a href='https://prefeitura.pbh.gov.br/fundacao-de-parques-e-zoobotanica/informacoes/precos-e-horarios' target='_blank' class='cta-link'>🦁 Ingressos Zoológico</a>",
+                    guide: "<p>Siga este guia prático para aproveitar ao máximo a orla:</p><ul class='visitor-guide-list'><li><strong>Inicie pela Igreja:</strong> Chegue cedo e comece a visita pela Igreja de São Francisco de Assis. A luz da manhã valoriza os azulejos de Portinari.</li><li><strong>Alugue uma Bicicleta:</strong> Há várias estações de locação próximas. Pedalar pela orla plana é a melhor forma de transitar entre os monumentos.</li><li><strong>Casa do Baile:</strong> Faça uma parada estratégica nesta ilha artificial ligada por uma ponte de concreto curva para tirar fotos inesquesseis.</li><li><strong>Pôr do sol:</strong> Finalize o passeio no Museu de Arte (antigo Cassino) ou no gramado em frente à lagoa, o melhor lugar para ver o sol sumindo nas águas.</li></ul><a href='https://prefeitura.pbh.gov.br/fundacao-municipal-de-cultura/museus' target='_blank' class='cta-link'>🎟️ Informações e Ingressos Museus</a><a href='https://prefeitura.pbh.gov.br/fundacao-de-parques-e-zoobotanica/informacoes/precos-e-horarios' target='_blank' class='cta-link'>🦁 Ingressos Zoológico</a>",
                     gastro: "<div class='gastro-item'><h4>Xapuri</h4><span>Tradicional Mineiro / Fogão a Lenha / Restaurante Histórico</span></div><div class='gastro-item'><h4>Paladino</h4><span>Restaurante Fazenda / Carnes Especiais</span></div>",
                     trivia: "<p>Uma das curiosidades mais impressionantes do conjunto é que a <b>Casa Kubitschek</b> possui uma piscina projetada com o exato formato da Lagoa da Pampulha! Além disso, a Igreja de São Francisco de Assis levou incríveis 14 anos para ser consagrada pela Arquidiocese de Belo Horizonte após sua construção, devido à sua arquitetura não convencional e ao painel de Portinari que retratava um cachorro junto a São Francisco.</p><p>É impressionante notar também que o paisagismo revolucionário de Burle Marx utiliza flora estritamente nativa brasileira, uma raridade na época em que apenas plantas europeias eram valorizadas. E claro, as capivaras que habitam a orla tornaram-se os mascotes não oficiais e mais amados da cidade!</p>"
                 },
@@ -1036,12 +1037,15 @@
             }
         }
 
+        /* CORREÇÃO 2: Garantindo que o scroll só mude para zero APÓS a nova aba ficar ativa */
         function changeScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => {
                 s.classList.remove('active');
-                s.scrollTop = 0; // NOVIDADE: Garante que a nova aba sempre comece do topo!
             });
-            document.getElementById(screenId).classList.add('active');
+            
+            let nextScreen = document.getElementById(screenId);
+            nextScreen.classList.add('active');
+            nextScreen.scrollTop = 0; // Movemos para cá! Retorna a página sempre no topo com sucesso.
             
             const langSelector = document.getElementById('lang-selector');
             if (screenId === 'game-screen') {
@@ -1084,6 +1088,7 @@
         let gameSpeed = 7; 
         const maxSpeed = 16;
         let currentStage = 1;
+        let lastStage = 1; // Variável adicionada para resolver o atraso do cenário
         let nextSpeedIncreaseScore = 150; 
         
         let bgX = 0;
@@ -1136,6 +1141,7 @@
             score = 0;
             gameSpeed = 7;
             currentStage = 1;
+            lastStage = 1;
             nextSpeedIncreaseScore = 150;
             bgX = 0;
             bgLeft = 'bg_pampulha';
@@ -1202,7 +1208,8 @@
             score += 0.15;
             let displayScore = Math.floor(score);
 
-            let cycle = Math.floor(displayScore / 100);
+            /* CORREÇÃO 3: Cálculo mudado para transição exata a cada 80 pts */
+            let cycle = Math.floor(displayScore / 80);
             currentStage = (cycle % 4) + 1; 
 
             if (displayScore >= nextSpeedIncreaseScore) {
@@ -1215,6 +1222,13 @@
 
             const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
             let expectedBg = stageBackgrounds[currentStage - 1];
+
+            /* CORREÇÃO 3: Transição IMEDIATA do cenário (evita os 20 pts de atraso da versão anterior) */
+            if (currentStage !== lastStage) {
+                bgLeft = expectedBg;
+                bgRight = expectedBg;
+                lastStage = currentStage;
+            }
 
             bgX -= gameSpeed;
             if (bgX <= -1280) {
@@ -1266,89 +1280,83 @@
                 spawnCooldown = Math.floor(Math.random() * 45) + (70 - (gameSpeed * 2));
             }
 
+            // Loop de colisão restaurado/completado:
             for (let i = obstacles.length - 1; i >= 0; i--) {
                 let obs = obstacles[i];
                 obs.x -= gameSpeed;
 
-                if (obs.x + obs.width < 0) {
-                    obstacles.splice(i, 1);
-                    continue;
-                }
-
-                let pX = obs.width * 0.15; 
-                let pY = obs.height * 0.15;
-
+                // Sistema de Colisão
+                let hitMargin = 12; // Margem de segurança pro pulo ficar fluido
                 if (
-                    player.x < obs.x + obs.width - pX &&
-                    player.x + player.width > obs.x + pX &&
-                    player.y < obs.y + obs.height - pY &&
-                    player.y + player.height > obs.y + pY
+                    player.x < obs.x + obs.width - hitMargin &&
+                    player.x + player.width > obs.x + hitMargin &&
+                    player.y < obs.y + obs.height - hitMargin &&
+                    player.y + player.height > obs.y + hitMargin
                 ) {
-                    tocarGameOver(); 
-                    if (Math.floor(score) > highScore) {
-                        highScore = Math.floor(score);
-                        try { localStorage.setItem('pixelDash_high', highScore); } catch(e) {}
-                    }
-                    document.getElementById('final-score').innerText = Math.floor(score);
-                    document.getElementById('high-score').innerText = highScore;
-                    
-                    cancelAnimationFrame(gameLoopId);
-                    gameLoopId = null;
-                    
-                    changeScreen('gameover-screen');
+                    gameOver();
                     return; 
                 }
-            }
-        }
 
-        function desenharSeguro(imgKey, x, y, w, h) {
-            try {
-                let img = images[imgKey];
-                let pixelX = Math.round(x);
-                let pixelY = Math.round(y);
-                let pixelW = Math.round(w);
-                let pixelH = Math.round(h);
-                
-                if (img && img.complete && img.naturalWidth > 0) {
-                    ctx.drawImage(img, pixelX, pixelY, pixelW, pixelH);
-                } else {
-                    ctx.fillStyle = imgKey.startsWith('bg') ? '#111' : 'transparent';
-                    ctx.fillRect(pixelX, pixelY, pixelW, pixelH);
+                // Remove da tela
+                if (obs.x + obs.width < 0) {
+                    obstacles.splice(i, 1);
                 }
-            } catch(e) {}
-        }
+            }
+        } // Fim do update()
 
         function draw() {
-            desenharSeguro(bgLeft, bgX, 0, 1280, 720);
-            desenharSeguro(bgRight, bgX + 1280, 0, 1280, 720);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            obstacles.forEach(obs => {
-                desenharSeguro(obs.img, obs.x, obs.y, obs.width, obs.height);
-            });
+            if (images[bgLeft]) ctx.drawImage(images[bgLeft], bgX, 0, 1280, 720);
+            if (images[bgRight]) ctx.drawImage(images[bgRight], bgX + 1280, 0, 1280, 720);
 
-            let skinPrefix = player.selectedSkin;
-            let pImgName = player.isJumping ? `${skinPrefix}_parado` : `${skinPrefix}_corre${player.currentFrame}`;
-            desenharSeguro(pImgName, player.x, player.y, player.width, player.height);
+            let playerImgName = player.selectedSkin + (player.isJumping ? '_parado' : '_corre' + player.currentFrame);
+            if (images[playerImgName]) {
+                ctx.drawImage(images[playerImgName], player.x, player.y, player.width, player.height);
+            }
 
-            ctx.font = "bold 35px 'Nunito', sans-serif";
-            let pontuacaoTexto = `${translations[currentLang].pts}: ${Math.floor(score)}`;
+            /* CORREÇÃO 4: Aplicação de brilho sólido (sombra) para garantir visibilidade máxima dos obstáculos contra qualquer fundo */
+            ctx.shadowColor = '#ffffff'; 
+            ctx.shadowBlur = 8;
             
-            ctx.fillStyle = "rgba(0,0,0,0.8)";
-            ctx.fillText(pontuacaoTexto, 42, 62);
-            ctx.fillStyle = "#fff";
-            ctx.fillText(pontuacaoTexto, 40, 60);
+            for (let obs of obstacles) {
+                if (images[obs.img]) {
+                    ctx.drawImage(images[obs.img], obs.x, obs.y, obs.width, obs.height);
+                }
+            }
             
-            const scenarioKeys = ['orla', 'mercado', 'pracaLib', 'pracaPapa'];
-            let localText = translations[currentLang][scenarioKeys[currentStage - 1]];
-            
-            ctx.fillStyle = "rgba(0,0,0,0.8)";
-            ctx.fillText(localText, 882, 62);
-            ctx.fillStyle = "#ffd700";
-            ctx.fillText(localText, 880, 60);
+            // Retira a sombra para não afetar as demais renderizações
+            ctx.shadowBlur = 0; 
+
+            // Textos de Score
+            ctx.fillStyle = '#fff';
+            ctx.font = '800 35px Nunito';
+            ctx.textAlign = 'left';
+            ctx.shadowColor = 'rgba(0,0,0,0.8)';
+            ctx.shadowBlur = 5;
+            let displayScore = Math.floor(score);
+            let lbl = currentLang === 'pt' ? 'Pontos: ' : currentLang === 'en' ? 'Score: ' : 'Puntos: ';
+            ctx.fillText(lbl + displayScore, 20, 50);
+            ctx.shadowBlur = 0;
         }
 
-        // Inicializa o idioma
-        setLanguage('pt');
+        function gameOver() {
+            if (gameLoopId) {
+                cancelAnimationFrame(gameLoopId);
+                gameLoopId = null;
+            }
+            tocarGameOver();
+            
+            let displayScore = Math.floor(score);
+            if (displayScore > highScore) {
+                highScore = displayScore;
+                try { localStorage.setItem('pixelDash_high', highScore); } catch(e) {}
+            }
+            
+            document.getElementById('final-score').innerText = displayScore;
+            document.getElementById('high-score').innerText = highScore;
+            changeScreen('gameover-screen');
+        }
     </script>
 </body>
 </html>
