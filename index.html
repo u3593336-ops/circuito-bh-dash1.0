@@ -661,7 +661,7 @@
                 </div>
                 
                 <div class="details-body">
-                    <details class="custom-accordion" open>
+                    <details class="custom-accordion">
                         <summary>🏛️   <span data-i18n="lblHistory">Sobre o Lugar</span></summary>
                         <div class="accordion-content" id="details-history">---</div>
                     </details>
@@ -982,10 +982,17 @@
         };
 
         let currentActivePlaceKey = null;
+        
         function openDetails(placeKey) {
             ativarTelaCheia();
             currentActivePlaceKey = placeKey;
             renderPlaceDetails(placeKey);
+            
+            // NOVIDADE: Força o fechamento de todos os acordeões e rola para o topo!
+            document.querySelectorAll('#details-screen .custom-accordion').forEach(acc => {
+                acc.removeAttribute('open');
+            });
+            
             changeScreen('details-screen');
         }
 
@@ -1030,7 +1037,10 @@
         }
 
         function changeScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.screen').forEach(s => {
+                s.classList.remove('active');
+                s.scrollTop = 0; // NOVIDADE: Garante que a nova aba sempre comece do topo!
+            });
             document.getElementById(screenId).classList.add('active');
             
             const langSelector = document.getElementById('lang-selector');
