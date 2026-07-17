@@ -218,8 +218,8 @@
         .tutorial-box::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 10px; }
         .tutorial-box::-webkit-scrollbar-thumb { background: #00bcd4; border-radius: 10px; }
 
-        /* 🌐 PÁGINA CULTURAL (LISTAGEM) */
-        #cultural-screen {
+        /* 🌐 PÁGINAS COM LISTAGEM DE CARDS (CULTURAL E YOUTUBE) */
+        #cultural-screen, #videos-screen {
             justify-content: flex-start;
             overflow-y: auto;
             padding: 20px 15px; 
@@ -253,7 +253,7 @@
             flex-grow: 1;
             box-shadow: 0 10px 20px rgba(0,0,0,0.4);
             border: 1px solid #333;
-            transition: transform 0.2s;
+            transition: transform 0.2s, border-color 0.2s;
             cursor: pointer;
         }
         .card:hover { transform: translateY(-5px); border-color: #00bcd4; }
@@ -309,52 +309,66 @@
         .details-meta-item { font-size: 0.95rem; margin-bottom: 8px; color: #eee; line-height: 1.4; display: flex; align-items: flex-start; gap: 8px;}
         .details-meta-item i { font-size: 1.2rem; }
         
-        /* ACORDEONS MODULARES (UI/UX) */
+        /* 💎 CARDS INTERNOS (ANTIGOS ACORDEONS) ESTILIZADOS IGUAL A PÁGINA INICIAL */
         .details-body { padding: 20px; }
         .custom-accordion {
-            background: rgba(40, 40, 45, 0.8);
-            border: 1px solid #444;
-            border-radius: 12px;
-            margin-bottom: 12px;
+            background: #1e1e1e; /* Estética de Card */
+            border-radius: 15px;
+            border: 1px solid #333;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+            margin-bottom: 15px;
             overflow: hidden;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+        .custom-accordion:hover { 
+            transform: translateY(-3px); 
+            border-color: #00bcd4; 
         }
         .custom-accordion summary {
-            padding: 15px;
-            font-size: 1.1rem;
+            padding: 18px 20px;
+            font-size: 1.15rem;
             font-weight: 800;
-            color: #00bcd4;
+            color: #ffd700; /* Título em amarelo */
             cursor: pointer;
             list-style: none; 
             display: flex;
             align-items: center;
-            background: rgba(0,0,0,0.5);
+            background: #1e1e1e;
             transition: all 0.2s;
         }
         .custom-accordion summary::-webkit-details-marker { display: none; }
-        .custom-accordion summary:hover { background: rgba(0,0,0,0.7); color: #ffd700; }
-        .custom-accordion[open] summary { border-bottom: 1px solid #444; color: #ffd700;}
+        .custom-accordion summary:hover { color: #00bcd4; }
+        .custom-accordion[open] summary { 
+            border-bottom: 1px solid #333; 
+            color: #00bcd4;
+            background: #151515;
+        }
         
         .accordion-content {
-            padding: 15px;
+            padding: 20px;
             font-size: 0.95rem;
-            color: #ddd;
+            color: #bbb; /* Cor do texto descritivo dos cards */
             line-height: 1.6;
             text-align: justify;
+            background: #1a1a1a;
         }
         .accordion-content p { margin-bottom: 10px; }
         
-        /* Estilização específica para as listas do Guia de Visitação */
+        /* 🚫 REMOÇÃO DA NUMERAÇÃO DUPLICADA (LISTA CUSTOMIZADA) */
         .visitor-guide-list {
-            list-style-type: decimal;
-            margin-left: 20px;
+            list-style: none; /* Remove numeração feia do navegador */
+            margin-left: 0;
+            padding-left: 0;
             margin-bottom: 15px;
         }
         .visitor-guide-list li {
-            margin-bottom: 8px;
-            color: #fff;
+            margin-bottom: 12px;
+            padding-left: 15px;
+            border-left: 3px solid #00bcd4; /* Fica uma estética linda e moderna */
+            color: #ddd;
         }
         .visitor-guide-list li strong {
-            color: #00bcd4;
+            color: #ffd700;
         }
 
         /* CTAs e Elementos Internos */
@@ -432,6 +446,7 @@
             <button class="btn btn-green" onclick="ativarTelaCheia(); changeScreen('char-screen')" data-i18n="play">JOGAR</button>
             <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('tutorial-screen')" data-i18n="howTo">COMO JOGAR</button>
             <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('cultural-screen')" data-i18n="cultural">CONHECER BH</button>
+            <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('videos-screen')" data-i18n="famous">INDICAÇÕES DE FAMOSOS</button>
         </div>
 
         <div id="tutorial-screen" class="screen">
@@ -546,6 +561,85 @@
             <button class="btn btn-darkblue" style="margin-top: 30px; margin-bottom: 40px;" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="backMenu">VOLTAR AO MENU</button>
         </div>
 
+        <div id="videos-screen" class="screen">
+            <h1 style="font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 900; color: #00bcd4; text-shadow: 0px 4px 10px rgba(0,0,0,0.6); text-align: center; margin-bottom: 25px; padding: 0 15px;" data-i18n="famousTitle">Indicações de Famosos</h1>
+            
+            <div class="cards-grid">
+                <div class="card" onclick="window.open('https://www.youtube.com/watch?v=G9C3UlAKxGo', '_blank')">
+                    <img src="https://img.youtube.com/vi/G9C3UlAKxGo/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Melhores Momentos Expandidos</h3>
+                        <p>O teto reformado e as brigas</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.youtube.com/watch?v=hhhL0Lovh98', '_blank')">
+                    <img src="https://img.youtube.com/vi/hhhL0Lovh98/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Gaba - 24h Comendo em Botecos</h3>
+                        <p>Focado apenas em estufas e petiscos tradicionais em BH</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.youtube.com/watch?v=PBpSmTGm6Ys', '_blank')">
+                    <img src="https://img.youtube.com/vi/PBpSmTGm6Ys/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Grazi Eats - 24h Comendo Tudo</h3>
+                        <p>Mostrando o clássico Caol, a Pão de Queijaria e Mercado Central</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.youtube.com/watch?v=1URUXWJZmoQ', '_blank')">
+                    <img src="https://img.youtube.com/vi/1URUXWJZmoQ/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Bruno Baroni - React de 24 horas</h3>
+                        <p>React e análise médica/alimentar de 24 horas em BH</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.youtube.com/watch?v=VwZDaDJv9w4', '_blank')">
+                    <img src="https://img.youtube.com/vi/VwZDaDJv9w4/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Gozando a Vida - O Guia Definitivo</h3>
+                        <p>O Guia Definitivo de onde comer a verdadeira comida mineira</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.youtube.com/watch?v=6wks2aMgtVo', '_blank')">
+                    <img src="https://img.youtube.com/vi/6wks2aMgtVo/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Gaba - 24 Horas Comendo</h3>
+                        <p>24 Horas Comendo em BH (Episódio 1)</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.youtube.com/watch?v=T2lwQaqZ2NA', '_blank')">
+                    <img src="https://img.youtube.com/vi/T2lwQaqZ2NA/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Gaba no Mercado Central</h3>
+                        <p>Um Dia Inteiro Comendo no Mercado Central</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.youtube.com/watch?v=pttSL_7kJbA', '_blank')">
+                    <img src="https://img.youtube.com/vi/pttSL_7kJbA/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Mohamad Hindi - Guia Gastronômico</h3>
+                        <p>48 Horas Comendo em Belo Horizonte</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.youtube.com/watch?v=o3UOVBW_Nyo', '_blank')">
+                    <img src="https://img.youtube.com/vi/o3UOVBW_Nyo/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Mohamad Hindi - Botecos Mineiros</h3>
+                        <p>As Comidas dos Botecos Mineiros</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.youtube.com/watch?v=NTAO_DiZp60', '_blank')">
+                    <img src="https://img.youtube.com/vi/NTAO_DiZp60/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Eai Bora - Mercado Central</h3>
+                        <p>24h Comendo no Mercado Central (Shorts)</p>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-darkblue" style="margin-top: 30px; margin-bottom: 40px;" onclick="ativarTelaCheia(); changeScreen('menu-screen')" data-i18n="backMenu">VOLTAR AO MENU</button>
+        </div>
+
         <div id="details-screen" class="screen">
             <div class="details-wrapper">
                 <div class="details-header">
@@ -560,27 +654,27 @@
                 
                 <div class="details-body">
                     <details class="custom-accordion" open>
-                        <summary>🏛️   <span data-i18n="lblHistory">1. Sobre o Lugar</span></summary>
+                        <summary>🏛️   <span data-i18n="lblHistory">Sobre o Lugar</span></summary>
                         <div class="accordion-content" id="details-history">---</div>
                     </details>
 
                     <details class="custom-accordion">
-                        <summary>📰   <span data-i18n="lblNews">2. Atualidades & Contexto</span></summary>
+                        <summary>📰   <span data-i18n="lblNews">Atualidades & Contexto</span></summary>
                         <div class="accordion-content" id="details-news">---</div>
                     </details>
                     
                     <details class="custom-accordion">
-                        <summary>🧭   <span data-i18n="lblGuide">3. Guia Prático de Visitação</span></summary>
+                        <summary>🧭   <span data-i18n="lblGuide">Guia Prático de Visitação</span></summary>
                         <div class="accordion-content" id="details-guide">---</div>
                     </details>
                     
                     <details class="custom-accordion">
-                        <summary>🍽️   <span data-i18n="lblGastro">4. Gastronomia</span></summary>
+                        <summary>🍽️   <span data-i18n="lblGastro">Gastronomia</span></summary>
                         <div class="accordion-content" id="details-gastro">---</div>
                     </details>
                     
                     <details class="custom-accordion">
-                        <summary>💡   <span data-i18n="lblTrivia">5. Curiosidades</span></summary>
+                        <summary>💡   <span data-i18n="lblTrivia">Curiosidades</span></summary>
                         <div class="accordion-content" id="details-trivia">---</div>
                     </details>
                 </div>
@@ -595,11 +689,11 @@
     </div>
 
     <script>
-        // 🛡️ DICIONÁRIO DE IDIOMAS ATUALIZADO
+        // 🛡️ DICIONÁRIO DE IDIOMAS ATUALIZADO (Sem números duplicados nos menus)
         const translations = {
             pt: {
-                title: "Circuito BH:<br>Pixel Dash", play: "JOGAR", howTo: "COMO JOGAR", cultural: "CONHECER BH",
-                back: "VOLTAR", backMenu: "MENU PRINCIPAL", who: "Quem vai correr?", tutorialTitle: "Como Jogar",
+                title: "Circuito BH:<br>Pixel Dash", play: "JOGAR", howTo: "COMO JOGAR", cultural: "CONHECER BH", famous: "INDICAÇÕES DE FAMOSOS",
+                back: "VOLTAR", backMenu: "MENU PRINCIPAL", who: "Quem vai correr?", tutorialTitle: "Como Jogar", famousTitle: "Indicações de Famosos",
                 tutorialText: "<b>Objetivo:</b> Percorra os cartões-postais de Belo Horizonte. Salte sobre os obstáculos para continuar sua jornada!<br><br><b>Controles:</b><br>• Toque/ESPAÇO para pular.<br>• Pule uma vez para obstáculos baixos.<br>• <b>Evite os obstáculos aéreos</b> para não perder o ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capivaras e Pássaros.<br>• <b>Mercado:</b> Ônibus e Pombos.<br>• <b>Liberdade:</b> Bancos e Borboletas.<br>• <b>Papa:</b> Cones e Drones.<br><br><b>Dica:</b> A cada 100 pontos, o cenário muda!",
                 culturalTitle: "Pontos Turísticos", goTitle: "FIM DE JOGO!", tryAgain: "TENTAR NOVAMENTE", pts: "Pontos", rec: "Recorde",
                 orla: "Circuito Pampulha", mercado: "Mercado Central", pracaLib: "Circuito Liberdade", pracaPapa: "Praça do Papa",
@@ -612,11 +706,11 @@
                 txtAfonsoPenaCard: "A espinha dorsal de BH, planejada no século XIX. Um corredor histórico com arquitetura eclética e árvores centenárias.",
                 txtParqueMunicipalCard: "O coração verde no centro da metrópole. Inspirado na Belle Époque, conta com lagos românticos, teatros e imensa biodiversidade.",
                 txtFeiraHippieCard: "A maior feira de artesanato a céu aberto da América Latina. Ocupa a Afonso Pena todos os domingos com arte, moda e comida.",
-                lblAddress: "Endereço", lblHours: "Funcionamento", lblHistory: "1. Sobre & História Detalhada", lblNews: "2. Atualidades & Política", lblGuide: "3. Guia Prático de Visitação", lblGastro: "4. Gastronomia (Onde Comer)", lblTrivia: "5. Curiosidades", openGps: "VER NO MAPA (GPS)"
+                lblAddress: "Endereço", lblHours: "Funcionamento", lblHistory: "Sobre o Lugar", lblNews: "Atualidades & Contexto", lblGuide: "Guia Prático de Visitação", lblGastro: "Gastronomia", lblTrivia: "Curiosidades", openGps: "VER NO MAPA (GPS)"
             },
             en: {
-                title: "BH Circuit:<br>Pixel Dash", play: "PLAY", howTo: "HOW TO PLAY", cultural: "DISCOVER BH",
-                back: "BACK", backMenu: "MAIN MENU", who: "Choose your runner!", tutorialTitle: "How to Play",
+                title: "BH Circuit:<br>Pixel Dash", play: "PLAY", howTo: "HOW TO PLAY", cultural: "DISCOVER BH", famous: "FAMOUS RECOMMENDATIONS",
+                back: "BACK", backMenu: "MAIN MENU", who: "Choose your runner!", tutorialTitle: "How to Play", famousTitle: "Famous Recommendations",
                 tutorialText: "<b>Objective:</b> Travel through Belo Horizonte's landmarks. Jump over obstacles to continue your journey!<br><br><b>Controls:</b><br>• Tap/SPACE to jump.<br>• Jump once for low obstacles.<br>• <b>Avoid aerial obstacles</b> to keep your pace.<br><br><b>Tour Map:</b><br>• <b>Pampulha:</b> Capybaras & Birds.<br>• <b>Market:</b> Buses & Pigeons.<br>• <b>Liberty Sq:</b> Benches & Butterflies.<br>• <b>Pope's Sq:</b> Cones & Drones.<br><br><b>Tip:</b> Every 100 points, the scenery changes!",
                 culturalTitle: "Landmarks", goTitle: "GAME OVER!", tryAgain: "TRY AGAIN", pts: "Score", rec: "High Score",
                 orla: "Pampulha Circuit", mercado: "Central Market", pracaLib: "Liberty Circuit", pracaPapa: "Pope's Square",
@@ -629,11 +723,11 @@
                 txtAfonsoPenaCard: "The spine of BH, planned in the 19th century. A historical corridor with eclectic architecture and century-old trees.",
                 txtParqueMunicipalCard: "The green heart of the metropolis. Inspired by the Belle Époque, featuring romantic lakes, theaters, and immense biodiversity.",
                 txtFeiraHippieCard: "The largest open-air craft fair in Latin America. Occupies Afonso Pena every Sunday with art, fashion, and food.",
-                lblAddress: "Address", lblHours: "Hours", lblHistory: "1. Detailed History", lblNews: "2. News & Political Context", lblGuide: "3. Step-by-Step Visitor Guide", lblGastro: "4. Gastronomy", lblTrivia: "5. Curiosities & Trivia", openGps: "OPEN IN MAPS"
+                lblAddress: "Address", lblHours: "Hours", lblHistory: "Detailed History", lblNews: "News & Political Context", lblGuide: "Step-by-Step Visitor Guide", lblGastro: "Gastronomy", lblTrivia: "Curiosities & Trivia", openGps: "OPEN IN MAPS"
             },
             es: {
-                title: "Circuito BH:<br>Pixel Dash", play: "JUGAR", howTo: "CÓMO JUGAR", cultural: "CONOCER BH",
-                back: "VOLVER", backMenu: "MENÚ PRINCIPAL", who: "¿Quién va a correr?", tutorialTitle: "Cómo Jugar",
+                title: "Circuito BH:<br>Pixel Dash", play: "JUGAR", howTo: "CÓMO JUGAR", cultural: "CONOCER BH", famous: "RECOMENDACIONES",
+                back: "VOLVER", backMenu: "MENÚ PRINCIPAL", who: "¿Quién va a correr?", tutorialTitle: "Cómo Jugar", famousTitle: "Recomendaciones de Famosos",
                 tutorialText: "<b>Objetivo:</b> Recorre los lugares icónicos de Belo Horizonte. ¡Salta sobre los obstáculos para continuar tu viaje!<br><br><b>Controles:</b><br>• Toca/ESPACIO para saltar.<br>• Salta una vez para obstáculos bajos.<br>• <b>Evita los obstáculos aéreos</b> para no perder el ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capibaras y Pájaros.<br>• <b>Mercado:</b> Autobuses y Palomas.<br>• <b>Libertad:</b> Bancos y Mariposas.<br>• <b>Papa:</b> Conos y Drones.<br><br><b>Consejo:</b> ¡Cada 100 puntos, el escenario cambia!",
                 culturalTitle: "Puntos Turísticos", goTitle: "¡FIN DEL JUEGO!", tryAgain: "INTENTAR DE NUEVO", pts: "Puntos", rec: "Récord",
                 orla: "Circuito Pampulha", mercado: "Mercado Central", pracaLib: "Circuito Libertad", pracaPapa: "Plaza del Papa",
@@ -646,7 +740,7 @@
                 txtAfonsoPenaCard: "La columna vertebral de BH, planificada en el siglo XIX. Un corredor histórico con arquitectura ecléctica.",
                 txtParqueMunicipalCard: "El corazón verde en el centro. Inspirado en la Belle Époque, cuenta con lagos románticos y gran biodiversidad.",
                 txtFeiraHippieCard: "La mayor feria de artesanía a cielo abierto de América Latina. Ocupa la Afonso Pena todos los domingos.",
-                lblAddress: "Dirección", lblHours: "Horario", lblHistory: "1. Sobre e Historia", lblNews: "2. Actualidad y Política", lblGuide: "3. Guía Práctica de Visita", lblGastro: "4. Gastronomía", lblTrivia: "5. Curiosidades", openGps: "ABRIR EN MAPAS"
+                lblAddress: "Dirección", lblHours: "Horario", lblHistory: "Sobre e Historia", lblNews: "Actualidad y Política", lblGuide: "Guía Práctica de Visita", lblGastro: "Gastronomía", lblTrivia: "Curiosidades", openGps: "ABRIR EN MAPAS"
             }
         };
 
@@ -900,7 +994,7 @@
             document.getElementById('details-news').innerHTML = localInfo.news;
             document.getElementById('details-guide').innerHTML = localInfo.guide;
             document.getElementById('details-gastro').innerHTML = localInfo.gastro;
-            document.getElementById('details-trivia').innerHTML = localInfo.trivia; // Nova Seção Adicionada
+            document.getElementById('details-trivia').innerHTML = localInfo.trivia;
             
             const encodedAddress = encodeURIComponent(data.address);
             const gpsBtn = document.getElementById('details-gps-btn');
@@ -1241,3 +1335,4 @@
     </script>
 </body>
 </html>
+
