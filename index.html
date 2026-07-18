@@ -1223,16 +1223,20 @@
                                     const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
             let expectedBg = stageBackgrounds[currentStage - 1];
 
-                                    if (currentStage !== lastStage) {
+                                                if (currentStage !== lastStage) {
                 lastStage = currentStage;
             }
 
             bgX -= gameSpeed;
+            
+            // Aqui voltamos com a verdadeira rolagem infinita
             if (bgX <= -1280) {
                 bgX += 1280; 
-                /* Troca a tela inteira de uma vez no ponto zero do loop. 
-                   Isso traz o atraso de volta, mas garante a fluidez perfeita. */
-                bgLeft = expectedBg; 
+                
+                // A imagem atual continua deslizando para a esquerda normalmente
+                bgLeft = bgRight; 
+                
+                // A nova fase entra de forma sequencial pela direita
                 bgRight = expectedBg; 
             }
 
