@@ -1223,15 +1223,16 @@
                                     const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
             let expectedBg = stageBackgrounds[currentStage - 1];
 
-                        /* Transição suave: o cenário mudará naturalmente conectando a nova imagem à direita */
-            if (currentStage !== lastStage) {
+                                    if (currentStage !== lastStage) {
                 lastStage = currentStage;
             }
 
             bgX -= gameSpeed;
             if (bgX <= -1280) {
                 bgX += 1280; 
-                bgLeft = bgRight; 
+                /* Troca a tela inteira de uma vez no ponto zero do loop. 
+                   Isso traz o atraso de volta, mas garante a fluidez perfeita. */
+                bgLeft = expectedBg; 
                 bgRight = expectedBg; 
             }
 
