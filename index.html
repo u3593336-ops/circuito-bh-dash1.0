@@ -1236,13 +1236,6 @@
                 bgRight = expectedBg; // A mágica da transição fluida acontece aqui!
             }
 
-            bgX -= gameSpeed;
-            if (bgX <= -1280) {
-                bgX += 1280; 
-                bgLeft = bgRight; 
-                bgRight = expectedBg; 
-            }
-
             player.velocityY += GRAVIDADE;
             player.y += player.velocityY;
             if (player.y >= POSICAO_CHAO - player.height) {
