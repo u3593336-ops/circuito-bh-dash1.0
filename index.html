@@ -1333,3 +1333,66 @@
 
             if (images[bgLeft]) ctx.drawImage(images[bgLeft], bgX, 0, 1280, 720);
             if (images[bgRight]) ctx.drawImage(images[bgRight], bgX + 1280, 0, 1280, 720);
+
+            let playerImgName = player.selectedSkin + (player.isJumping ? '_parado' : '_corre' + player.currentFrame);
+            if (images[playerImgName]) {
+                ctx.drawImage(images[playerImgName], player.x, player.y, player.width, player.height);
+            }
+
+            /* CORREÇÃO 4: Aplicação de brilho sólido (sombra) para garantir visibilidade máxima dos obstáculos contra qualquer fundo */
+            ctx.shadowColor = '#ffffff'; 
+            ctx.shadowBlur = 8;
+            
+            for (let obs of obstacles) {
+                if (images[obs.img]) {
+                    ctx.drawImage(images[obs.img], obs.x, obs.y, obs.width, obs.height);
+                }
+            }
+            
+            // Retira a sombra para não afetar as demais renderizações
+            ctx.shadowBlur = 0; 
+
+            // Textos de Score
+            ctx.fillStyle = '#fff';
+            ctx.font = '800 35px Nunito';
+            ctx.textAlign = 'left';
+            ctx.shadowColor = 'rgba(0,0,0,0.8)';
+            ctx.shadowBlur = 5;
+            let displayScore = Math.floor(score);
+            let lbl = currentLang === 'pt' ? 'Pontos: ' : currentLang === 'en' ? 'Score: ' : 'Puntos: ';
+            ctx.fillText(lbl + displayScore, 20, 50);
+
+            // NOME DO CENÁRIO DINÂMICO
+            let stageNames = {
+                1: translations[currentLang].orla,
+                2: translations[currentLang].mercado,
+                3: translations[currentLang].pracaLib,
+                4: translations[currentLang].pracaPapa
+            };
+            ctx.fillStyle = '#ffd700'; // Amarelo do recorde
+            ctx.textAlign = 'right';
+            ctx.fillText(stageNames[currentStage], canvas.width - 20, 50);
+            
+            ctx.shadowBlur = 0;
+        }
+
+        function gameOver() {
+            if (gameLoopId) {
+                cancelAnimationFrame(gameLoopId);
+                gameLoopId = null;
+            }
+            tocarGameOver();
+            
+            let displayScore = Math.floor(score);
+            if (displayScore > highScore) {
+                highScore = displayScore;
+                try { localStorage.setItem('pixelDash_high', highScore); } catch(e) {}
+            }
+            
+            document.getElementById('final-score').innerText = displayScore;
+            document.getElementById('high-score').innerText = highScore;
+            changeScreen('gameover-screen');
+        }
+    </script>
+</body>
+</html>
