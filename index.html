@@ -1223,10 +1223,8 @@
                                     const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
             let expectedBg = stageBackgrounds[currentStage - 1];
 
-            /* CORREÇÃO 3: Transição IMEDIATA do cenário (evita os 20 pts de atraso da versão anterior) */
+                        /* Transição suave: o cenário mudará naturalmente conectando a nova imagem à direita */
             if (currentStage !== lastStage) {
-                bgLeft = expectedBg;
-                bgRight = expectedBg;
                 lastStage = currentStage;
             }
 
