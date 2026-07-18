@@ -693,27 +693,27 @@
                 
                 <div class="details-body">
                     <details class="custom-accordion">
-                        <summary>🏛️   <span data-i18n="lblHistory">Sobre o Lugar</span></summary>
+                        <summary>🏛️ &nbsp; <span data-i18n="lblHistory">Sobre o Lugar</span></summary>
                         <div class="accordion-content" id="details-history">---</div>
                     </details>
 
                     <details class="custom-accordion">
-                        <summary>📰   <span data-i18n="lblNews">Atualidades & Contexto</span></summary>
+                        <summary>📰 &nbsp; <span data-i18n="lblNews">Atualidades & Contexto</span></summary>
                         <div class="accordion-content" id="details-news">---</div>
                     </details>
                     
                     <details class="custom-accordion">
-                        <summary>🧭   <span data-i18n="lblGuide">Guia Prático de Visitação</span></summary>
+                        <summary>🧭 &nbsp; <span data-i18n="lblGuide">Guia Prático de Visitação</span></summary>
                         <div class="accordion-content" id="details-guide">---</div>
                     </details>
                     
                     <details class="custom-accordion">
-                        <summary>🍽️   <span data-i18n="lblGastro">Gastronomia</span></summary>
+                        <summary>🍽️ &nbsp; <span data-i18n="lblGastro">Gastronomia</span></summary>
                         <div class="accordion-content" id="details-gastro">---</div>
                     </details>
                     
                     <details class="custom-accordion">
-                        <summary>💡   <span data-i18n="lblTrivia">Curiosidades</span></summary>
+                        <summary>💡 &nbsp; <span data-i18n="lblTrivia">Curiosidades</span></summary>
                         <div class="accordion-content" id="details-trivia">---</div>
                     </details>
                 </div>
@@ -801,9 +801,10 @@
         try { highScore = localStorage.getItem('pixelDash_high') || 0; } catch (e) { console.warn("Local storage bloqueado."); }
 
         const poolPulo = [new Audio('som_pulo.mp3'), new Audio('som_pulo.mp3'), new Audio('som_pulo.mp3')];
-        poolPulo.forEach(a => a.volume = 0.3);
+        poolPulo.forEach(a => { try { a.volume = 0.3; } catch(e){} });
         let puloIndex = 0;
-        const somGameOver = new Audio('som_gameover.mp3'); somGameOver.volume = 0.6; 
+        const somGameOver = new Audio('som_gameover.mp3'); 
+        try { somGameOver.volume = 0.6; } catch(e){}
 
         function tocarPulo() {
             try { let som = poolPulo[puloIndex]; if (som.readyState > 0) { som.currentTime = 0; som.play().catch(()=>{}); } puloIndex = (puloIndex + 1) % poolPulo.length; } catch(e) {}
@@ -1019,7 +1020,7 @@
             currentActivePlaceKey = placeKey;
             renderPlaceDetails(placeKey);
             
-            // NOVIDADE: Força o fechamento de todos os acordeões e rola para o topo!
+            // Força o fechamento de todos os acordeões e rola para o topo
             document.querySelectorAll('#details-screen .custom-accordion').forEach(acc => {
                 acc.removeAttribute('open');
             });
@@ -1043,31 +1044,32 @@
             
             const encodedAddress = encodeURIComponent(data.address);
             const gpsBtn = document.getElementById('details-gps-btn');
-            gpsBtn.setAttribute('onclick', `window.open('https://www.google.com/maps/search/?api=1&query=${encodedAddress}', '_blank')`);
+            
+            // Usando concatenação de string para evitar quebra com Template Literals
+            gpsBtn.setAttribute('onclick', "window.open('https://maps.google.com/?q=" + encodedAddress + "', '_blank')");
             
             const mapContainer = document.getElementById('details-map-container');
-            mapContainer.innerHTML = `<iframe src="https://maps.google.com/maps?q=${encodedAddress}&t=&z=15&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>`;
+            mapContainer.innerHTML = "<iframe src='https://maps.google.com/maps?q=" + encodedAddress + "&t=&z=15&ie=UTF8&iwloc=&output=embed' allowfullscreen></iframe>";
         }
 
         function ativarTelaCheia() {
             try {
                 let elem = document.documentElement;
                 if (elem.requestFullscreen) { 
-                    elem.requestFullscreen().catch(e => console.warn("Fullscreen bloqueado:", e)); 
+                    elem.requestFullscreen().catch(function(e) { console.warn("Fullscreen bloqueado:", e); }); 
                 }
                 else if (elem.webkitRequestFullscreen) { 
                     elem.webkitRequestFullscreen(); 
                 }
                 
                 if (screen.orientation && screen.orientation.lock) {
-                    screen.orientation.lock('landscape').catch(e => console.warn("Orientation lock não suportado:", e));
+                    screen.orientation.lock('landscape').catch(function(e) { console.warn("Orientation lock não suportado:", e); });
                 }
             } catch (err) {
                 console.warn("API de Fullscreen encontrou um erro:", err);
             }
         }
 
-        /* CORREÇÃO 2: Garantindo que o scroll só mude para zero APÓS a nova aba ficar ativa */
         function changeScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => {
                 s.classList.remove('active');
@@ -1075,7 +1077,7 @@
             
             let nextScreen = document.getElementById(screenId);
             nextScreen.classList.add('active');
-            nextScreen.scrollTop = 0; // Movemos para cá! Retorna a página sempre no topo com sucesso.
+            nextScreen.scrollTop = 0; 
             
             const langSelector = document.getElementById('lang-selector');
             if (screenId === 'game-screen') {
@@ -1118,7 +1120,7 @@
         let gameSpeed = 7; 
         const maxSpeed = 16;
         let currentStage = 1;
-        let lastStage = 1; // Variável adicionada para resolver o atraso do cenário
+        let lastStage = 1; 
         let nextSpeedIncreaseScore = 150; 
         
         let bgX = 0;
@@ -1238,7 +1240,6 @@
             score += 0.15;
             let displayScore = Math.floor(score);
 
-            /* CORREÇÃO 3: Cálculo mudado para transição exata a cada 80 pts */
             let cycle = Math.floor(displayScore / 80);
             currentStage = (cycle % 4) + 1; 
 
@@ -1250,13 +1251,12 @@
                 nextSpeedIncreaseScore += 150;
             }
 
-                                                const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
+            const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
             let expectedBg = stageBackgrounds[currentStage - 1];
 
             bgX -= gameSpeed;
             if (bgX <= -1280) {
                 bgX += 1280; 
-                // A rolagem infinita funciona perfeitamente: a imagem velha vai para a esquerda, a nova entra pela direita.
                 bgLeft = bgRight; 
                 bgRight = expectedBg; 
             }
@@ -1304,13 +1304,11 @@
                 spawnCooldown = Math.floor(Math.random() * 45) + (70 - (gameSpeed * 2));
             }
 
-            // Loop de colisão restaurado/completado:
             for (let i = obstacles.length - 1; i >= 0; i--) {
                 let obs = obstacles[i];
                 obs.x -= gameSpeed;
 
-                // Sistema de Colisão
-                let hitMargin = 12; // Margem de segurança pro pulo ficar fluido
+                let hitMargin = 12; 
                 if (
                     player.x < obs.x + obs.width - hitMargin &&
                     player.x + player.width > obs.x + hitMargin &&
@@ -1321,12 +1319,11 @@
                     return; 
                 }
 
-                // Remove da tela
                 if (obs.x + obs.width < 0) {
                     obstacles.splice(i, 1);
                 }
             }
-        } // Fim do update()
+        } 
 
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1339,7 +1336,6 @@
                 ctx.drawImage(images[playerImgName], player.x, player.y, player.width, player.height);
             }
 
-            /* CORREÇÃO 4: Aplicação de brilho sólido (sombra) para garantir visibilidade máxima dos obstáculos contra qualquer fundo */
             ctx.shadowColor = '#ffffff'; 
             ctx.shadowBlur = 8;
             
@@ -1349,10 +1345,8 @@
                 }
             }
             
-            // Retira a sombra para não afetar as demais renderizações
             ctx.shadowBlur = 0; 
 
-            // Textos de Score
             ctx.fillStyle = '#fff';
             ctx.font = '800 35px Nunito';
             ctx.textAlign = 'left';
@@ -1362,14 +1356,13 @@
             let lbl = currentLang === 'pt' ? 'Pontos: ' : currentLang === 'en' ? 'Score: ' : 'Puntos: ';
             ctx.fillText(lbl + displayScore, 20, 50);
 
-            // NOME DO CENÁRIO DINÂMICO
             let stageNames = {
                 1: translations[currentLang].orla,
                 2: translations[currentLang].mercado,
                 3: translations[currentLang].pracaLib,
                 4: translations[currentLang].pracaPapa
             };
-            ctx.fillStyle = '#ffd700'; // Amarelo do recorde
+            ctx.fillStyle = '#ffd700'; 
             ctx.textAlign = 'right';
             ctx.fillText(stageNames[currentStage], canvas.width - 20, 50);
             
