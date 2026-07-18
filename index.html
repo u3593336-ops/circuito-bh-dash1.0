@@ -1220,12 +1220,13 @@
                 nextSpeedIncreaseScore += 150;
             }
 
-                        const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
+                                    const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
             let expectedBg = stageBackgrounds[currentStage - 1];
 
-            /* Mantemos a precisão exata da fase (os novos obstáculos aparecem na hora), 
-               mas devolvemos a fluidez realista da troca do cenário deslizando pela direita */
+            /* CORREÇÃO 3: Transição IMEDIATA do cenário (evita os 20 pts de atraso da versão anterior) */
             if (currentStage !== lastStage) {
+                bgLeft = expectedBg;
+                bgRight = expectedBg;
                 lastStage = currentStage;
             }
 
@@ -1233,7 +1234,7 @@
             if (bgX <= -1280) {
                 bgX += 1280; 
                 bgLeft = bgRight; 
-                bgRight = expectedBg; // A mágica da transição fluida acontece aqui!
+                bgRight = expectedBg; 
             }
 
             player.velocityY += GRAVIDADE;
