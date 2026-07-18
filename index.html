@@ -456,7 +456,7 @@
             <button class="btn btn-green" onclick="ativarTelaCheia(); changeScreen('char-screen')" data-i18n="play">JOGAR</button>
             <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('tutorial-screen')" data-i18n="howTo">COMO JOGAR</button>
             <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('cultural-screen')" data-i18n="cultural">CONHECER BH</button>
-            <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('videos-screen')" data-i18n="famous">INDICAÇÕES DE FAMOSOS</button>
+            <button class="btn btn-darkblue" onclick="ativarTelaCheia(); changeScreen('videos-screen')" data-i18n="famous">Vlogs e vídeos por BH</button>
         </div>
 
         <div id="tutorial-screen" class="screen">
@@ -572,9 +572,74 @@
         </div>
 
         <div id="videos-screen" class="screen">
-            <h1 style="font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 900; color: #00bcd4; text-shadow: 0px 4px 10px rgba(0,0,0,0.6); text-align: center; margin-bottom: 25px; padding: 0 15px;" data-i18n="famousTitle">Indicações de Famosos</h1>
+            <h1 style="font-size: clamp(1.8rem, 6vw, 3rem); font-weight: 900; color: #00bcd4; text-shadow: 0px 4px 10px rgba(0,0,0,0.6); text-align: center; margin-bottom: 25px; padding: 0 15px;" data-i18n="famousTitle">Vlogs e vídeos por BH</h1>
             
             <div class="cards-grid">
+                <div class="card" onclick="window.open('https://www.instagram.com/reel/C7XbO1vRxuA/', '_blank')">
+                    <img src="info_liberdade.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Roteiro completo de 2 dias em BH</h3>
+                        <p>Pontos turísticos e comida</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.instagram.com/reel/C32X7LvxO_b/', '_blank')">
+                    <img src="info_mercado.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Tour gastronômico pelo Mercado Central</h3>
+                        <p>Explorando a culinária do Mercado Central de BH</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.instagram.com/reel/Cw7Y6N_RzE9/', '_blank')">
+                    <img src="parque_municipal.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>O que fazer de graça em Belo Horizonte</h3>
+                        <p>Tour econômico pela cidade</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.instagram.com/reel/C5gH8xMRXmF/', '_blank')">
+                    <img src="info_pampulha.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Explorando a igrejinha da Pampulha</h3>
+                        <p>E arredores do complexo</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('https://www.instagram.com/reel/C2F9X1uRzK4/', '_blank')">
+                    <img src="afonso_pena.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Guia de bares e a vida noturna</h3>
+                        <p>A vida noturna clássica de BH</p>
+                    </div>
+                </div>
+                
+                <div class="card" onclick="window.open('http://www.youtube.com/watch?v=AxsqrD3tttU', '_blank')">
+                    <img src="https://img.youtube.com/vi/AxsqrD3tttU/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Roteiro Completo em BH - Anderson Sap</h3>
+                        <p>Dicas imperdíveis do que fazer na capital mineira, focado em pontos turísticos clássicos e logística.</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('http://www.youtube.com/watch?v=hGav4_Ie7Rs', '_blank')">
+                    <img src="https://img.youtube.com/vi/hGav4_Ie7Rs/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>O que fazer em BH - Estevam Pelo Mundo</h3>
+                        <p>Um tour bem completo mostrando restaurantes, hotéis, a boemia dos bares e a história de BH.</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('http://www.youtube.com/watch?v=FrCGqGuUYyE', '_blank')">
+                    <img src="https://img.youtube.com/vi/FrCGqGuUYyE/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>16 Coisas para Fazer na Capital de MG</h3>
+                        <p>Rolê Família: Ideal para quem quer ideias de passeios variados (cidade e região metropolitana).</p>
+                    </div>
+                </div>
+                <div class="card" onclick="window.open('http://www.youtube.com/watch?v=bxEXBxyL18Y', '_blank')">
+                    <img src="https://img.youtube.com/vi/bxEXBxyL18Y/hqdefault.jpg" alt="Thumbnail">
+                    <div class="card-content">
+                        <h3>Onde levaríamos um turista em BH</h3>
+                        <p>Os Sabores do Mundo: Um vídeo focado na experiência gastronômica e cultural do Mercado Central.</p>
+                    </div>
+                </div>
+                
                 <div class="card" onclick="window.open('https://www.youtube.com/watch?v=G9C3UlAKxGo', '_blank')">
                     <img src="https://img.youtube.com/vi/G9C3UlAKxGo/hqdefault.jpg" alt="Thumbnail">
                     <div class="card-content">
@@ -700,8 +765,8 @@
     <script>
         const translations = {
             pt: {
-                title: "Circuito BH:<br>Pixel Dash", play: "JOGAR", howTo: "COMO JOGAR", cultural: "CONHECER BH", famous: "INDICAÇÕES DE FAMOSOS",
-                back: "VOLTAR", backMenu: "MENU PRINCIPAL", who: "Quem vai correr?", tutorialTitle: "Como Jogar", famousTitle: "Indicações de Famosos",
+                title: "Circuito BH:<br>Pixel Dash", play: "JOGAR", howTo: "COMO JOGAR", cultural: "CONHECER BH", famous: "Vlogs e vídeos por BH",
+                back: "VOLTAR", backMenu: "MENU PRINCIPAL", who: "Quem vai correr?", tutorialTitle: "Como Jogar", famousTitle: "Vlogs e vídeos por BH",
                 tutorialText: "<b>Objetivo:</b> Percorra os cartões-postais de Belo Horizonte. Salte sobre os obstáculos para continuar sua jornada!<br><br><b>Controles:</b><br>• Toque/ESPAÇO para pular.<br>• Pule uma vez para obstáculos baixos.<br>• <b>Evite os obstáculos aéreos</b> para não perder o ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capivaras e Pássaros.<br>• <b>Mercado:</b> Ônibus e Pombos.<br>• <b>Liberdade:</b> Bancos e Borboletas.<br>• <b>Papa:</b> Cones e Drones.<br><br><b>Dica:</b> A cada 80 pontos, o cenário muda!",
                 culturalTitle: "Pontos Turísticos", goTitle: "FIM DE JOGO!", tryAgain: "TENTAR NOVAMENTE", pts: "Pontos", rec: "Recorde",
                 orla: "Circuito Pampulha", mercado: "Mercado Central", pracaLib: "Circuito Liberdade", pracaPapa: "Praça do Papa",
@@ -717,8 +782,8 @@
                 lblAddress: "Endereço", lblHours: "Funcionamento", lblHistory: "Sobre o Lugar", lblNews: "Atualidades & Contexto", lblGuide: "Guia Prático de Visitação", lblGastro: "Gastronomia", lblTrivia: "Curiosidades", openGps: "VER NO MAPA (GPS)"
             },
             en: {
-                title: "BH Circuit:<br>Pixel Dash", play: "PLAY", howTo: "HOW TO PLAY", cultural: "DISCOVER BH", famous: "FAMOUS RECOMMENDATIONS",
-                back: "BACK", backMenu: "MAIN MENU", who: "Choose your runner!", tutorialTitle: "How to Play", famousTitle: "Famous Recommendations",
+                title: "BH Circuit:<br>Pixel Dash", play: "PLAY", howTo: "HOW TO PLAY", cultural: "DISCOVER BH", famous: "Vlogs and videos about BH",
+                back: "BACK", backMenu: "MAIN MENU", who: "Choose your runner!", tutorialTitle: "How to Play", famousTitle: "Vlogs and videos about BH",
                 tutorialText: "<b>Objective:</b> Travel through Belo Horizonte's landmarks. Jump over obstacles to continue your journey!<br><br><b>Controls:</b><br>• Tap/SPACE to jump.<br>• Jump once for low obstacles.<br>• <b>Avoid aerial obstacles</b> to keep your pace.<br><br><b>Tour Map:</b><br>• <b>Pampulha:</b> Capybaras & Birds.<br>• <b>Market:</b> Buses & Pigeons.<br>• <b>Liberty Sq:</b> Benches & Butterflies.<br>• <b>Pope's Sq:</b> Cones & Drones.<br><br><b>Tip:</b> Every 80 points, the scenery changes!",
                 culturalTitle: "Landmarks", goTitle: "GAME OVER!", tryAgain: "TRY AGAIN", pts: "Score", rec: "High Score",
                 orla: "Pampulha Circuit", mercado: "Central Market", pracaLib: "Liberty Circuit", pracaPapa: "Pope's Square",
@@ -734,8 +799,8 @@
                 lblAddress: "Address", lblHours: "Hours", lblHistory: "Detailed History", lblNews: "News & Political Context", lblGuide: "Step-by-Step Visitor Guide", lblGastro: "Gastronomy", lblTrivia: "Curiosities & Trivia", openGps: "OPEN IN MAPS"
             },
             es: {
-                title: "Circuito BH:<br>Pixel Dash", play: "JUGAR", howTo: "CÓMO JUGAR", cultural: "CONOCER BH", famous: "RECOMENDACIONES",
-                back: "VOLVER", backMenu: "MENÚ PRINCIPAL", who: "¿Quién va a correr?", tutorialTitle: "Cómo Jugar", famousTitle: "Recomendaciones de Famosos",
+                title: "Circuito BH:<br>Pixel Dash", play: "JUGAR", howTo: "CÓMO JUGAR", cultural: "CONOCER BH", famous: "Vlogs y videos por BH",
+                back: "VOLVER", backMenu: "MENÚ PRINCIPAL", who: "¿Quién va a correr?", tutorialTitle: "Cómo Jugar", famousTitle: "Vlogs y videos por BH",
                 tutorialText: "<b>Objetivo:</b> Recorre los lugares icónicos de Belo Horizonte. ¡Salta sobre los obstáculos para continuar tu viaje!<br><br><b>Controles:</b><br>• Toca/ESPACIO para saltar.<br>• Salta una vez para obstáculos bajos.<br>• <b>Evita los obstáculos aéreos</b> para no perder el ritmo.<br><br><b>Mapa Turístico:</b><br>• <b>Pampulha:</b> Capibaras y Pájaros.<br>• <b>Mercado:</b> Autobuses y Palomas.<br>• <b>Libertad:</b> Bancos y Mariposas.<br>• <b>Papa:</b> Conos y Drones.<br><br><b>Consejo:</b> ¡Cada 80 puntos, el escenario cambia!",
                 culturalTitle: "Puntos Turísticos", goTitle: "¡FIN DEL JUEGO!", tryAgain: "INTENTAR DE NUEVO", pts: "Puntos", rec: "Récord",
                 orla: "Circuito Pampulha", mercado: "Mercado Central", pracaLib: "Circuito Libertad", pracaPapa: "Plaza del Papa",
@@ -1331,6 +1396,18 @@
             let displayScore = Math.floor(score);
             let lbl = currentLang === 'pt' ? 'Pontos: ' : currentLang === 'en' ? 'Score: ' : 'Puntos: ';
             ctx.fillText(lbl + displayScore, 20, 50);
+
+            // NOME DO CENÁRIO DINÂMICO
+            let stageNames = {
+                1: translations[currentLang].orla,
+                2: translations[currentLang].mercado,
+                3: translations[currentLang].pracaLib,
+                4: translations[currentLang].pracaPapa
+            };
+            ctx.fillStyle = '#ffd700'; // Amarelo do recorde
+            ctx.textAlign = 'right';
+            ctx.fillText(stageNames[currentStage], canvas.width - 20, 50);
+            
             ctx.shadowBlur = 0;
         }
 
