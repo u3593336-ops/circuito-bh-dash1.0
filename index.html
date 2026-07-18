@@ -1220,23 +1220,14 @@
                 nextSpeedIncreaseScore += 150;
             }
 
-                                    const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
+                                                const stageBackgrounds = ['bg_pampulha', 'bg_mercado', 'bg_liberdade', 'bg_papa'];
             let expectedBg = stageBackgrounds[currentStage - 1];
 
-                                                if (currentStage !== lastStage) {
-                lastStage = currentStage;
-            }
-
             bgX -= gameSpeed;
-            
-            // Aqui voltamos com a verdadeira rolagem infinita
             if (bgX <= -1280) {
                 bgX += 1280; 
-                
-                // A imagem atual continua deslizando para a esquerda normalmente
+                // A rolagem infinita funciona perfeitamente: a imagem velha vai para a esquerda, a nova entra pela direita.
                 bgLeft = bgRight; 
-                
-                // A nova fase entra de forma sequencial pela direita
                 bgRight = expectedBg; 
             }
 
